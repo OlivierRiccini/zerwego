@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+
+import { geolocation } from 'geolocation';
 
 @Component({
   selector: 'app-root',
