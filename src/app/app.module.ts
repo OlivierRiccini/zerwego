@@ -5,11 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CreateTripComponent } from './create-trip/create-trip.component';
-import { tripPreviewComponent } from './shared/trip-preview/trip-preview.component';
+import { tripPreviewComponent } from './create-trip/trip-preview/trip-preview.component';
 import { SubHeaderBannerComponent } from './sub-header-banner/sub-header-banner.component';
 import { TripFormComponent } from './create-trip/trip-form/trip-form.component';
 import { MyTripsComponent } from './my-trips/my-trips.component';
 import { MyTripsListComponent } from './my-trips/my-trips-list/my-trips-list.component';
+import { TripDetailsComponent } from './my-trips/trip-details/trip-details.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { MyTripsListComponent } from './my-trips/my-trips-list/my-trips-list.com
     TripFormComponent,
     MyTripsComponent,
     MyTripsListComponent,
+    TripDetailsComponent,
   ],
   imports: [
     BrowserModule,

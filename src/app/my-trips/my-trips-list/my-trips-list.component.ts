@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TripService } from '../../shared/services/trip.service';
-import { Trip } from '../../shared/models/trip.model';
+import { TripService } from '../../services/trip.service';
+import { Trip } from '../../models/trip.model';
 // import { Subscription } from 'rxjs';
 
 @Component({
