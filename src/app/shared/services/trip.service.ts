@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+// import { Subject } from 'rxjs';
+
 import { Trip } from '../models/trip.model'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TripService {
+  // tripsChanged = new Subject<Trip[]>();
   private trips:Trip[] = [
     new Trip('Viva Las Vegas', 
              'Las Vegas', 
@@ -31,6 +34,7 @@ export class TripService {
   constructor() { }
 
   getTrips() {
+    console.log(this.trips);
     return this.trips.slice();
   }
 

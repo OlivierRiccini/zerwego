@@ -1,3 +1,8 @@
-<p>
-  my-trip-list works!
-</p>
+<div *ngFor="let trip of trips">
+  <p>{{ trip.tripName }}</p>
+  <p>{{ trip.destination }}</p>
+  <p>From: {{ trip.startDate }}</p>
+  <p>To: {{ trip.EndDate }}</p>
+  <p *ngIf="trip.participants === 1">Just {{ trip.participants }} person</p>
+  <p *ngIf="trip.participants > 1">Just {{ trip.participants }} people</p>
+</div>
