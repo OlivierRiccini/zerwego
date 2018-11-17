@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Trip } from 'src/app/models/trip.model';
-import { TripService } from '../../services/trip.service';
+import { Trip } from '../models/trip.model';
+import { TripService } from '../services/trip.service';
 
 @Component({
-  selector: 'app-trip-details',
-  templateUrl: './trip-details.component.html',
-  styleUrls: ['./trip-details.component.scss']
+  selector: 'app-manage-trip',
+  templateUrl: './manage-trip.component.html',
+  styleUrls: ['./manage-trip.component.scss']
 })
-export class TripDetailsComponent implements OnInit {
+export class ManageTripComponent implements OnInit {
   trip: Trip;
   id: number;
 
@@ -26,9 +26,5 @@ export class TripDetailsComponent implements OnInit {
         }
       );
   }
-
-  // onChange(id) {
-  //   this.trip = this.tripService.getTrip(id);
-  // }
 
 }

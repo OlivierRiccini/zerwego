@@ -1,6 +1,6 @@
-<a class="trips-list-item" 
-  *ngFor="let trip of trips"
-  (click)="onChange(1)">
+<a class="trips-list-item"
+  [routerLink]="trip.id"
+  *ngFor="let trip of trips">
   <h3>Trip name: {{ trip.tripName }}</h3>
   <p>Destination: {{ trip.destination }}</p>
   <p>From: {{ trip.startDate }} - To: {{ trip.EndDate }}</p>

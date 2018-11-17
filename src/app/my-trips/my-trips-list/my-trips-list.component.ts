@@ -22,7 +22,7 @@ export class MyTripsListComponent implements OnInit {
     //     }
     //   );
     this.trips = this.tripService.getTrips();
-    console.log(this.trips);
+    // console.log(this.trips);
   }
 
 }

@@ -24,7 +24,7 @@ export class TripService {
              new Date(2018, 11, 30), 
              1),
     new Trip(3,
-            'Jano\s wedding', 
+            'Jano\'s wedding', 
              'Bastia',
              'https://www.augoutdemma.be/wp-content/uploads/2017/06/corsica-linea-marseille-bastia-76.jpg', 
              new Date(2019, 7, 17), 
