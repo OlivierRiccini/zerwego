@@ -29,10 +29,10 @@ export class UserService {
     return user;
   }
 
-  getUsersByTripId(tripId) {
-      let users = this.users.map(user => {
-          user.tripIds.includes(tripId);
-      });
-  }
+  // getUsersByTripId(tripId) {
+  //     let users = this.users.map(user => {
+  //         user.tripIds.includes(tripId);
+  //     });
+  // }
 
 }

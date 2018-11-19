@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormGroup, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 import { TripService } from 'src/app/services/trip.service';
 import { User } from '../../models/user.model';
+import { formControlBinding } from '@angular/forms/src/directives/ng_model';
 
 @Component({
   selector: 'app-trip-form',
@@ -70,6 +71,15 @@ export class TripFormComponent implements OnInit {
       'dateEnd': new FormControl(dateEnd),
       'users': users
     });
+  }
+
+  onAddUser() {
+    (<FormArray>this.tripForm.get('users')).push(
+      new FormGroup({
+        'username': new FormControl(null, Validators.required),
+        'email': new FormControl(null, Validators.required)
+      })
+    );
   }
 
 }
