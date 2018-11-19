@@ -1,3 +1,5 @@
+import { User } from './user.model'
+
 export class Trip {
     public id: number;
     public tripName: string;
@@ -5,7 +7,7 @@ export class Trip {
     public imageUrl: string;
     public dateStart: Date;
     public dateEnd: Date;
-    public participants: number;
+    public users: Array<User>;
     
     constructor(id: number,
                 tripName: string, 
@@ -13,13 +15,14 @@ export class Trip {
                 imageUrl: string, 
                 dateStart: Date, 
                 dateEnd: Date, 
-                participants: number) {
+                users: Array<User>
+                ) {
                     this.id = id;
                     this.tripName = tripName;
                     this.destination = destination;
                     this.imageUrl = imageUrl;
                     this.dateStart = dateStart;
                     this.dateEnd = dateEnd;
-                    this.participants = participants;
+                    this.users = users;
                 }
 }

@@ -12,6 +12,7 @@ import { MyTripsComponent } from './my-trips/my-trips.component';
 import { MyTripsListComponent } from './my-trips/my-trips-list/my-trips-list.component';
 import { TripDetailsComponent } from './my-trips/trip-details/trip-details.component';
 import { ManageTripComponent } from './manage-trip/manage-trip.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,9 @@ import { ManageTripComponent } from './manage-trip/manage-trip.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

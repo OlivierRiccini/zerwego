@@ -1,7 +1,59 @@
-<form>
-  <div class="col-xs-12">
+<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="tripName">Trip Name</label>
+      <input type="text" 
+             id="tripName"
+             formControlName="tripName" 
+             class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="destination">Destination</label>
+      <input type="text" 
+             id="destination"
+             formControlName="destination"  
+             class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="imageUrl">Image Url</label>
+      <input type="text" 
+             id="imageUrl"
+             formControlName="imageUrl"  
+             class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="dateStart">From</label>
+      <input type="text" 
+             id="dateStart"
+             formControlName="dateStart"  
+             class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="dateEnd">To</label>
+      <input type="text" 
+             id="dateEnd"
+             formControlName="dateEnd"  
+             class="form-control">
+    </div>
+
+    <div formArrayName="users">
+        <div
+          *ngFor="let participantCtrl of tripForm.get('users').controls; let i = index"
+          [formGroupName]="i"
+          class="row">
+          <div class="col-xs-6">
+            <input type="text"
+                   formControlName="username" 
+                   class="form-control">
+          </div>
+          <div class="col-xs-6">
+            <input type="text"
+                   formControlName="email" 
+                   class="form-control">
+          </div>   
+        </div>
+    </div>
+
     <button type="submit" class="btn btn-success">Save Trip</button>
     <button type="button" class="btn btn-primary">Cancel changes</button>
     <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
-  </div>
 </form>
