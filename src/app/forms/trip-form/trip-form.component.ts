@@ -3,6 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 import { TripService } from 'src/app/services/trip.service';
+import { UserService } from 'src/app/services/user.service';
 import { User } from '../../models/user.model';
 import { formControlBinding } from '@angular/forms/src/directives/ng_model';
 
@@ -17,7 +18,8 @@ export class TripFormComponent implements OnInit {
   tripForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
-              private tripService: TripService) { }
+              private tripService: TripService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.route.params
@@ -31,7 +33,10 @@ export class TripFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.tripForm);
+    this.tripService.addTrip(this.tripForm.value);
+    for (let user of this.tripForm.value.users) {
+      this.userService.addUser(user, this.tripForm.value);
+    }
   }
 
   private initForm() {
@@ -39,8 +44,8 @@ export class TripFormComponent implements OnInit {
     let tripName = '';
     let destination = '';
     let imageUrl = '';
-    let dateStart: Date;
-    let dateEnd: Date;
+    let startDate: Date;
+    let endDate: Date;
     let users = new FormArray([]);
 
     if (this.editMode) {
@@ -48,8 +53,8 @@ export class TripFormComponent implements OnInit {
       tripName = trip.tripName;
       destination = trip.destination;
       imageUrl = trip.imageUrl;
-      dateStart = trip.dateStart;
-      dateEnd = trip.dateEnd;
+      startDate = trip.startDate;
+      endDate = trip.endDate;
       if (trip['users']) {
         for (let user of trip.users) {
           users.push(
@@ -67,13 +72,13 @@ export class TripFormComponent implements OnInit {
       'tripName': new FormControl(tripName),
       'destination': new FormControl(destination),
       'imageUrl': new FormControl(imageUrl),
-      'dateStart': new FormControl(dateStart),
-      'dateEnd': new FormControl(dateEnd),
+      'startDate': new FormControl(startDate),
+      'endDate': new FormControl(endDate),
       'users': users
     });
   }
 
-  onAddUser() {
+  onAddAnotherUser() {
     (<FormArray>this.tripForm.get('users')).push(
       new FormGroup({
         'username': new FormControl(null, Validators.required),

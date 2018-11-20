@@ -21,13 +21,19 @@ export class UserService {
     return this.users.slice();
   }
 
-  getTrip(id) {
-    let user: User;
-    user = this.users.find(user => {
-      return user.id === id;
-    });
-    return user;
+  addUser(newUser, newTrip) {
+    let newId = 1;
+    this.users.push(new User(newId, newUser.name, newUser.email, null, [newTrip], false));
+    console.log(this.users);
   }
+
+  // getTrip(id) {
+  //   let user: User;
+  //   user = this.users.find(user => {
+  //     return user.id === id;
+  //   });
+  //   return user;
+  // }
 
   // getUsersByTripId(tripId) {
   //     let users = this.users.map(user => {

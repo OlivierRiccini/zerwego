@@ -57,4 +57,16 @@ export class TripService {
     return trip;
   }
 
+  addTrip(newTrip) {
+    let newId = 1;
+    this.trips.push(new Trip(newId, 
+                             newTrip.tripName, 
+                             newTrip.destination, 
+                             newTrip.imageUrl, 
+                             newTrip.startDate, 
+                             newTrip.endDate, 
+                             newTrip.users));
+    console.log(this.trips);
+  }
+
 }

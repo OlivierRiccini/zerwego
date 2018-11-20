@@ -5,24 +5,24 @@ export class Trip {
     public tripName: string;
     public destination: string;
     public imageUrl: string;
-    public dateStart: Date;
-    public dateEnd: Date;
+    public startDate: Date;
+    public endDate: Date;
     public users: Array<User>;
     
     constructor(id: number,
                 tripName: string, 
                 destination: string,
                 imageUrl: string, 
-                dateStart: Date, 
-                dateEnd: Date, 
+                startDate: Date, 
+                endDate: Date, 
                 users: Array<User>
                 ) {
                     this.id = id;
                     this.tripName = tripName;
                     this.destination = destination;
                     this.imageUrl = imageUrl;
-                    this.dateStart = dateStart;
-                    this.dateEnd = dateEnd;
+                    this.startDate = startDate;
+                    this.endDate = endDate;
                     this.users = users;
                 }
 }
