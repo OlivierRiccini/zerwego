@@ -17,23 +17,34 @@ export class UserService {
 
   constructor() { }
 
-  getusers() {
+  getUsers() {
     return this.users.slice();
   }
 
-  addUser(newUser, newTrip) {
-    let newId = 1;
+  createUser(newUser, newTrip) {
+    let newId = this.getLastUserId() + 1;
     this.users.push(new User(newId, newUser.name, newUser.email, null, [newTrip], false));
-    console.log(this.users);
   }
 
-  // getTrip(id) {
-  //   let user: User;
-  //   user = this.users.find(user => {
-  //     return user.id === id;
-  //   });
-  //   return user;
-  // }
+  private getLastUserId() {
+    return this.users.length > 0 ? this.users[this.users.length - 1].id : 1;
+  }
+
+  getUser(id) {
+    let user: User;
+    user = this.users.find(user => {
+      return user.id === id;
+    });
+    return user;
+  }
+
+  checkIfUserExists(userEmail) {
+    let found = this.users.some((user) => {
+      return user.email === userEmail;
+    });
+    console.log(found);
+    return found;
+  }
 
   // getUsersByTripId(tripId) {
   //     let users = this.users.map(user => {

@@ -57,16 +57,37 @@ export class TripService {
     return trip;
   }
 
-  addTrip(newTrip) {
-    let newId = 1;
-    this.trips.push(new Trip(newId, 
-                             newTrip.tripName, 
-                             newTrip.destination, 
-                             newTrip.imageUrl, 
-                             newTrip.startDate, 
-                             newTrip.endDate, 
-                             newTrip.users));
-    console.log(this.trips);
+  createTrip(newTrip: Trip) {
+    let newId = this.getLastTripId() + 1;
+    this.trips.push(
+      new Trip(
+        newId, 
+        newTrip.tripName, 
+        newTrip.destination, 
+        newTrip.imageUrl, 
+        newTrip.startDate, 
+        newTrip.endDate, 
+        newTrip.users)
+    );
+  }
+
+  updateTrip(id, tripFromForm: Trip) {
+    let tripToUpdate: Trip;
+    tripToUpdate = this.trips.find(tripInDB => {
+      return tripInDB.id === id;
+    });
+
+    tripToUpdate.tripName = tripFromForm.tripName;
+    tripToUpdate.destination = tripFromForm.destination
+    tripToUpdate.imageUrl = tripFromForm.imageUrl
+    tripToUpdate.startDate = tripFromForm.startDate
+    tripToUpdate.endDate = tripFromForm.endDate 
+    tripToUpdate.users = tripFromForm.users
+  }
+
+  // TO IMPLEMENT WITH HTTP REQUEST TO API
+  private getLastTripId() {
+    return this.trips.length > 0 ? this.trips[this.trips.length - 1].id : 1;
   }
 
 }

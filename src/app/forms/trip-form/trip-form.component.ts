@@ -33,9 +33,20 @@ export class TripFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.tripService.addTrip(this.tripForm.value);
-    for (let user of this.tripForm.value.users) {
-      this.userService.addUser(user, this.tripForm.value);
+    if (this.editMode) {
+        this.tripService.updateTrip(this.id, this.tripForm.value);
+      for (let user of this.tripForm.value.users) {
+        if (!this.userService.checkIfUserExists(user.email)) {
+          this.userService.createUser(user, this.tripForm.value);
+        }
+      }
+    } else {
+      this.tripService.createTrip(this.tripForm.value);
+      for (let user of this.tripForm.value.users) {
+        if (!this.userService.checkIfUserExists(user.email)) {
+          this.userService.createUser(user, this.tripForm.value);
+        }
+      }
     }
   }
 

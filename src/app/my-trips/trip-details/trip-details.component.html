@@ -4,6 +4,6 @@
   <p>Destination: {{ trip.destination }}</p>
   <p>FROM: {{ trip.dateStart }}</p>
   <p>TO: {{ trip.dateEnd }}</p>
-  <p>Number of participants: {{ trip.participants }}</p>
+  <p>Number of participants: {{ trip.users.length }}</p>
   <button type="button" class="btn btn-primary" [routerLink]="['/manageTrip', trip.id]">Manage Trip</button>
 </div>
