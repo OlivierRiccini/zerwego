@@ -18,6 +18,7 @@ export class TripFormComponent implements OnInit {
   tripForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private tripService: TripService,
               private userService: UserService) { }
 
@@ -48,6 +49,8 @@ export class TripFormComponent implements OnInit {
         }
       }
     }
+    this.router.navigate(['./myTrips', 1]); 
+    this.tripForm.reset();
   }
 
   private initForm() {

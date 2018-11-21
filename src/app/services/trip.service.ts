@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-// import { Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { Trip } from '../models/trip.model';
 import { User } from '../models/user.model';
@@ -8,6 +8,7 @@ import { User } from '../models/user.model';
   providedIn: 'root'
 })
 export class TripService {
+  tripChanged = new Subject<Trip>();
 
   private trips:Trip[] = [
     new Trip(1,
@@ -57,18 +58,19 @@ export class TripService {
     return trip;
   }
 
-  createTrip(newTrip: Trip) {
+  createTrip(tripFromForm: Trip) {
     let newId = this.getLastTripId() + 1;
-    this.trips.push(
-      new Trip(
-        newId, 
-        newTrip.tripName, 
-        newTrip.destination, 
-        newTrip.imageUrl, 
-        newTrip.startDate, 
-        newTrip.endDate, 
-        newTrip.users)
-    );
+    const newTrip: Trip = new Trip(
+      newId, 
+      tripFromForm.tripName, 
+      tripFromForm.destination, 
+      tripFromForm.imageUrl, 
+      tripFromForm.startDate, 
+      tripFromForm.endDate, 
+      tripFromForm.users)
+      this.trips.push(newTrip);
+      
+      this.tripChanged.next(newTrip);
   }
 
   updateTrip(id, tripFromForm: Trip) {
