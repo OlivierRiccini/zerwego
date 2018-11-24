@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
+import { debounceTime, switchMap } from 'rxjs/operators';
+import { pipe } from 'rxjs';
+
 import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
-import { User } from '../../models/user.model';
-import { formControlBinding } from '@angular/forms/src/directives/ng_model';
+import { DestinationService } from 'src/app/services/destination.service';
+// import { formControlBinding } from '@angular/forms/src/directives/ng_model';
+// import { emit } from 'cluster';
+// import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-trip-form',
@@ -17,10 +22,20 @@ export class TripFormComponent implements OnInit {
   editMode = false;
   tripForm: FormGroup;
 
+  destinationOptions: string[] = [];
+  imageUrl: string;
+
+  // @Output() autocompleteEvent = new EventEmitter<string[]>();
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private tripService: TripService,
-              private userService: UserService) { }
+              private userService: UserService,
+              private destinationService: DestinationService) { }
+
+  // sendDestinations() {
+  //   this.autocompleteEvent.emit(this.destinationOptions);
+  // }
 
   ngOnInit() {
     this.route.params
@@ -31,6 +46,30 @@ export class TripFormComponent implements OnInit {
           this.initForm();
         }
       )
+    this.onAutocomplete();
+  }
+
+onAutocomplete(): void {
+    // this.sendDestinations();
+    this.tripForm
+      .get('destination')
+      .valueChanges
+      .pipe(
+        // debounceTime(10000),
+        switchMap(value => this.destinationService.searchDestination(value))
+      )
+      .subscribe(
+        (response: any) => {
+          let citiesArray: Array<any> = JSON.parse(response._body)._embedded["city:search-results"];
+          for (let city of citiesArray) {
+            this.destinationOptions = citiesArray;
+            // console.log(city.matching_full_name);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   onSubmit() {

@@ -1,10 +1,10 @@
 <div class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-6">
-            <app-trip-form></app-trip-form>
+            <app-trip-form (imageUrlEvent)="receiveImageUrl($event)"></app-trip-form>
        </div>
         <div class="col-xs-12 col-sm-6">
-            <app-trip-preview></app-trip-preview>
+            <app-trip-preview [imageUrl]="imageUrl"></app-trip-preview>
         </div>
     </div>
 </div>  
