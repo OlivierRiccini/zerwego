@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ITripPreview } from 'src/app/interfaces/trip.interface';
 
 @Component({
   selector: 'app-trip-preview',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./trip-preview.component.scss']
 })
 export class tripPreviewComponent  implements OnInit {
-  @Input() imageUrl: string;
+  @Input() tripFormValues: ITripPreview;
 
   constructor() { }
 

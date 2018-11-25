@@ -8,9 +8,7 @@ import { pipe } from 'rxjs';
 import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
-// import { formControlBinding } from '@angular/forms/src/directives/ng_model';
-// import { emit } from 'cluster';
-// import { EventEmitter } from 'protractor';
+import { ITripPreview } from 'src/app/interfaces/trip.interface';
 
 @Component({
   selector: 'app-trip-form',
@@ -23,9 +21,16 @@ export class TripFormComponent implements OnInit {
   tripForm: FormGroup;
 
   destinationOptions: string[] = [];
-  imageUrl: string;
+  tripFormValues: ITripPreview = {
+    tripName: '',
+    destination: '',
+    imageUrl: '',
+    startDate: '',
+    endDate: '',
+    participants: ['Olivier', 'Julien', 'Jano', 'Oli']
+  };
 
-  // @Output() autocompleteEvent = new EventEmitter<string[]>();
+  @Output() dataFromCreateTripEvent = new EventEmitter<ITripPreview>();
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -33,20 +38,21 @@ export class TripFormComponent implements OnInit {
               private userService: UserService,
               private destinationService: DestinationService) { }
 
-  // sendDestinations() {
-  //   this.autocompleteEvent.emit(this.destinationOptions);
-  // }
+  sendDatasToPreview() {
+    this.dataFromCreateTripEvent.emit(this.tripFormValues);
+  }
 
   ngOnInit() {
     this.route.params
-      .subscribe(
-        (params: Params) => {
-          this.id = +params['id'];
-          this.editMode = params['id'] != null;
-          this.initForm();
-        }
+    .subscribe(
+      (params: Params) => {
+        this.id = +params['id'];
+        this.editMode = params['id'] != null;
+        this.initForm();
+      }
       )
     this.onAutocomplete();
+    this.sendDatasToPreview();
   }
 
 onAutocomplete(): void {
@@ -63,13 +69,32 @@ onAutocomplete(): void {
           let citiesArray: Array<any> = JSON.parse(response._body)._embedded["city:search-results"];
           for (let city of citiesArray) {
             this.destinationOptions = citiesArray;
-            // console.log(city.matching_full_name);
           }
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  onBlurTripNameInput(value: string) {
+    this.tripFormValues.tripName = value;
+  }
+
+  onBlurDestinationInput(value: string) {
+    this.tripFormValues.destination = value;
+  }
+
+  // onBlurDestinationInput(value: string) {
+  //   this.tripFormValues.imageUrl = value;
+  // }
+
+  onBlurStartDateInput(value: string) {
+    this.tripFormValues.startDate = value;
+  }
+
+  onBlurEndDateInput(value: string) {
+    this.tripFormValues.endDate = value;
   }
 
   onSubmit() {
