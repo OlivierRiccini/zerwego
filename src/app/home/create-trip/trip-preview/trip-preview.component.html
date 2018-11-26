@@ -2,7 +2,7 @@
 <h3>{{ tripFormValues.destination }}</h3>
 <p>From {{ tripFormValues.startDate }} To {{ tripFormValues.endDate }} </p>
 <p>Participants</p>
-<p>{{ tripFormValues.imageUrl }}</p>
 <ol>
     <li *ngFor="let participant of tripFormValues.participants">{{ participant }}</li>
 </ol>
+<img [src]="tripFormValues.imageUrl" [alt]="'photo of' + tripFormValues.destination">

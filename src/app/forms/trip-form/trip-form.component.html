@@ -22,8 +22,8 @@
         [matAutocompleteConnectedTo]="origin">
     </div>
     
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let option of destinationOptions" [value]="option.matching_full_name">{{ option.matching_full_name }}</mat-option>
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of destinationOptions" [value]="option">{{ option.matching_full_name }}</mat-option>
     </mat-autocomplete>
 
     <div class="form-group">
@@ -40,7 +40,7 @@
       <label for="endDate">To</label>
       <input
         #endDateInput
-        (blur)="onBlurEndDateInput(endDateInput.value)"  
+        (blur)="onBlurEndDateInputInput(endDateInput.value)"  
         type="date" 
              id="endDate"
              formControlName="endDate"  

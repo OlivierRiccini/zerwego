@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 import { debounceTime, switchMap } from 'rxjs/operators';
-import { pipe } from 'rxjs';
+import { pipe, Observer } from 'rxjs';
 
 import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
@@ -20,7 +20,9 @@ export class TripFormComponent implements OnInit {
   editMode = false;
   tripForm: FormGroup;
 
-  destinationOptions: string[] = [];
+  destinationOptions: any[] = [];
+  // To use when getting link
+  historySearchCities: any[] = [];
   tripFormValues: ITripPreview = {
     tripName: '',
     destination: '',
@@ -66,9 +68,10 @@ onAutocomplete(): void {
       )
       .subscribe(
         (response: any) => {
-          let citiesArray: Array<any> = JSON.parse(response._body)._embedded["city:search-results"];
+          let citiesArray: Array<any> = JSON.parse(response._body)._embedded["city:search-results"].slice();
           for (let city of citiesArray) {
             this.destinationOptions = citiesArray;
+            this.historySearchCities.push(city);
           }
         },
         (error) => {
@@ -77,14 +80,52 @@ onAutocomplete(): void {
       );
   }
 
+  displayFn(city?): string | undefined {
+    // this.tripFormValues.imageUrl = city._links["city:item"].href;
+    return city ? city.matching_full_name : undefined;
+  }
+
+
   onBlurTripNameInput(value: string) {
     this.tripFormValues.tripName = value;
   }
 
+  
   onBlurDestinationInput(value: string) {
+    // Get destination name
     this.tripFormValues.destination = value;
-  }
+    // Get destination image from api
+    let cityObject = this.historySearchCities.find(item => {
+      return item.matching_full_name === value;
+    });
+    let link = cityObject ? cityObject._links["city:item"].href : null;
 
+    if (link) {
+      this.destinationService.getUrbanAreasLink(link) 
+      .pipe(
+        // debounceTime(10000),
+        switchMap((response: any) => this.destinationService.getCityImageLink(JSON.parse(response._body)._links["city:urban_area"].href)),
+        switchMap((response: any) => this.destinationService.getDestinationImage(JSON.parse(response._body)._links["ua:images"].href))
+      )
+      .subscribe(
+        (response: any) => {
+          console.log(JSON.parse(response._body).photos[0].image.web);
+          this.tripFormValues.imageUrl = JSON.parse(response._body).photos[0].image.web;
+        },
+        (error) => {
+          console.log(error);
+        }
+      ); 
+    };
+  }
+  
+  // onDisplayDestinationImage() {
+  //   let link = this.destinationOptions.find(item => {
+  //     console.log(this.tripFormValues.destination);
+  //     return item.matching_full_name === this.tripFormValues.destination;
+  //   });
+  //   console.log(link ? link : 'Sorry not found');
+  // }
   // onBlurDestinationInput(value: string) {
   //   this.tripFormValues.imageUrl = value;
   // }
