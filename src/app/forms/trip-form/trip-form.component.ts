@@ -29,7 +29,7 @@ export class TripFormComponent implements OnInit {
     imageUrl: '',
     startDate: '',
     endDate: '',
-    participants: ['Olivier', 'Julien', 'Jano', 'Oli']
+    participants: []
   };
 
   @Output() dataFromCreateTripEvent = new EventEmitter<ITripPreview>();
@@ -91,6 +91,7 @@ onAutocomplete(): void {
   }
 
   
+  
   onBlurDestinationInput(value: string) {
     // Get destination name
     this.tripFormValues.destination = value;
@@ -99,7 +100,7 @@ onAutocomplete(): void {
       return item.matching_full_name === value;
     });
     let link = cityObject ? cityObject._links["city:item"].href : null;
-
+    
     if (link) {
       this.destinationService.getUrbanAreasLink(link) 
       .pipe(
@@ -115,28 +116,26 @@ onAutocomplete(): void {
         (error) => {
           console.log(error);
         }
-      ); 
+      );
     };
   }
-  
-  // onDisplayDestinationImage() {
-  //   let link = this.destinationOptions.find(item => {
-  //     console.log(this.tripFormValues.destination);
-  //     return item.matching_full_name === this.tripFormValues.destination;
-  //   });
-  //   console.log(link ? link : 'Sorry not found');
-  // }
-  // onBlurDestinationInput(value: string) {
-  //   this.tripFormValues.imageUrl = value;
-  // }
-
+      
   onBlurStartDateInput(value: string) {
     this.tripFormValues.startDate = value;
   }
-
+  
   onBlurEndDateInput(value: string) {
     this.tripFormValues.endDate = value;
   }
+
+  // test(value) {
+  //   console.log(value);
+  // }
+  
+  // onBlurParticipantInput(value: string) {
+  //   console.log(value);
+  //   if (value !== "") this.tripFormValues.participants.push(value);
+  // }
 
   onSubmit() {
     if (this.editMode) {
@@ -184,7 +183,6 @@ onAutocomplete(): void {
           );
         }
       }
-      
     }
 
     this.tripForm = new FormGroup({
@@ -195,6 +193,7 @@ onAutocomplete(): void {
       'endDate': new FormControl(endDate),
       'users': users
     });
+    this.onAddAnotherUser();
   }
 
   onAddAnotherUser() {
@@ -204,6 +203,11 @@ onAutocomplete(): void {
         'email': new FormControl(null, Validators.required)
       })
     );
+    // console.log(this.tripForm.get('users').value[this.tripForm.get('users').value.length - 1].username);
+    // if (this.tripForm.get('users').value[this.tripForm.get('users').value.length - 1].username) {
+    //   this.tripFormValues.participants = this.tripForm.get('users').value;
+    // }
+    this.tripFormValues.participants = this.tripForm.get('users').value;
+    this.tripFormValues.participants.splice(-1,1);
   }
-
 }

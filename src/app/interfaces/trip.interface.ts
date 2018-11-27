@@ -4,5 +4,5 @@ export interface ITripPreview {
     imageUrl: string,
     startDate: string;
     endDate: string;
-    participants: string[];
+    participants: object[];
 }
