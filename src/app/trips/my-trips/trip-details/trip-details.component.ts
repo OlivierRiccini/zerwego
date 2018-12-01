@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Trip } from 'src/app/models/trip.model';
-import { TripService } from '../../services/trip.service';
+import { TripService } from '../../../services/trip.service';
 
 @Component({
   selector: 'app-trip-details',

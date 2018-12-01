@@ -10,18 +10,19 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
-import { CreateTripComponent } from './home/create-trip/create-trip.component';
-import { tripPreviewComponent } from './home/create-trip/trip-preview/trip-preview.component';
+import { CreateTripComponent } from './trips/create-trip/create-trip.component';
+import { tripPreviewComponent } from './trips/create-trip/trip-preview/trip-preview.component';
 import { SubHeaderBannerComponent } from './shared/sub-header-banner/sub-header-banner.component';
 import { TripFormComponent } from './forms/trip-form/trip-form.component';
-import { MyTripsComponent } from './my-trips/my-trips.component';
-import { MyTripsListComponent } from './my-trips/my-trips-list/my-trips-list.component';
-import { TripDetailsComponent } from './my-trips/trip-details/trip-details.component';
-import { ManageTripComponent } from './manage-trip/manage-trip.component';
+import { MyTripsComponent } from './trips/my-trips/my-trips.component';
+import { MyTripsListComponent } from './trips/my-trips/my-trips-list/my-trips-list.component';
+import { TripDetailsComponent } from './trips/my-trips/trip-details/trip-details.component';
+import { ManageTripComponent } from './trips/manage-trip/manage-trip.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TripService } from './services/trip.service';
 import { UserService } from './services/user.service';
 import { DestinationService } from './services/destination.service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { DestinationService } from './services/destination.service';
     MyTripsListComponent,
     TripDetailsComponent,
     ManageTripComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

@@ -42,9 +42,9 @@
         #endDateInput
         (blur)="onBlurEndDateInput(endDateInput.value)"  
         type="date" 
-             id="endDate"
-             formControlName="endDate"  
-             class="form-control">
+        id="endDate"
+        formControlName="endDate"  
+        class="form-control">
     </div>
 
     <div formArrayName="users">
@@ -76,3 +76,87 @@
     <button type="button" class="btn btn-primary">Cancel changes</button>
     <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
 </form>
+
+<!-- 
+<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="col">
+        <label for="tripName">Trip Name</label>
+        <input
+          #tripNameInput
+          (blur)="onBlurTripNameInput(tripNameInput.value)" 
+          type="text" 
+          id="tripName"
+          formControlName="tripName" 
+          class="form-control">
+    </div>
+    <div class="col">
+        <label for="destination">Destination</label>
+        <input
+          #destinationInput
+          (blur)="onBlurDestinationInput(destinationInput.value)"
+          class="form-control"
+          matInput
+          formControlName="destination" 
+          [matAutocomplete]="auto"
+          [matAutocompleteConnectedTo]="origin">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of destinationOptions" [value]="option">{{ option.matching_full_name }}</mat-option>
+        </mat-autocomplete>
+    </div>
+    <div class="col">
+        <label for="startDate">From</label>
+        <input
+          #startDateInput
+          (blur)="onBlurStartDateInput(startDateInput.value)"  
+          type="date" 
+          id="startDate"
+          formControlName="startDate"  
+          class="form-control">
+    </div>
+    <div class="col">
+        <label for="endDate">To</label>
+        <input
+          #endDateInput
+          (blur)="onBlurEndDateInput(endDateInput.value)"  
+          type="date" 
+          id="endDate"
+          formControlName="endDate"  
+          class="form-control">
+    </div>
+  </div>
+
+  <div class="form-row" formArrayName="users">
+    <div class="col">
+      <h3>Participants</h3>
+      <button 
+          type="button"
+          class="btn btn-default"
+          (click)="onAddAnotherUser()">
+        Add a participant
+      </button>
+    </div>
+  </div>
+  <div class="form-row">
+      <div
+        *ngFor="let participantCtrl of tripForm.get('users').controls; let i = index"
+        [formGroupName]="i"
+        class="col">
+            <input type="text"
+                  formControlName="username" 
+                  class="form-control">
+
+            <input type="text"
+                  formControlName="email" 
+                  class="form-control">
+      </div>
+    </div>
+    
+  <div class="form-row">
+    <div class="col">
+        <button type="submit" class="btn btn-success">Save Trip</button>
+        <button type="button" class="btn btn-primary">Cancel changes</button>
+        <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
+    </div>
+  </div>
+</form> -->

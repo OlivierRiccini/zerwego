@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Trip } from '../models/trip.model';
-import { TripService } from '../services/trip.service';
+import { Trip } from '../../models/trip.model';
+import { TripService } from '../../services/trip.service';
 
 @Component({
   selector: 'app-manage-trip',
