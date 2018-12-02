@@ -1,13 +1,22 @@
+@import "../../style/config.scss";
+
 nav {
-    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    z-index: 9;
+    width: 100vw;
+    padding: 0 165px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    height: 70px;
-    margin-bottom: 70px;
+    justify-content: space-between;
+    height: 60px;
+    background-color: $dark-gray;
+    opacity: 0.85;
+    color: #fff;
 }
 
 .logo {
+    font-size: 22px;
     cursor: pointer;
     &:focus {
         outline:0;
@@ -21,5 +30,8 @@ nav {
     li {
         display: inline-block;
         margin: 0 20px;
+    };
+    a {
+        color: #fff;
     }
 }

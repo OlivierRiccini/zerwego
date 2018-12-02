@@ -1,0 +1,26 @@
+// FONTS
+@import url('https://fonts.googleapis.com/css?family=Palanquin:100,200,300,400,500,600');
+
+// COLORS
+$beige: #FBF5F3;
+$gray: #E0E2E8;
+$dark-gray: #272D2D;
+$light-blue: rgba(53, 67, 221, 0.05);
+$blue: rgb(53, 67, 221);
+$darker-blue: rgb(44, 56, 189);
+$green: #3BDD4C;
+$red: #E82E44;
+$purple: #610F7F;
+
+// GENERAL CONFIGURATIONS
+body {
+    margin: 0;
+    // background-color: $beige;
+    font-family: 'Palanquin', sans-serif;
+    color: $dark-gray;
+    letter-spacing: 0.15px;
+}
+
+h2 {
+    font-weight: 100;
+}

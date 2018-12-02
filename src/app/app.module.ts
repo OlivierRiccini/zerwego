@@ -4,9 +4,8 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -23,6 +22,7 @@ import { TripService } from './services/trip.service';
 import { UserService } from './services/user.service';
 import { DestinationService } from './services/destination.service';
 import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +37,7 @@ import { HomeComponent } from './home/home.component';
     TripDetailsComponent,
     ManageTripComponent,
     HomeComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

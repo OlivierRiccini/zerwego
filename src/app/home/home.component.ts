@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  tagline: string = 'Trips must be memorable, it starts with a good organization';
 
   constructor() { }
 
