@@ -195,7 +195,7 @@ onAutocomplete(): void {
     });
     this.onAddAnotherUser();
   }
-
+  
   onAddAnotherUser() {
     (<FormArray>this.tripForm.get('users')).push(
       new FormGroup({
@@ -203,10 +203,6 @@ onAutocomplete(): void {
         'email': new FormControl(null, Validators.required)
       })
     );
-    // console.log(this.tripForm.get('users').value[this.tripForm.get('users').value.length - 1].username);
-    // if (this.tripForm.get('users').value[this.tripForm.get('users').value.length - 1].username) {
-    //   this.tripFormValues.participants = this.tripForm.get('users').value;
-    // }
     this.tripFormValues.participants = this.tripForm.get('users').value;
     this.tripFormValues.participants.splice(-1,1);
   }

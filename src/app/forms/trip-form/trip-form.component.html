@@ -1,4 +1,4 @@
-<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="tripName">Trip Name</label>
       <input
@@ -75,9 +75,9 @@
     <button type="submit" class="btn btn-success">Save Trip</button>
     <button type="button" class="btn btn-primary">Cancel changes</button>
     <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
-</form>
+</form> -->
 
-<!-- 
+
 <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
   <div class="form-row">
     <div class="col">
@@ -126,31 +126,30 @@
     </div>
   </div>
 
-  <div class="form-row" formArrayName="users">
-    <div class="col">
-      <h3>Participants</h3>
-      <button 
-          type="button"
-          class="btn btn-default"
-          (click)="onAddAnotherUser()">
-        Add a participant
-      </button>
+  <div formArrayName="users">
+    <h3>Participants</h3>
+    <button 
+        type="button"
+        class="btn btn-default"
+        (click)="onAddAnotherUser()">
+      Add a participant
+    </button>
+    <div
+      *ngFor="let participantCtrl of tripForm.get('users').controls; let i = index"
+      [formGroupName]="i"
+      class="row">
+      <div class="col-xs-6">
+        <input type="text"
+               formControlName="username" 
+               class="form-control">
+      </div>
+      <div class="col-xs-6">
+        <input type="text"
+               formControlName="email" 
+               class="form-control">
+      </div>   
     </div>
   </div>
-  <div class="form-row">
-      <div
-        *ngFor="let participantCtrl of tripForm.get('users').controls; let i = index"
-        [formGroupName]="i"
-        class="col">
-            <input type="text"
-                  formControlName="username" 
-                  class="form-control">
-
-            <input type="text"
-                  formControlName="email" 
-                  class="form-control">
-      </div>
-    </div>
     
   <div class="form-row">
     <div class="col">
@@ -159,4 +158,4 @@
         <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
     </div>
   </div>
-</form> -->
+</form>
