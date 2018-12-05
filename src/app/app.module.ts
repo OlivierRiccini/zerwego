@@ -6,6 +6,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -50,7 +52,9 @@ import { FooterComponent } from './shared/footer/footer.component';
     MatCheckboxModule,
     NoopAnimationsModule,
     MatAutocompleteModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatIconModule,
+    MatChipsModule
   ],
   providers: [
     TripService,

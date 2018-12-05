@@ -193,17 +193,39 @@ onAutocomplete(): void {
       'endDate': new FormControl(endDate),
       'users': users
     });
-    this.onAddAnotherUser();
+    // this.onAddAnotherUser();
   }
   
-  onAddAnotherUser() {
-    (<FormArray>this.tripForm.get('users')).push(
-      new FormGroup({
-        'username': new FormControl(null, Validators.required),
-        'email': new FormControl(null, Validators.required)
-      })
-    );
-    this.tripFormValues.participants = this.tripForm.get('users').value;
-    this.tripFormValues.participants.splice(-1,1);
+  // onAddAnotherUser() {
+  //   (<FormArray>this.tripForm.get('users')).push(
+  //     new FormGroup({
+  //       'username': new FormControl(null, Validators.required),
+  //       'email': new FormControl(null, Validators.required)
+  //     })
+  //   );
+  //   this.tripFormValues.participants = this.tripForm.get('users').value;
+  //   this.tripFormValues.participants.splice(-1,1);
+  // }
+  // test: string;
+  onAddAnotherUser(username, email) {
+    let userAlreadyExist = this.tripForm.value.users.findIndex((user) => {
+      return user.email === email;
+    });
+    
+    if (userAlreadyExist === -1) {
+      this.tripForm.value.users.push(
+        {
+          username: username,
+          email: email
+        }
+      );
+  
+      this.tripFormValues.participants.push(
+        {
+          username: username,
+          email: email
+        }
+      );
+    }
   }
 }

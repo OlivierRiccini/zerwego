@@ -6,3 +6,12 @@
     <li *ngFor="let participant of tripFormValues.participants">{{ participant.username }}</li>
 </ol>
 <img [src]="tripFormValues.imageUrl" [alt]="'photo of' + tripFormValues.destination">
+
+<mat-form-field class="example-chip-list">
+    <mat-chip-list #chipList>
+        <mat-chip *ngFor="let participant of tripFormValues.participants">
+        {{participant.username}}
+        <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+</mat-form-field>
