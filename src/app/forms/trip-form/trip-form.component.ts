@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { pipe, Observer } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { ITripPreview } from 'src/app/interfaces/trip.interface';
+import { MyErrorStateMatcher } from 'src/app/errorsHandlers/error-state-matcher';
 
 @Component({
   selector: 'app-trip-form',
@@ -18,6 +19,7 @@ export class TripFormComponent implements OnInit {
   id: number;
   editMode = false;
   tripForm: FormGroup;
+  matcher = new MyErrorStateMatcher();
 
   destinationOptions: any[] = [];
   // To use when getting link
@@ -156,8 +158,8 @@ onAutocomplete(): void {
       tripNendDateame: [''],
       users: this.fb.array([
         {
-          username: [''],
-          email: ['']
+          username: ['', Validators.required],
+          email: ['', Validators.required]
         }
       ])
     });
@@ -171,26 +173,32 @@ onAutocomplete(): void {
     }
 
   }
-  
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+
   onAddAnotherUser(username, email) {
     let userAlreadyExist = this.tripForm.value.users.findIndex((user) => {
       return user.email === email;
     });
+    if (username && email) {
+      if (userAlreadyExist === -1) {
+        this.tripForm.value.users.push(
+          {
+            username: username,
+            email: email
+          }
+        );
     
-    if (userAlreadyExist === -1) {
-      this.tripForm.value.users.push(
-        {
-          username: username,
-          email: email
-        }
-      );
-  
-      this.tripFormValues.participants.push(
-        {
-          username: username,
-          email: email
-        }
-      );
-    }
+        this.tripFormValues.participants.push(
+          {
+            username: username,
+            email: email
+          }
+        );
+      }
+    } 
   }
+
 }
