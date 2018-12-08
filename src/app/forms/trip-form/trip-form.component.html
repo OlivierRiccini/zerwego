@@ -44,37 +44,37 @@
           formControlName="endDate"  
           class="form-control">
     </div>
-  </div>
-
-  <div class="row" formArrayName="users">
-    <h3>Participants</h3>
-      <div class="col-xs-5">
-        <input type="text"
-               class="form-control"
-               #username>
-      </div>
-      <div class="col-xs-5">
-        <input type="text"
-               class="form-control"
-               #email>
-      </div> 
-      <div class="col-xs-2">
-        <button 
-          type="button"
-          class="btn btn-primary"
-          (click)="onAddAnotherUser(username.value, email.value)">
-          Add
-        </button> 
-      </div> 
-  </div>
-    
-  <div class="form-row">
-    <div class="col">
-        <button type="submit" class="btn btn-success">Save Trip</button>
-        <button type="button" class="btn btn-primary">Cancel changes</button>
-        <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
+    <div class="col row" formArrayName="users">
+      <label>Participants</label>
+        <div class="col-xs-5">
+          <input type="text"
+                 class="form-control"
+                 #username>
+        </div>
+        <div class="col-xs-5">
+          <input type="text"
+                 class="form-control"
+                 #email>
+        </div> 
+        <div class="col-xs-2">
+          <button 
+            type="button"
+            class="btn btn-primary"
+            (click)="onAddAnotherUser(username.value, email.value)">
+            Add
+          </button> 
+        </div> 
     </div>
+      
   </div>
+    <div class="form-row">
+      <div class="col">
+          <button type="submit" class="btn btn-success">Save Trip</button>
+          <button type="button" class="btn btn-primary">Cancel changes</button>
+          <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
+      </div>
+    </div>
+
 </form> 
 
 <!-- <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">

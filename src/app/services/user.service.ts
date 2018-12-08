@@ -42,7 +42,6 @@ export class UserService {
     let found = this.users.some((user) => {
       return user.email === userEmail;
     });
-    console.log(found);
     return found;
   }
 

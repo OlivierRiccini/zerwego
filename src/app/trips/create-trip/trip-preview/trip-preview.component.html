@@ -2,11 +2,6 @@
 <h3>{{ tripFormValues.destination }}</h3>
 <p>From {{ tripFormValues.startDate }} To {{ tripFormValues.endDate }} </p>
 <p>Participants</p>
-<ol>
-    <li *ngFor="let participant of tripFormValues.participants">{{ participant.username }}</li>
-</ol>
-<img [src]="tripFormValues.imageUrl" [alt]="'photo of' + tripFormValues.destination">
-
 <mat-form-field class="example-chip-list">
     <mat-chip-list #chipList>
         <mat-chip *ngFor="let participant of tripFormValues.participants">
@@ -15,3 +10,5 @@
         </mat-chip>
     </mat-chip-list>
 </mat-form-field>
+
+<img [src]="tripFormValues.imageUrl" [alt]="'photo of' + tripFormValues.destination">

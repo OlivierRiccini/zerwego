@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-
+import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { pipe, Observer } from 'rxjs';
 
@@ -38,7 +37,8 @@ export class TripFormComponent implements OnInit {
               private router: Router,
               private tripService: TripService,
               private userService: UserService,
-              private destinationService: DestinationService) { }
+              private destinationService: DestinationService,
+              private fb: FormBuilder) { }
 
   sendDatasToPreview() {
     this.dataFromCreateTripEvent.emit(this.tripFormValues);
@@ -50,7 +50,7 @@ export class TripFormComponent implements OnInit {
       (params: Params) => {
         this.id = +params['id'];
         this.editMode = params['id'] != null;
-        this.initForm();
+        this.createForm();
       }
       )
     this.onAutocomplete();
@@ -90,8 +90,6 @@ onAutocomplete(): void {
     this.tripFormValues.tripName = value;
   }
 
-  
-  
   onBlurDestinationInput(value: string) {
     // Get destination name
     this.tripFormValues.destination = value;
@@ -128,15 +126,6 @@ onAutocomplete(): void {
     this.tripFormValues.endDate = value;
   }
 
-  // test(value) {
-  //   console.log(value);
-  // }
-  
-  // onBlurParticipantInput(value: string) {
-  //   console.log(value);
-  //   if (value !== "") this.tripFormValues.participants.push(value);
-  // }
-
   onSubmit() {
     if (this.editMode) {
         this.tripService.updateTrip(this.id, this.tripForm.value);
@@ -157,56 +146,32 @@ onAutocomplete(): void {
     this.tripForm.reset();
   }
 
-  private initForm() {
-    let id = '';
-    let tripName = '';
-    let destination = '';
-    let imageUrl = '';
-    let startDate: Date;
-    let endDate: Date;
-    let users = new FormArray([]);
-
+  private createForm() {
+    this.tripForm = this.fb.group({
+      tripName: [''],
+      destination: [''],
+      imageUrl: [''],
+      startDate: [''],
+      endDate: [''],
+      tripNendDateame: [''],
+      users: this.fb.array([
+        {
+          username: [''],
+          email: ['']
+        }
+      ])
+    });
     if (this.editMode) {
       const trip = this.tripService.getTrip(this.id);
-      tripName = trip.tripName;
-      destination = trip.destination;
-      imageUrl = trip.imageUrl;
-      startDate = trip.startDate;
-      endDate = trip.endDate;
-      if (trip['users']) {
-        for (let user of trip.users) {
-          users.push(
-            new FormGroup({
-              'username': new FormControl(user.username),
-              'email': new FormControl(user.email)
-            })
-          );
-        }
-      }
+      this.tripForm.controls.tripName.setValue(trip.tripName);
+      this.tripForm.controls.destination.setValue(trip.destination);
+      this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
+      this.tripForm.controls.startDate.setValue(trip.startDate);
+      this.tripForm.controls.endDate.setValue(trip.endDate);
     }
 
-    this.tripForm = new FormGroup({
-      'tripName': new FormControl(tripName),
-      'destination': new FormControl(destination),
-      'imageUrl': new FormControl(imageUrl),
-      'startDate': new FormControl(startDate),
-      'endDate': new FormControl(endDate),
-      'users': users
-    });
-    // this.onAddAnotherUser();
   }
   
-  // onAddAnotherUser() {
-  //   (<FormArray>this.tripForm.get('users')).push(
-  //     new FormGroup({
-  //       'username': new FormControl(null, Validators.required),
-  //       'email': new FormControl(null, Validators.required)
-  //     })
-  //   );
-  //   this.tripFormValues.participants = this.tripForm.get('users').value;
-  //   this.tripFormValues.participants.splice(-1,1);
-  // }
-  // test: string;
   onAddAnotherUser(username, email) {
     let userAlreadyExist = this.tripForm.value.users.findIndex((user) => {
       return user.email === email;
