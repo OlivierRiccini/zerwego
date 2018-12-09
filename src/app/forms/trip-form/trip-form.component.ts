@@ -9,6 +9,8 @@ import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { ITripPreview } from 'src/app/interfaces/trip.interface';
 import { MyErrorStateMatcher } from 'src/app/errorsHandlers/error-state-matcher';
+import { StringDecoder } from 'string_decoder';
+import { ComponentFactoryResolver } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-trip-form',
@@ -19,12 +21,13 @@ export class TripFormComponent implements OnInit {
   id: number;
   editMode = false;
   tripForm: FormGroup;
+  users: FormArray;
   matcher = new MyErrorStateMatcher();
 
   destinationOptions: any[] = [];
   // To use when getting link
   historySearchCities: any[] = [];
-  tripFormValues: ITripPreview = {
+  valuesToSend: ITripPreview = {
     tripName: '',
     destination: '',
     imageUrl: '',
@@ -36,16 +39,16 @@ export class TripFormComponent implements OnInit {
   @Output() dataFromCreateTripEvent = new EventEmitter<ITripPreview>();
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private tripService: TripService,
-              private userService: UserService,
-              private destinationService: DestinationService,
-              private fb: FormBuilder) { }
-
-  sendDatasToPreview() {
-    this.dataFromCreateTripEvent.emit(this.tripFormValues);
+    private router: Router,
+    private tripService: TripService,
+    private userService: UserService,
+    private destinationService: DestinationService,
+    private fb: FormBuilder) { }
+    
+    sendDatasToPreview() {
+    this.dataFromCreateTripEvent.emit(this.valuesToSend);
   }
-
+  
   ngOnInit() {
     this.route.params
     .subscribe(
@@ -54,47 +57,67 @@ export class TripFormComponent implements OnInit {
         this.editMode = params['id'] != null;
         this.createForm();
       }
-      )
+    )
     this.onAutocomplete();
     this.sendDatasToPreview();
+  }
+    
+  private createForm() {
+    this.tripForm = this.fb.group({
+      tripName: [''],
+      destination: [''],
+      imageUrl: [''],
+      startDate: [''],
+      endDate: [''],
+      tripNendDateame: [''],
+      users: this.fb.array([])
+    });
+    if (this.editMode) {
+      const trip = this.tripService.getTrip(this.id);
+      this.tripForm.controls.tripName.setValue(trip.tripName);
+      this.tripForm.controls.destination.setValue(trip.destination);
+      this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
+      this.tripForm.controls.startDate.setValue(trip.startDate);
+      this.tripForm.controls.endDate.setValue(trip.endDate);
+    }
   }
 
 onAutocomplete(): void {
     // this.sendDestinations();
-    this.tripForm
-      .get('destination')
-      .valueChanges
-      .pipe(
-        // debounceTime(10000),
-        switchMap(value => this.destinationService.searchDestination(value))
-      )
-      .subscribe(
-        (response: any) => {
-          let citiesArray: Array<any> = JSON.parse(response._body)._embedded["city:search-results"].slice();
-          for (let city of citiesArray) {
-            this.destinationOptions = citiesArray;
-            this.historySearchCities.push(city);
-          }
-        },
-        (error) => {
-          console.log(error);
+  this.tripForm
+    .get('destination')
+    .valueChanges
+    .pipe(
+      // debounceTime(10000),
+      switchMap(value => this.destinationService.searchDestination(value))
+    )
+    .subscribe(
+      (response: any) => {
+        let citiesArray: Array<any> = JSON.parse(response._body)._embedded["city:search-results"].slice();
+        for (let city of citiesArray) {
+          this.destinationOptions = citiesArray;
+          this.historySearchCities.push(city);
         }
-      );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   displayFn(city?): string | undefined {
-    // this.tripFormValues.imageUrl = city._links["city:item"].href;
+    // this.valuesToSend.imageUrl = city._links["city:item"].href;
     return city ? city.matching_full_name : undefined;
   }
 
 
   onBlurTripNameInput(value: string) {
-    this.tripFormValues.tripName = value;
+    this.valuesToSend.tripName = value;
   }
 
   onBlurDestinationInput(value: string) {
     // Get destination name
-    this.tripFormValues.destination = value;
+    this.valuesToSend.destination = value;
     // Get destination image from api
     let cityObject = this.historySearchCities.find(item => {
       return item.matching_full_name === value;
@@ -111,7 +134,7 @@ onAutocomplete(): void {
       .subscribe(
         (response: any) => {
           console.log(JSON.parse(response._body).photos[0].image.web);
-          this.tripFormValues.imageUrl = JSON.parse(response._body).photos[0].image.web;
+          this.valuesToSend.imageUrl = JSON.parse(response._body).photos[0].image.web;
         },
         (error) => {
           console.log(error);
@@ -121,11 +144,11 @@ onAutocomplete(): void {
   }
       
   onBlurStartDateInput(value: string) {
-    this.tripFormValues.startDate = value;
+    this.valuesToSend.startDate = value;
   }
   
   onBlurEndDateInput(value: string) {
-    this.tripFormValues.endDate = value;
+    this.valuesToSend.endDate = value;
   }
 
   onSubmit() {
@@ -148,57 +171,41 @@ onAutocomplete(): void {
     this.tripForm.reset();
   }
 
-  private createForm() {
-    this.tripForm = this.fb.group({
-      tripName: [''],
-      destination: [''],
-      imageUrl: [''],
-      startDate: [''],
-      endDate: [''],
-      tripNendDateame: [''],
-      users: this.fb.array([
-        {
-          username: ['', Validators.required],
-          email: ['', Validators.required]
-        }
-      ])
-    });
-    if (this.editMode) {
-      const trip = this.tripService.getTrip(this.id);
-      this.tripForm.controls.tripName.setValue(trip.tripName);
-      this.tripForm.controls.destination.setValue(trip.destination);
-      this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
-      this.tripForm.controls.startDate.setValue(trip.startDate);
-      this.tripForm.controls.endDate.setValue(trip.endDate);
-    }
-
-  }
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
-
   onAddAnotherUser(username, email) {
+    this.users = this.tripForm.get('users') as FormArray;
+   
     let userAlreadyExist = this.tripForm.value.users.findIndex((user) => {
       return user.email === email;
     });
     if (username && email) {
       if (userAlreadyExist === -1) {
-        this.tripForm.value.users.push(
-          {
-            username: username,
-            email: email
-          }
-        );
-    
-        this.tripFormValues.participants.push(
-          {
-            username: username,
-            email: email
-          }
-        );
+        this.users.push(this.fb.group({ username, email }));
+        this.valuesToSend.participants.push({ username, email });
       }
-    } 
+    }
+    // this.users.controls[0].controls.usgt
+    // this.tripForm.get('users').resetForm();
+    // for (let c of this.tripForm.controls.users.controls) {
+    //   console.log(c.controls.username)
+    //   c.controls.username.value = null;
+    //   c.controls.username._pendingValue = null;
+    // }
+    // this.users.controls[0].controls._pendingValue = ' ';
+    console.log(this.tripForm.controls.users);
   }
 
+  onRemoveUser(email) {
+    this.users = this.tripForm.get('users') as FormArray;
+
+    let doubleCheckIndex1 = this.valuesToSend.participants.findIndex((user) => {
+      return user.email === email;
+    });
+    let doubleCheckIndex2 = this.users.value.findIndex((user) => {
+      return user.email === email;
+    });
+    // Remove from form array
+    this.tripForm.get('users').removeAt(doubleCheckIndex2); 
+    // Remove from values to send
+    this.valuesToSend.participants.splice(doubleCheckIndex1, 1);
+  }
 }

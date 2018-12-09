@@ -47,6 +47,14 @@
             formControlName="endDate">
         </mat-form-field>
       </div>
+      <mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let user of tripForm.get('users').value">
+              {{ user.username }}
+            <mat-icon matChipRemove (click)="onRemoveUser(user.email)">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+      </mat-form-field>
     </div>
     <div class="col-xs-12 col-sm-3">
       <div formArrayName="users" class="form-group-box">
@@ -64,7 +72,6 @@
         <mat-form-field>
           <input matInput 
                   placeholder="Email"
-                  floatLabel="never"
                   type="text"
                   #email>
             <!-- <mat-error *ngIf="true">
@@ -76,15 +83,17 @@
         </mat-form-field>
         <button 
           type="button"
-          class="btn btn-primary btn-full-width"
+          class="btn btn-blue btn-full-width"
           (click)="onAddAnotherUser(username.value, email.value)">
           Add {{ username.value }}
         </button> 
       </div>
+      <div class="box-buttons">
+        <button type="submit" class="btn btn-success">Save Trip</button>
+        <button type="button" class="btn btn-blue">Cancel changes</button>
+        <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
+      </div>
     </div>
   </div>
 
-  <button type="submit" class="btn btn-success">Save Trip</button>
-  <button type="button" class="btn btn-primary">Cancel changes</button>
-  <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
 </form> 
