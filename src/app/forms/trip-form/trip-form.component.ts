@@ -184,27 +184,31 @@ onAutocomplete(): void {
       }
     }
     // this.users.controls[0].controls.usgt
-    // this.tripForm.get('users').resetForm();
+    // this.users.controls.username.cancel();
     // for (let c of this.tripForm.controls.users.controls) {
-    //   console.log(c.controls.username)
-    //   c.controls.username.value = null;
-    //   c.controls.username._pendingValue = null;
+    // //   console.log(c.controls.username)
+    //   c.controls.username.clear();
+    // //   c.controls.username._pendingValue = null;
     // }
-    // this.users.controls[0].controls._pendingValue = ' ';
-    console.log(this.tripForm.controls.users);
+    // this.users.controls[0].controls.username.remove();
+    // this.users.controls[0].controls.username.updateValue('');
+    this.users.controls[0];
+    console.log(this.users.controls[0]);
+    // this.el.nativeElement.value = "";
+    // return false;
   }
 
   onRemoveUser(email) {
-    this.users = this.tripForm.get('users') as FormArray;
+    this.users = (this.tripForm.get('users') as FormArray);
 
-    let doubleCheckIndex1 = this.valuesToSend.participants.findIndex((user) => {
+    let doubleCheckIndex1 = this.valuesToSend.participants.findIndex((user: any) => {
       return user.email === email;
     });
     let doubleCheckIndex2 = this.users.value.findIndex((user) => {
       return user.email === email;
     });
     // Remove from form array
-    this.tripForm.get('users').removeAt(doubleCheckIndex2); 
+    this.users.removeAt(doubleCheckIndex2);
     // Remove from values to send
     this.valuesToSend.participants.splice(doubleCheckIndex1, 1);
   }
