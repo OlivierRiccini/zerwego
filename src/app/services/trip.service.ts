@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 
 import { Trip } from '../models/trip.model';
 import { User } from '../models/user.model';
+import { ITrip } from '../interfaces/trip.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -58,23 +59,23 @@ export class TripService {
     return trip;
   }
 
-  createTrip(tripFromForm: Trip) {
+  createTrip(tripFromForm: ITrip) {
     let newId = this.getLastTripId() + 1;
-    const newTrip: Trip = new Trip(
+    const newTrip: ITrip = new Trip(
       newId, 
       tripFromForm.tripName, 
       tripFromForm.destination, 
       tripFromForm.imageUrl, 
       tripFromForm.startDate, 
       tripFromForm.endDate, 
-      tripFromForm.users)
+      tripFromForm.participants)
       this.trips.push(newTrip);
       
       this.tripChanged.next(newTrip);
   }
 
-  updateTrip(id, tripFromForm: Trip) {
-    let tripToUpdate: Trip;
+  updateTrip(id, tripFromForm: ITrip) {
+    let tripToUpdate: ITrip;
     tripToUpdate = this.trips.find(tripInDB => {
       return tripInDB.id === id;
     });
@@ -84,7 +85,7 @@ export class TripService {
     tripToUpdate.imageUrl = tripFromForm.imageUrl
     tripToUpdate.startDate = tripFromForm.startDate
     tripToUpdate.endDate = tripFromForm.endDate 
-    tripToUpdate.users = tripFromForm.users
+    tripToUpdate.participants = tripFromForm.participants
   }
 
   // TO IMPLEMENT WITH HTTP REQUEST TO API

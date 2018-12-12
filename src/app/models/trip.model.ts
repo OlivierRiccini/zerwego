@@ -1,4 +1,4 @@
-import { User } from './user.model'
+import { IUser } from '../interfaces/user.interface';
 
 export class Trip {
     public id: number;
@@ -7,7 +7,7 @@ export class Trip {
     public imageUrl: string;
     public startDate: Date;
     public endDate: Date;
-    public users: Array<User>;
+    public participants: Array<IUser>;
     
     constructor(id: number,
                 tripName: string, 
@@ -15,7 +15,7 @@ export class Trip {
                 imageUrl: string, 
                 startDate: Date, 
                 endDate: Date, 
-                users: Array<User>
+                participants: Array<IUser>
                 ) {
                     this.id = id;
                     this.tripName = tripName;
@@ -23,6 +23,6 @@ export class Trip {
                     this.imageUrl = imageUrl;
                     this.startDate = startDate;
                     this.endDate = endDate;
-                    this.users = users;
+                    this.participants = participants;
                 }
 }

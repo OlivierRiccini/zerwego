@@ -1,8 +1,9 @@
-export interface ITripPreview {
+export interface ITrip {
+    id: number,
     tripName: string,
     destination: string,
     imageUrl: string,
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     participants: object[];
 }

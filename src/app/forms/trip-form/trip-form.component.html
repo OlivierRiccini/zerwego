@@ -49,31 +49,35 @@
       </div>
       <mat-form-field class="example-chip-list">
         <mat-chip-list #chipList>
-            <mat-chip *ngFor="let user of tripForm.get('users').value">
-              {{ user.username }}
-            <mat-icon matChipRemove (click)="onRemoveUser(user.email)">cancel</mat-icon>
+            <mat-chip *ngFor="let participant of formValues.participants">
+              {{ participant.username }}
+            <mat-icon matChipRemove (click)="onRemoveParticipant(participant.email)">cancel</mat-icon>
             </mat-chip>
         </mat-chip-list>
       </mat-form-field>
     </div>
     <div class="col-xs-12 col-sm-3">
-      <div formArrayName="users" class="form-group-box">
+      <div formArrayName="participants" class="form-group-box">
         <p>Participants</p>
         <mat-form-field>
-          <input  matInput
-                  placeholder="Username"
-                  [errorStateMatcher]="matcher"
-                  type="text"
-                  #username>
+          <input  
+            matInput
+            placeholder="Username"
+            [errorStateMatcher]="matcher"
+            type="text"
+            [(ngModel)]="username" 
+            [ngModelOptions]="{standalone: true}">
           <mat-error *ngIf="true">
             Please username is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput 
-                  placeholder="Email"
-                  type="text"
-                  #email>
+          <input 
+            matInput 
+            placeholder="Email"
+            type="text"
+            [(ngModel)]="email" 
+            [ngModelOptions]="{standalone: true}">
             <!-- <mat-error *ngIf="true">
               Please enter a valid email address
             </mat-error> -->
@@ -84,12 +88,12 @@
         <button 
           type="button"
           class="btn btn-blue btn-full-width"
-          (click)="onAddAnotherUser(username.value, email.value)">
-          Add {{ username.value }}
+          (click)="onAddAnotherParticipant(username, email)">
+          Add {{ username }}
         </button> 
       </div>
       <div class="box-buttons">
-        <button type="submit" class="btn btn-success">Save Trip</button>
+        <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
         <button type="button" class="btn btn-blue">Cancel changes</button>
         <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
       </div>
