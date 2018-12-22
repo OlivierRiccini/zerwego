@@ -1,9 +1,8 @@
 export interface ITrip {
-    id: number,
+    id?: string,
     tripName: string,
     destination: string,
     imageUrl: string,
     startDate: Date;
     endDate: Date;
-    participants: object[];
 }

@@ -7,7 +7,7 @@ import { ITripPreview } from 'src/app/interfaces/trip.interface';
   styleUrls: ['./create-trip.component.scss']
 })
 export class CreateTripComponent implements OnInit {
-  tripFormValues: ITripPreview;
+  // tripFormValues: ITripPreview;
 
   constructor() { }
 

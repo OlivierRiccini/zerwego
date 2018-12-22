@@ -3,7 +3,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { pipe, Observer } from 'rxjs';
-
 import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
@@ -35,8 +34,7 @@ export class TripFormComponent implements OnInit {
     destination: '',
     imageUrl: '',
     startDate: null,
-    endDate: null,
-    participants: []
+    endDate: null
   };
 
   // Using binding to be able to clear user inputs fields
@@ -81,17 +79,17 @@ export class TripFormComponent implements OnInit {
       tripNendDateame: [''],
       participants: this.fb.array([])
     });
-    if (this.editMode) {
-      const trip = this.tripService.getTrip(this.id);
-      this.tripForm.controls.tripName.setValue(trip.tripName);
-      this.tripForm.controls.destination.setValue(trip.destination);
-      this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
-      this.tripForm.controls.startDate.setValue(trip.startDate);
-      this.tripForm.controls.endDate.setValue(trip.endDate);
-      this.greenBtnLabel = 'Save Trip';
-    } else {
-      this.greenBtnLabel = 'Create Trip';
-    }
+    // if (this.editMode) {
+    //   const trip = this.tripService.getTrip(this.id);
+    //   this.tripForm.controls.tripName.setValue(trip.tripName);
+    //   this.tripForm.controls.destination.setValue(trip.destination);
+    //   this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
+    //   this.tripForm.controls.startDate.setValue(trip.startDate);
+    //   this.tripForm.controls.endDate.setValue(trip.endDate);
+    //   this.greenBtnLabel = 'Save Trip';
+    // } else {
+    //   this.greenBtnLabel = 'Create Trip';
+    // }
   }
 
 onAutocomplete(): void {
@@ -163,24 +161,25 @@ onAutocomplete(): void {
     this.formValues.endDate = value;
   }
 
-  onSubmit() {
-    if (this.editMode) {
-        this.tripService.updateTrip(this.id, this.formValues);
-        this.formValues.participants.forEach((user: IUser) => {
-          if (!this.userService.checkIfUserExists(user.email)) {
-            this.userService.createUser(user, this.tripForm.value);
-          }
-        });
-    } else {
-      this.tripService.createTrip(this.tripForm.value);
-      console.log(this.formValues);
-      this.formValues.participants.forEach((user: IUser) => {
-        if (!this.userService.checkIfUserExists(user.email)) {
-          this.userService.createUser(user, this.tripForm.value);
-        }
-      });
-    }
-    this.router.navigate(['./myTrips', 1]); 
+ onSubmit() {
+    // if (this.editMode) {
+    //     this.tripService.updateTrip(this.id, this.formValues);
+    //     this.formValues.participants.forEach((user: IUser) => {
+    //       if (!this.userService.checkIfUserExists(user.email)) {
+    //         this.userService.createUser(user, this.tripForm.value);
+    //       }
+    //     });
+    // } else {
+    //   this.tripService.createTrip(this.tripForm.value);
+    //   console.log(this.formValues);
+    //   this.formValues.participants.forEach((user: IUser) => {
+    //     if (!this.userService.checkIfUserExists(user.email)) {
+    //       this.userService.createUser(user, this.tripForm.value);
+    //     }
+    //   });
+    // }
+    // this.router.navigate(['./myTrips', 1]);
+    this.tripService.createTrip(this.formValues);
     this.tripForm.reset();
   }
 
