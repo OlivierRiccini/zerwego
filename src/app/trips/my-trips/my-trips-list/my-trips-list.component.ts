@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TripService } from '../../../services/trip.service';
-import { Trip } from '../../../models/trip.model';
-// import { Subscription } from 'rxjs';
+import { ITrip } from 'src/app/interfaces/trip.interface';
 
 @Component({
   selector: 'app-my-trips-list',
@@ -9,20 +8,10 @@ import { Trip } from '../../../models/trip.model';
   styleUrls: ['./my-trips-list.component.scss']
 })
 export class MyTripsListComponent implements OnInit {
-  trips: Trip[];
-  // subscription: Subscription;
+  @Input() listOfTrips: ITrip[];
 
-  constructor(private tripService: TripService) { }
+  constructor(public tripService: TripService) { }
 
-  ngOnInit() {
-    // this.subscription = this.tripService.tripsChanged
-    //   .subscribe(
-    //     (trips: Trip[]) => {
-    //       this.trips = trips;
-    //     }
-    //   );
-    this.trips = this.tripService.getTrips();
-    // console.log(this.trips);
-  }
+  ngOnInit() { }
 
 }

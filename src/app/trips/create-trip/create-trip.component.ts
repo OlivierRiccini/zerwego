@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ITripPreview } from 'src/app/interfaces/trip.interface';
+import { ITrip } from 'src/app/interfaces/trip.interface';
+// import { ITripPreview } from 'src/app/interfaces/trip.interface';
 
 @Component({
   selector: 'app-create-trip',
@@ -7,7 +8,7 @@ import { ITripPreview } from 'src/app/interfaces/trip.interface';
   styleUrls: ['./create-trip.component.scss']
 })
 export class CreateTripComponent implements OnInit {
-  // tripFormValues: ITripPreview;
+  tripFormValues: ITrip;
 
   constructor() { }
 

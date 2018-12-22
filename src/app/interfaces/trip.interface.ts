@@ -1,3 +1,5 @@
+import { IUser } from "./user.interface";
+
 export interface ITrip {
     id?: string,
     tripName: string,
@@ -5,4 +7,5 @@ export interface ITrip {
     imageUrl: string,
     startDate: Date;
     endDate: Date;
+    participants?: IUser[]
 }

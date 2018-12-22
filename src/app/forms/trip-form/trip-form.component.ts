@@ -34,7 +34,8 @@ export class TripFormComponent implements OnInit {
     destination: '',
     imageUrl: '',
     startDate: null,
-    endDate: null
+    endDate: null,
+    participants: []
   };
 
   // Using binding to be able to clear user inputs fields
@@ -80,7 +81,7 @@ export class TripFormComponent implements OnInit {
       participants: this.fb.array([])
     });
     // if (this.editMode) {
-    //   const trip = this.tripService.getTrip(this.id);
+    //   const trip = this.tripService.getTrips(this.id);
     //   this.tripForm.controls.tripName.setValue(trip.tripName);
     //   this.tripForm.controls.destination.setValue(trip.destination);
     //   this.tripForm.controls.imageUrl.setValue(trip.imageUrl);

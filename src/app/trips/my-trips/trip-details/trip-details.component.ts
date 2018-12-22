@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Trip } from 'src/app/models/trip.model';
 import { TripService } from '../../../services/trip.service';
+import { MyTripsListComponent } from '../my-trips-list/my-trips-list.component';
+import { ITrip } from 'src/app/interfaces/trip.interface';
 
 @Component({
   selector: 'app-trip-details',
@@ -10,25 +12,40 @@ import { TripService } from '../../../services/trip.service';
   styleUrls: ['./trip-details.component.scss']
 })
 export class TripDetailsComponent implements OnInit {
-  trip: Trip;
-  id: number;
+  trip: ITrip;
+  id: string;
 
-  constructor(private tripService: TripService,
-              private route: ActivatedRoute,
-              private router: Router) { }
+  constructor(
+    private tripService: TripService,          
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.id = +params['id'];
-          this.trip = this.tripService.getTrip(this.id);
+          this.id = params['id'];
+          this.initTrip();
         }
       );
   }
 
-  // onChange(id) {
-  //   this.trip = this.tripService.getTrip(id);
-  // }
+  initTrip() {
+    this.tripService.getTrip(this.id).subscribe(
+      response => this.trip = response,
+      err => console.log(err)
+    );
+  }
 
+  deleteTrip() {
+    this.tripService.removeFromService(this.id);
+    this.tripService.deleteTrip(this.id).subscribe(
+      () => {
+        console.log('Trip deleted with succes!');
+        this.router.navigate(['/myTrips']);
+      },
+      err => console.log(err)
+    );
+  }
+  
 }

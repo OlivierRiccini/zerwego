@@ -1,9 +1,10 @@
-<div class="trip-details-card" 
+<div class="trip-details-card"
 [style.backgroundImage]="'url('+ trip.imageUrl +')'">
   <h3>{{ trip.tripName }}</h3>
   <p>Destination: {{ trip.destination }}</p>
   <p>FROM: {{ trip.dateStart }}</p>
   <p>TO: {{ trip.dateEnd }}</p>
   <p>Number of participants: {{ trip.participants.length }}</p>
-  <button type="button" class="btn btn-primary" [routerLink]="['/manageTrip', trip.id]">Manage Trip</button>
+  <button type="link" class="btn btn-primary" [routerLink]="['/manageTrip', id]">Manage Trip</button>
+  <button type="button" class="btn btn-danger" (click)="deleteTrip()">Delete Trip</button>
 </div>
