@@ -25,15 +25,16 @@ export class TripDetailsComponent implements OnInit {
       .subscribe(
         (params: Params) => {
           this.id = params['id'];
-          this.initTrip();
+          this.initTrip(this.id);
         }
       );
   }
 
-  initTrip() {
-    this.tripService.getTrip(this.id).subscribe(
+  initTrip(id: string) {
+    this.tripService.loadTrip(this.id).subscribe(
       response => this.trip = response,
-      err => console.log(err)
+      err => console.error(err),
+      () => console.log('Observer got a complete notification')
     );
   }
 

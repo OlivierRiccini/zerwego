@@ -1,7 +1,7 @@
 import { IUser } from "./user.interface";
 
 export interface ITrip {
-    id?: string,
+    _id?: string,
     tripName: string,
     destination: string,
     imageUrl: string,
