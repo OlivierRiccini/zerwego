@@ -1,5 +1,9 @@
 // FONTS
 @import url('https://fonts.googleapis.com/css?family=Palanquin:100,200,300,400,500,600');
+@import "~@angular/material/theming";
+@include mat-core();
+
+html, body { height: 100%; }
 
 // COLORS
 $beige: #FBF5F3;
@@ -7,11 +11,21 @@ $light-gray: rgba(39, 45, 45, 0.05);
 $gray: rgb(224, 219, 219);
 $dark-gray: #272D2D;
 $light-blue: rgba(53, 67, 221, 0.05);
-$blue: rgb(53, 67, 221);
-$darker-blue: rgb(44, 56, 189);
+$blue: #3f51b5;
+$darker-blue: #2962ff;
 $green: #3BDD4C;
 $red: #E82E44;
 $purple: #610F7F;
+
+// ANGULAR MATERIAL
+// I suggest that you should use another prefix, but `my-app` is fine as well
+// Primary colour
+$my-app-primary: mat-palette($mat-indigo, 500);
+// Accent colour
+$my-app-accent: mat-palette($mat-pink, A200);
+
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent);
+@include angular-material-theme($my-app-theme);
 
 // GENERAL CONFIGURATIONS
 body {
@@ -34,3 +48,4 @@ h2 {
     background-color: $blue;
     color: #fff;
 }
+

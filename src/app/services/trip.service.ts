@@ -21,29 +21,6 @@ export class TripService {
   getTrips(): Observable<any> {
     return this.http.get(baseUrl);
   }
-
-  // Create simple observable that emits three values
-  loadTrip(id: string): Observable<any> {
-    const observable = Observable.create(subscirber => {
-      const trip = this.trips.find(t => t._id === id);
-      if (trip) {
-        console.log('Found it in service!');
-        subscirber.next(trip);
-      } else {
-        console.log(`Could not find trip with id ${id} in service, searching in DB...`)
-        this.getTrip(id).subscribe(
-          serverResponse => {
-            subscirber.next(serverResponse);
-            console.log('Found it in DB!');
-          },
-          err => {
-            subscirber.error(new Error(`Error could not even find trip with id ${id} in DB`));
-          }
-        );
-      }
-    });
-    return observable;
-  }
   
   getTrip(id: string): Observable<any> {
     return this.http.get(`${baseUrl}/${id}`);
@@ -67,9 +44,33 @@ export class TripService {
   deleteTrip(id: string): Observable<any> {
     return this.http.delete(`${baseUrl}/${id}`);
   }
-    
+
+  // MANAGE DATA CACHED IN SERVICE
+  
   removeFromService(id: string) {
     const index = this.trips.findIndex(trip => trip._id === id);
     this.trips.splice(index, 1);
+  }
+
+  loadTrip(id: string): Observable<any> {
+    const observable = Observable.create(subscirber => {
+      const trip = this.trips.find(t => t._id === id);
+      if (trip) {
+        console.log('Found it in service!');
+        subscirber.next(trip);
+      } else {
+        console.log(`Could not find trip with id ${id} in service, searching in DB...`)
+        this.getTrip(id).subscribe(
+          serverResponse => {
+            subscirber.next(serverResponse);
+            console.log('Found it in DB!');
+          },
+          err => {
+            subscirber.error(new Error(`Error could not even find trip with id ${id} in DB`));
+          }
+        );
+      }
+    });
+    return observable;
   }
 }

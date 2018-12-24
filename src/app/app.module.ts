@@ -49,6 +49,9 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     HttpClientModule
   ],
+  entryComponents: [
+    TripFormComponent
+  ],
   providers: [
     TripService,
     UserService,

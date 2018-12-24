@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
@@ -12,6 +12,7 @@ import { StringDecoder } from 'string_decoder';
 import { ComponentFactoryResolver } from '@angular/core/src/render3';
 import { isBuffer } from 'util';
 import { IUser } from 'src/app/interfaces/user.interface';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-trip-form',
@@ -29,7 +30,7 @@ export class TripFormComponent implements OnInit {
   // To use when getting link
   historySearchCities: any[] = [];
   formValues: ITrip = {
-    id: null,
+    _id: null,
     tripName: '',
     destination: '',
     imageUrl: '',
@@ -51,7 +52,14 @@ export class TripFormComponent implements OnInit {
     private tripService: TripService,
     private userService: UserService,
     private destinationService: DestinationService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    // public dialogRef: MatDialogRef<TripFormComponent>,
+    // @Inject(MAT_DIALOG_DATA) public data: any
+    ) { }
+  
+  // onNoClick(): void {
+  //   this.dialogRef.close();
+  // }
     
   sendDatasToPreview() {
     this.dataFromCreateTripEvent.emit(this.formValues);
@@ -91,6 +99,7 @@ export class TripFormComponent implements OnInit {
     // } else {
     //   this.greenBtnLabel = 'Create Trip';
     // }
+    this.greenBtnLabel = 'Yes, there we go!';
   }
 
 onAutocomplete(): void {
@@ -124,6 +133,7 @@ onAutocomplete(): void {
 
   onBlurTripNameInput(value: string) {
     this.formValues.tripName = value;
+    console.log(value);
   }
 
   onBlurDestinationInput(value: string) {

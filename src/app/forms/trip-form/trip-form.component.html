@@ -1,7 +1,8 @@
 <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="col-xs-12 col-sm-9">
-      <div class="form-group-box flex-form">
+    <mat-horizontal-stepper>
+      <mat-step label="Trip Name" state="phone">
+        <br>
+        <p>Give this trip a name!</p>
         <mat-form-field>
           <input
             matInput
@@ -12,6 +13,14 @@
             id="tripName"
             formControlName="tripName">
         </mat-form-field>
+        <hr>
+        <!-- <div> -->
+          <button type="button" mat-button matStepperNext>Next</button>
+        <!-- </div> -->
+      </mat-step>
+      <mat-step label="Destination" state="chat">
+        <br>
+        <p>Where are you going?</p>
         <mat-form-field>
           <input
             matInput
@@ -26,6 +35,15 @@
             <mat-option *ngFor="let option of destinationOptions" [value]="option">{{ option.matching_full_name }}</mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <!-- <div> -->
+        <hr>
+        <button type="button" mat-button matStepperPrevious>Back</button>
+        <button type="button" mat-button matStepperNext>Next</button>
+        <!-- </div> -->
+      </mat-step>
+      <mat-step label="Dates">
+        <br>
+        <p>From when to when?</p>
         <mat-form-field>
           <input
             matInput
@@ -46,58 +64,87 @@
             id="endDate"
             formControlName="endDate">
         </mat-form-field>
-      </div>
-      <mat-form-field class="example-chip-list">
-        <mat-chip-list #chipList>
-            <mat-chip *ngFor="let participant of formValues.participants">
-              {{ participant.username }}
-            <mat-icon matChipRemove (click)="onRemoveParticipant(participant.email)">cancel</mat-icon>
-            </mat-chip>
-        </mat-chip-list>
-      </mat-form-field>
-    </div>
-    <div class="col-xs-12 col-sm-3">
-      <div formArrayName="participants" class="form-group-box">
-        <p>Participants</p>
-        <mat-form-field>
-          <input  
-            matInput
-            placeholder="Username"
-            [errorStateMatcher]="matcher"
-            type="text"
-            [(ngModel)]="username" 
-            [ngModelOptions]="{standalone: true}">
-          <mat-error *ngIf="true">
-            Please username is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input 
-            matInput 
-            placeholder="Email"
-            type="text"
-            [(ngModel)]="email" 
-            [ngModelOptions]="{standalone: true}">
-            <!-- <mat-error *ngIf="true">
-              Please enter a valid email address
-            </mat-error> -->
-            <!-- <mat-error *ngIf="true">
-              Email is <strong>required</strong>
-            </mat-error> -->
-        </mat-form-field>
-        <button 
-          type="button"
-          class="btn btn-blue btn-full-width"
-          (click)="onAddAnotherParticipant(username, email)">
-          Add {{ username }}
-        </button> 
-      </div>
-      <div class="box-buttons">
-        <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
-        <button type="button" class="btn btn-blue">Cancel changes</button>
-        <button type="button" class="btn btn-danger" *ngIf="editMode">Delete trip</button>
-      </div>
-    </div>
-  </div>
-
-</form> 
+        <!-- <div> -->
+        <hr>
+        <button type="button" mat-button matStepperPrevious>Back</button>
+        <button type="button" mat-button matStepperNext>Next</button>
+        <!-- </div> -->
+      </mat-step>
+      <mat-step label="Participants">
+        <br>
+        <p>Invite People!</p>
+        <div formArrayName="participants" class="form-group-box">
+          <p>Participants</p>
+          <mat-form-field>
+            <input  
+              matInput
+              placeholder="Username"
+              [errorStateMatcher]="matcher"
+              type="text"
+              [(ngModel)]="username" 
+              [ngModelOptions]="{standalone: true}">
+            <mat-error *ngIf="true">
+              Please username is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input 
+              matInput 
+              placeholder="Email"
+              type="text"
+              [(ngModel)]="email" 
+              [ngModelOptions]="{standalone: true}">
+          </mat-form-field>
+          <button 
+            type="button"
+            class="btn btn-blue btn-full-width"
+            (click)="onAddAnotherParticipant(username, email)">
+            Add {{ username }}
+          </button> 
+        </div>
+        <!-- <div> -->
+        <hr>
+        <button type="button" mat-button matStepperPrevious>Back</button>
+        <button type="button" mat-button matStepperNext>Next</button>
+        <!-- </div> -->
+      </mat-step>
+      <mat-step label="Validation">
+        <br>
+        <p>Are you ready?</p>
+        <hr>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <p>Your trip name: <strong>{{ formValues.tripName }}</strong>
+            <p>Where:</p> <strong>{{ formValues.destination }}</strong>
+            <p>From:</p>
+            <strong>{{ formValues.startDate }}</strong>
+            <p>to:</p>
+            <strong>{{ formValues.endDate }}</strong>
+            <p>With:</p>
+            <ul>
+              <li *ngFor="let participant of formValues.participants">{{ participant.username }}</li>
+            </ul>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+              <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
+              <button type="button" class="btn btn-blue">Clear and Restart</button>
+              <button type="button" class="btn btn-blue">Stop and Close</button>
+          </div>
+          <hr>
+          <button type="button" mat-button matStepperPrevious>Back</button>
+          <!-- <div class="box-buttons">
+              <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
+              <button type="button" class="btn btn-blue">Cancel all</button>
+          </div> -->
+        </div>
+      </mat-step>
+  
+      <!-- Icon overrides. -->
+      <ng-template matStepperIcon="phone">
+        <mat-icon>call_end</mat-icon>
+      </ng-template>
+      <ng-template matStepperIcon="chat">
+        <mat-icon>forum</mat-icon>
+      </ng-template>
+    </mat-horizontal-stepper>
+  </form> 
