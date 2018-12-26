@@ -2,16 +2,16 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Trip } from 'src/app/models/trip.model';
-import { TripService } from '../../../services/trip.service';
-import { MyTripsListComponent } from '../my-trips-list/my-trips-list.component';
+import { TripService } from '../../services/trip.service';
+import { TripsListComponent } from '../trips-list/trips-list.component';
 import { ITrip } from 'src/app/interfaces/trip.interface';
 
 @Component({
-  selector: 'app-trip-details',
-  templateUrl: './trip-details.component.html',
-  styleUrls: ['./trip-details.component.scss']
+  selector: 'app-trip-preview',
+  templateUrl: './trip-preview.component.html',
+  styleUrls: ['./trip-preview.component.scss']
 })
-export class TripDetailsComponent implements OnInit {
+export class TripPreviewComponent implements OnInit {
   trip: ITrip;
   id: string;
 
@@ -43,7 +43,7 @@ export class TripDetailsComponent implements OnInit {
     this.tripService.deleteTrip(this.id).subscribe(
       () => {
         console.log('Trip deleted with succes!');
-        this.router.navigate(['/myTrips']);
+        this.router.navigate(['/trips']);
       },
       err => console.log(err)
     );

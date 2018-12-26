@@ -1,5 +1,5 @@
 <a class="trips-list-item"
-  [routerLink]="trip._id"
+  [routerLink]="['preview', trip._id]"
   *ngFor="let trip of listOfTrips">
   <h3>Trip name: {{ trip.tripName }}</h3>
   <p>Destination: {{ trip.destination }}</p>

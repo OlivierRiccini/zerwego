@@ -5,6 +5,6 @@
   <p>FROM: {{ trip.dateStart }}</p>
   <p>TO: {{ trip.dateEnd }}</p>
   <p>Number of participants: {{ trip.participants.length }}</p>
-  <button type="link" class="btn btn-primary" [routerLink]="['/manageTrip', id]">Manage Trip</button>
+  <button type="link" class="btn btn-primary" [routerLink]="['/trips', id, 'overview']">Manage Trip</button>
   <button type="button" class="btn btn-danger" (click)="deleteTrip()">Delete Trip</button>
 </div>

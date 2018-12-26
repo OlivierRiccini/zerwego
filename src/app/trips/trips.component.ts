@@ -4,11 +4,11 @@ import { ITrip } from 'src/app/interfaces/trip.interface';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-my-trips',
-  templateUrl: './my-trips.component.html',
-  styleUrls: ['./my-trips.component.scss']
+  selector: 'app-trips',
+  templateUrl: './trips.component.html',
+  styleUrls: ['./trips.component.scss']
 })
-export class MyTripsComponent implements OnInit {
+export class TripsComponent implements OnInit {
   listOfTrips: ITrip[];
 
   constructor(private route: ActivatedRoute, public tripService: TripService) { }

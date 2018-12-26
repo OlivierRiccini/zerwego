@@ -13,6 +13,7 @@ import { ComponentFactoryResolver } from '@angular/core/src/render3';
 import { isBuffer } from 'util';
 import { IUser } from 'src/app/interfaces/user.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TripComponent } from '../trip.component';
 
 @Component({
   selector: 'app-trip-form',
@@ -53,6 +54,7 @@ export class TripFormComponent implements OnInit {
     private userService: UserService,
     private destinationService: DestinationService,
     private fb: FormBuilder,
+    public dialogRef: MatDialogRef<TripComponent>,
     // public dialogRef: MatDialogRef<TripFormComponent>,
     // @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
@@ -190,8 +192,19 @@ onAutocomplete(): void {
     //   });
     // }
     // this.router.navigate(['./myTrips', 1]);
-    this.tripService.createTrip(this.formValues);
-    this.tripForm.reset();
+    this.tripService.createTrip(this.formValues)
+      .subscribe(
+        (response) => {
+          console.log('Trip successfully created!');
+          const trip: ITrip = response;
+          this.tripService.updateLocalStorage(trip);
+          this.router.navigate(['./trips', trip._id, 'overview']);
+          this.dialogRef.close();
+        },
+        (err) => console.log(err)
+      );
+
+    // this.tripForm.reset();
   }
 
   onAddAnotherParticipant(username: string, email: string) {

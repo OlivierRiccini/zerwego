@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { geolocation } from 'geolocation';
+// import { geolocation } from 'geolocation';
 
 @Component({
   selector: 'app-root',

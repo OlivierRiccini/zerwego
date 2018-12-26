@@ -3,7 +3,7 @@ import { Subject, Observable, Observer, of } from 'rxjs';
 import { ITrip } from '../interfaces/trip.interface';
 import { HttpClient } from '@angular/common/http';
 import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
-import { tripPreviewComponent } from '../trips/create-trip/trip-preview/trip-preview.component';
+// import { tripPreviewComponent } from '../trips/create-trip/trip-preview/trip-preview.component';
 
 const baseUrl = 'http://localhost:3000';
 
@@ -14,6 +14,7 @@ export class TripService {
   tripChanged = new Subject<any>();
 
   public trips: ITrip[] = [];
+  // public trip: ITrip = null;
 
   constructor(private http: HttpClient) { }
 
@@ -27,18 +28,18 @@ export class TripService {
   }
   
   createTrip(trip: ITrip) {
-    let newtTrip: any;
-    this.http.post(baseUrl, trip)
-    .subscribe(
-      (response) => {
-        console.log('Trip successfully created!');
-        newtTrip = response;
-        this.trips.push(newtTrip);
-        this.tripChanged.next(newtTrip);
-      },
-      (err) => console.log(err)
-      );
-      return newtTrip;
+    // let newtTrip: any;
+    return this.http.post(baseUrl, trip)
+    // .subscribe(
+    //   (response) => {
+    //     console.log('Trip successfully created!');
+    //     newtTrip = response;
+    //     this.trips.push(newtTrip);
+    //     this.tripChanged.next(newtTrip);
+    //   },
+    //   (err) => console.log(err)
+    //   );
+      // return newtTrip;
   }
     
   deleteTrip(id: string): Observable<any> {
@@ -57,11 +58,13 @@ export class TripService {
       const trip = this.trips.find(t => t._id === id);
       if (trip) {
         console.log('Found it in service!');
+        // this.trip = trip;
         subscirber.next(trip);
       } else {
         console.log(`Could not find trip with id ${id} in service, searching in DB...`)
         this.getTrip(id).subscribe(
           serverResponse => {
+            // this.trip = serverResponse;
             subscirber.next(serverResponse);
             console.log('Found it in DB!');
           },
@@ -72,5 +75,10 @@ export class TripService {
       }
     });
     return observable;
+  }
+
+  updateLocalStorage(trip: ITrip) {
+    this.trips.push(trip);
+    this.tripChanged.next(trip);
   }
 }
