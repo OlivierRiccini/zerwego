@@ -12,6 +12,9 @@ import { MatDialog } from '@angular/material';
 export class TripOverviewComponent implements OnInit {
   @Input() tripFormValues: ITrip;
   // @Output() onInitTrip: EventEmitter<any> = new EventEmitter<any>();
+
+  // isActive: true;
+
   public id: string;
   public trip: ITrip =  {
     tripName: null,

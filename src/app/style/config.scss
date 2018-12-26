@@ -13,6 +13,7 @@ $dark-gray: #272D2D;
 $light-blue: rgba(53, 67, 221, 0.05);
 $blue: #3f51b5;
 $darker-blue: #2962ff;
+$transparent-blue: rgba(63, 81, 181, 0.4);
 $green: #3BDD4C;
 $red: #E82E44;
 $purple: #610F7F;
@@ -26,6 +27,10 @@ $my-app-accent: mat-palette($mat-pink, A200);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent);
 @include angular-material-theme($my-app-theme);
+
+// .mat-ripple-element {
+//     background-color: $transparent-blue;
+// }
 
 // GENERAL CONFIGURATIONS
 body {

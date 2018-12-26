@@ -7,11 +7,11 @@ import { TripsListComponent } from '../trips-list/trips-list.component';
 import { ITrip } from 'src/app/interfaces/trip.interface';
 
 @Component({
-  selector: 'app-trip-preview',
-  templateUrl: './trip-preview.component.html',
-  styleUrls: ['./trip-preview.component.scss']
+  selector: 'app-trips-preview',
+  templateUrl: './trips-preview.component.html',
+  styleUrls: ['./trips-preview.component.scss']
 })
-export class TripPreviewComponent implements OnInit {
+export class TripsPreviewComponent implements OnInit {
   trip: ITrip;
   id: string;
 

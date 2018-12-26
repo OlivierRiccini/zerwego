@@ -23,6 +23,19 @@ export class TripComponent implements OnInit {
     participants: []
   }
 
+  public sections = [
+    'overview', 
+    'destination', 
+    'participants', 
+    'calendar', 
+    'transport', 
+    'accomodation', 
+    'activities', 
+    'budget'
+  ];
+
+  public activeSection: string = 'overview';
+
   // @ViewChild(TripOverviewComponent) child: TripOverviewComponent
   // private trip: TripOverviewComponent;
 
@@ -39,7 +52,7 @@ export class TripComponent implements OnInit {
             this.id = params['params'];
             this.initTrip(this.id);
           } else {
-            this.initTripAsNull();
+            // this.initTripAsNull();
             Promise.resolve().then(() => { this.openDialog() });
           }
         }
@@ -51,12 +64,11 @@ export class TripComponent implements OnInit {
   // public receiveTripFromOverview($event) {
   //   console.log($event);
   // }
-  // onActivate(overVoewComponent) {
-  //   console.log(Object.keys(overVoewComponent));
-  //   console.log(overVoewComponent);
-  //   // this.trip = overVoewComponent.trip;
-  //   // you have access to the component instance
-  // }
+  onActivate(overVoewComponent) {
+    this.activeSection = overVoewComponent.route.snapshot.routeConfig.path;
+    // this.trip = overVoewComponent.trip;
+    // you have access to the component instance
+  }
   // ngAfterViewInit() {
   //   // console.log('on after view init', this.child);
   //   // this returns null
