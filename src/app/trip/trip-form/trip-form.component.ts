@@ -199,7 +199,7 @@ onAutocomplete(): void {
           const trip: ITrip = response;
           this.tripService.updateLocalStorage(trip);
           this.router.navigate(['./trips', trip._id, 'overview']);
-          this.dialogRef.close();
+          this.onCloseDialog(false);
         },
         (err) => console.log(err)
       );
@@ -236,5 +236,10 @@ onAutocomplete(): void {
     // this.participants.removeAt(index);
     // Remove from values to send
     this.formValues.participants.splice(index, 1);
+  }
+
+  onCloseDialog(quit: boolean) {
+    this.dialogRef.close();
+    if (quit) { this.router.navigate(['/']) };
   }
 }

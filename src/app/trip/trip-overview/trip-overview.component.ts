@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ITrip } from 'src/app/interfaces/trip.interface';
 import { TripService } from 'src/app/services/trip.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
@@ -11,8 +11,16 @@ import { MatDialog } from '@angular/material';
 })
 export class TripOverviewComponent implements OnInit {
   @Input() tripFormValues: ITrip;
+  // @Output() onInitTrip: EventEmitter<any> = new EventEmitter<any>();
   public id: string;
-  public trip: ITrip;
+  public trip: ITrip =  {
+    tripName: null,
+    destination: null,
+    imageUrl: null,
+    startDate: null,
+    endDate: null,
+    participants: []
+  }
 
   constructor(private tripService: TripService,
     private route: ActivatedRoute,
@@ -23,21 +31,36 @@ export class TripOverviewComponent implements OnInit {
     this.route.parent.params
       .subscribe(
         (params: Params) => {
-          if (params['params'] !== 'new') {
+          if (params['params'] === 'new') {
+            // this.initTripAsNull();
+          } else {
             this.id = params['params'];
             this.initTrip(this.id);
           }
         }
       );
-    this.initTrip(null);
   }
 
   initTrip(id: string) {
     this.tripService.loadTrip(this.id).subscribe(
-      response => this.trip = response,
+      response => { 
+        this.trip = response;
+        // this.onInitTrip.emit(this.trip);
+      },
       err => console.error(err),
       () => console.log('Observer got a complete notification')
     );
   }
+
+  // initTripAsNull() {
+  //   this.trip = {
+  //     tripName: null,
+  //     destination: null,
+  //     imageUrl: null,
+  //     startDate: null,
+  //     endDate: null,
+  //     participants: []
+  //   }
+  // }
 
 }

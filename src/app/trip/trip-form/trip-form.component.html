@@ -128,7 +128,7 @@
           <div class="col-xs-12 col-sm-6">
               <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
               <button type="button" class="btn btn-blue">Clear and Restart</button>
-              <button type="button" class="btn btn-blue">Stop and Close</button>
+              <button type="button" class="btn btn-blue" (click)="onCloseDialog(true)">Stop and Close</button>
           </div>
           <hr>
           <button type="button" mat-button matStepperPrevious>Back</button>

@@ -1,2 +1,32 @@
-<h1>TRIP</h1>
-<router-outlet></router-outlet>
+<div class="row">
+    <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+        <div>
+            <p>{{ trip.tripName }}</p>
+            <p>{{ trip.destination }}</p>
+            <p>From {{ trip.startDate  | date: 'fullDate' }} to {{ trip.endDate | date: 'fullDate' }}</p>
+            <p>{{ trip.participants.length }}</p>
+            <p>weather</p>
+        </div>
+        <hr>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a class="nav-link active">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">Calendar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">Transport</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">Accomodation</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link">Budget</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="col-sm-9 col-md-10">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -4,6 +4,7 @@ import { TripService } from '../services/trip.service';
 import { ITrip } from 'src/app/interfaces/trip.interface';
 import { MatDialog } from '@angular/material';
 import { TripFormComponent } from './trip-form/trip-form.component';
+import { TripOverviewComponent } from './trip-overview/trip-overview.component';
 
 @Component({
   selector: 'app-trip',
@@ -12,8 +13,18 @@ import { TripFormComponent } from './trip-form/trip-form.component';
 })
 export class TripComponent implements OnInit {
   tripFormValues: ITrip;
-  trip: ITrip;
   id: string;
+  public trip: ITrip =  {
+    tripName: null,
+    destination: null,
+    imageUrl: null,
+    startDate: null,
+    endDate: null,
+    participants: []
+  }
+
+  // @ViewChild(TripOverviewComponent) child: TripOverviewComponent
+  // private trip: TripOverviewComponent;
 
   constructor(private tripService: TripService,
               private route: ActivatedRoute,
@@ -26,31 +37,60 @@ export class TripComponent implements OnInit {
         (params: Params) => {
           if (params['params'] !== 'new') {
             this.id = params['params'];
-            // this.initTrip(this.id);
+            this.initTrip(this.id);
           } else {
+            this.initTripAsNull();
             Promise.resolve().then(() => { this.openDialog() });
           }
         }
       );
+      // setTimeout(() => console.log(this.child.trip), 5000);
+      // console.log(this.trip);
   }
+
+  // public receiveTripFromOverview($event) {
+  //   console.log($event);
+  // }
+  // onActivate(overVoewComponent) {
+  //   console.log(Object.keys(overVoewComponent));
+  //   console.log(overVoewComponent);
+  //   // this.trip = overVoewComponent.trip;
+  //   // you have access to the component instance
+  // }
+  // ngAfterViewInit() {
+  //   // console.log('on after view init', this.child);
+  //   // this returns null
+  //   setTimeout( _ => this.methodThatKicksOffAnotherRoundOfChanges());
+  // }
 
   receiveDataFromTripForm($event) {
     this.tripFormValues = $event;
   }
 
-  // initTrip(id: string) {
-  //   this.tripService.loadTrip(this.id).subscribe(
-  //     response => {
-  //       this.trip = response;
-  //     },
-  //     err => console.error(err),
-  //     () => console.log('Observer got a complete notification')
-  //   );
-  // }
+  initTrip(id: string) {
+    this.tripService.loadTrip(this.id).subscribe(
+      response => {
+        this.trip = response;
+      },
+      err => console.error(err),
+      () => console.log('Observer got a complete notification')
+    );
+  }
+
+  initTripAsNull() {
+    this.trip = {
+      tripName: null,
+      destination: null,
+      imageUrl: null,
+      startDate: null,
+      endDate: null,
+      participants: []
+    }
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(TripFormComponent, {
-      // width: '250px'
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
