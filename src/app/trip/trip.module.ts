@@ -7,7 +7,7 @@ import { DestinationService } from '../services/destination.service';
 import { AppModule } from '../app.module';
 import { TripRoutingModule } from './trip.routing.module';
 import { MaterialModule } from '../material.module';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { TripTransportComponent } from './trip-transport/trip-transport.component';
 import { TripCalendarComponent } from './trip-calendar/trip-calendar.component';
 import { TripBudgetComponent } from './trip-budget/trip-budget.component';

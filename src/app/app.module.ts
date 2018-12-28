@@ -9,7 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { TripModule } from './trip/trip.module';
 import { TripsModule } from './trips/trips.module';
-import { SharedModule } from 'src/shared/shared.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { SharedModule } from 'src/shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    SharedModule,
     TripModule,
     TripsModule,
     SharedModule,

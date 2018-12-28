@@ -2,12 +2,15 @@
     <div class="row">
         <nav class="col-sm-2">
             <div class="blue-border-box">
-                <p>{{ trip.tripName }}</p>
+                <p class="small-title">{{ trip.tripName }} 
+                    <i class="material-icons">edit</i></p>
                 <p>{{ trip.destination }}</p>
-                <p>From {{ trip.startDate  | date:"MM/dd/yy" }} to {{ trip.endDate | date:"MM/dd/yy" }}</p>
+                <p>
+                    <i class="material-icons">calendar_today</i>  
+                     {{ trip.startDate  | date:"MM/dd/yy" }} -> {{ trip.endDate | date:"MM/dd/yy" }}</p>
                 <p>{{ trip.participants.length }}</p>
-                <p>weather</p>
             </div>
+            <hr>
             <mat-list class="blue-border-box">
                 <a *ngFor="let section of sections" 
                     mat-list-item 
