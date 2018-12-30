@@ -37,7 +37,7 @@ export class TripOverviewComponent implements OnInit {
       .subscribe(
         (params: Params) => {
           if (params['params'] === 'new') {
-            // this.initTripAsNull();
+            this.resetTrip();
           } else {
             this.id = params['params'];
             this.initTrip(this.id);
@@ -56,6 +56,17 @@ export class TripOverviewComponent implements OnInit {
       err => console.error(err),
       () => console.log('Observer got a complete notification')
     );
+  }
+
+  resetTrip() {
+    this.trip = {
+      tripName: null,
+      destination: null,
+      imageUrl: null,
+      startDate: null,
+      endDate: null,
+      participants: []
+    }
   }
 
   initSections() {

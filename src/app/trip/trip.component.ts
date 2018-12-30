@@ -50,8 +50,10 @@ export class TripComponent implements OnInit {
             this.id = params['params'];
             this.initTrip(this.id);
           } else {
+            this.resetTrip();
             Promise.resolve().then(() => { this.openDialog() });
           }
+          console.log(params);
         }
       );
   }
@@ -72,6 +74,17 @@ export class TripComponent implements OnInit {
       err => console.error(err),
       () => console.log('Observer got a complete notification')
     );
+  }
+
+  resetTrip() {
+    this.trip = {
+      tripName: null,
+      destination: null,
+      imageUrl: null,
+      startDate: null,
+      endDate: null,
+      participants: []
+    }
   }
 
   initTripAsNull() {
