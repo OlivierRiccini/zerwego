@@ -1,11 +1,22 @@
+@import "../../style/config.scss";
+
 .trips-list-item {
     display: block;
-    color: rgb(104, 103, 103);
+    color: $dark-gray;
     margin-bottom: 10px;
     padding: 10px;
-    border: 1px solid rgb(155, 155, 155);
+    border: 1px solid $light-gray;
+    border-radius: 2px;
+    background-color: $light-gray;
+    font-weight: 100;
+    &:hover {
+        text-decoration: none;
+        box-shadow: 1px 1px 1px rgba(39, 45, 45, 0.1);
+        font-weight: 400;
+    }
 }
 
-// .trips-list-item-active {
-//     background-color: rgb(230, 225, 225);
-// }
+.active-item {
+    box-shadow: 1px 1px 1px rgba(39, 45, 45, 0.1);
+    font-weight: 400;
+}

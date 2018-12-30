@@ -5,6 +5,7 @@ import { ITrip } from 'src/app/interfaces/trip.interface';
 import { MatDialog } from '@angular/material';
 import { TripFormComponent } from './trip-form/trip-form.component';
 import { TripOverviewComponent } from './trip-overview/trip-overview.component';
+import { DestinationService } from '../services/destination.service';
 
 @Component({
   selector: 'app-trip',
@@ -12,6 +13,9 @@ import { TripOverviewComponent } from './trip-overview/trip-overview.component';
   styleUrls: ['./trip.component.scss']
 })
 export class TripComponent implements OnInit {
+
+  public tripPage = true;
+
   tripFormValues: ITrip;
   id: string;
   public trip: ITrip =  {
@@ -23,16 +27,9 @@ export class TripComponent implements OnInit {
     participants: []
   }
 
-  public sections = [
-    'overview', 
-    'destination', 
-    'participants', 
-    'calendar', 
-    'transport', 
-    'accomodation', 
-    'activities', 
-    'budget'
-  ];
+  // public countryFlag: string = null;
+
+  public sections = this.tripService.sections;
 
   public activeSection: string = 'overview';
 
@@ -40,6 +37,7 @@ export class TripComponent implements OnInit {
   // private trip: TripOverviewComponent;
 
   constructor(private tripService: TripService,
+              private destinationService: DestinationService,
               private route: ActivatedRoute,
               private router: Router,
               public dialog: MatDialog) { }
@@ -52,34 +50,21 @@ export class TripComponent implements OnInit {
             this.id = params['params'];
             this.initTrip(this.id);
           } else {
-            // this.initTripAsNull();
             Promise.resolve().then(() => { this.openDialog() });
           }
         }
       );
-      // setTimeout(() => console.log(this.child.trip), 5000);
-      // console.log(this.trip);
   }
 
-  // public receiveTripFromOverview($event) {
-  //   console.log($event);
-  // }
   onActivate(overVoewComponent) {
     this.activeSection = overVoewComponent.route.snapshot.routeConfig.path;
-    // this.trip = overVoewComponent.trip;
-    // you have access to the component instance
   }
-  // ngAfterViewInit() {
-  //   // console.log('on after view init', this.child);
-  //   // this returns null
-  //   setTimeout( _ => this.methodThatKicksOffAnotherRoundOfChanges());
-  // }
 
   receiveDataFromTripForm($event) {
     this.tripFormValues = $event;
   }
 
-  initTrip(id: string) {
+  async initTrip(id: string) {
     this.tripService.loadTrip(this.id).subscribe(
       response => {
         this.trip = response;

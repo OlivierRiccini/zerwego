@@ -1,8 +1,8 @@
 @import "../style/config.scss";
 
 .home-page {
-    // Substracte navbar and footer
-    height: calc(100vh - 60px);
+    // Substract navbar and footer
+    height: calc(100vh - 120px);
     display: flex;
     align-items: center;
     ul {
@@ -15,14 +15,3 @@
         list-style-type: none;
     }
 }
-
-// .home-page ul {
-//     li {
-//         background-color: $light-blue;
-//         margin-bottom: 5px;
-//     }
-// }
-
-// .home-list-box {
-//     background-color: $beige;
-// }

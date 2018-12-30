@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TripService } from 'src/app/services/trip.service';
 import { ITrip } from 'src/app/interfaces/trip.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-trips',
@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class TripsComponent implements OnInit {
   listOfTrips: ITrip[];
+
+  public activeTripId: string = null;
 
   constructor(private route: ActivatedRoute, public tripService: TripService) { }
 
@@ -23,9 +25,14 @@ export class TripsComponent implements OnInit {
       (response) => {
         this.listOfTrips = response;
         this.tripService.trips = response;
+        this.activeTripId = this.listOfTrips[0]._id;
       },
       (err) => console.log(err)
     );
   }
+
+  // onActivate(activeItem) {
+  //   console.log(activeItem);
+  // }
 
 }

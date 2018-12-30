@@ -25,6 +25,8 @@ export class TripOverviewComponent implements OnInit {
     participants: []
   }
 
+  public sections: string[] = [];
+
   constructor(private tripService: TripService,
     private route: ActivatedRoute,
     private router: Router,
@@ -42,28 +44,24 @@ export class TripOverviewComponent implements OnInit {
           }
         }
       );
+    this.initSections();
   }
 
   initTrip(id: string) {
     this.tripService.loadTrip(this.id).subscribe(
       response => { 
         this.trip = response;
-        // this.onInitTrip.emit(this.trip);
+        if (!this.trip.imageUrl) { this.trip.imageUrl = response.countryFlag }
       },
       err => console.error(err),
       () => console.log('Observer got a complete notification')
     );
   }
 
-  // initTripAsNull() {
-  //   this.trip = {
-  //     tripName: null,
-  //     destination: null,
-  //     imageUrl: null,
-  //     startDate: null,
-  //     endDate: null,
-  //     participants: []
-  //   }
-  // }
+  initSections() {
+    for (let section of this.tripService.sections) {
+      if (section !== 'overview') { this.sections.push(section) };
+    };
+  }
 
 }

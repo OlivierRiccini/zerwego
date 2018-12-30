@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TripService } from '../../services/trip.service';
 import { ITrip } from 'src/app/interfaces/trip.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-trips-list',
@@ -9,9 +10,22 @@ import { ITrip } from 'src/app/interfaces/trip.interface';
 })
 export class TripsListComponent implements OnInit {
   @Input() listOfTrips: ITrip[];
+  // @Input() activeTripId: string;
+  public activeTripId: string = null;
 
-  constructor(public tripService: TripService) { }
+  constructor(public tripService: TripService, private route: ActivatedRoute) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.route.params
+      .subscribe(
+        (params: any) => {
+          console.log(params)
+        }
+      );
+  };
+
+  activateItem(tripId) {
+    this.activeTripId = tripId;
+  }
 
 }

@@ -1,5 +1,9 @@
 @import "../style/config.scss";
 
+.col-sm-10 {
+    padding: 0;
+}
+
 nav {
     height: calc(100vh - 60px);
     font-weight: 100;
@@ -9,17 +13,16 @@ nav {
     top: 60px;
     box-shadow: 1px 1px 1px $light-gray;
     border: 1px solid $gray;
+    .edit-btn {
+        float: right;
+    }
 }
 
 .blue-border-box {
-    // border: 1px solid $transparent-blue;
     border-radius: 2px;
-    // background-color: #fff;
-    // font-size: 14px !important;
-    // box-shadow: 1px 1px 1px $light-gray;
-    &:first-child {
-        // padding: 15px;
-        // margin-bottom: 15px;
+    &:first-child p:last-child {
+        display: flex;
+        font-weight: 400;
     };
     &:last-child {
         padding: 0;
@@ -28,9 +31,7 @@ nav {
 
 mat-list a {
     width: 100%;
-    // font-size: 14px !important;
     &:hover {
-        // color: $blue !important;
         text-decoration: none;
         background: $light-gray;
     }
@@ -39,18 +40,45 @@ mat-list a {
 .active-tab {
     background: $light-gray;
     font-weight: bolder;
-    // text-decoration: underline;
-    // background: $transparent-blue;
-    // color: $blue !important;
-    // border: 1px solid $transparent-blue;
 }
 
 .small-title {
     font-weight: 400;
     text-decoration: underline;
-    // background-color: $transparent-blue;;
-    // padding: 5px;
-    // color: #fff;
-    // border-radius: 2px;
-    // box-shadow: 1px 1px 1px $light-gray;
+    text-transform: uppercase;
 }
+
+
+// TEST
+// nav {
+//     height: calc(100vh - 60px);
+//     font-weight: 100;
+//     padding: 15px;
+//     background-color: $light-gray;
+//     position: sticky;
+//     top: 60px;
+//     box-shadow: 1px 1px 1px $light-gray;
+//     // border: 1px solid $transparent-blue;
+// }
+
+// mat-list a {
+//     width: 100%;
+//     color: $blue !important;
+//     &:hover {
+//         // color: $blue !important;
+//         text-decoration: none;
+//         font-weight: bolder;
+//         background: $light-gray;
+//     }
+// }
+
+// .active-tab {
+//     // background: $light-gray;
+//     font-weight: bolder;
+//     // text-decoration: underline;
+//     // background: $transparent-blue;
+//     // color: $blue !important;
+//     // border: 1px solid $transparent-blue;
+// }
+
+///////////////////

@@ -1,4 +1,13 @@
-// @import "../config.scss";
+.zerwego-btn {
+    background-color: $blue;
+    color: #fff;
+    &:hover {
+        background-color: $darker-blue;
+    }
+    &:focus {
+        outline:0;
+    }
+}
 
 .home-btn {
     width: fit-content;
@@ -6,10 +15,24 @@
     font-size: 22px;
     border-radius: 3px;
     // border: 1px solid $green;
-    background-color: $blue;
-    color: #fff;
-    &:hover {
-        background-color: $darker-blue;
-    }
+    // background-color: $blue;
+    // color: #fff;
+    // &:hover {
+    //     background-color: $darker-blue;
+    // }
 }
 
+.edit-btn {
+    // background-color: $blue;
+    // color: #fff;
+    display: flex;
+    border-radius: 3px;
+    padding: 5px;
+    cursor: pointer;
+    // &:hover {
+    //     background-color: $darker-blue;
+    // }
+    // &:focus {
+    //     outline:0;
+    // }
+}

@@ -1,3 +1,35 @@
-img {
-    max-width: -webkit-fill-available;
+@import "../../style/config.scss";
+
+.title-container {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    background-position: bottom;
+    margin-bottom: 80px;
+    -webkit-filter: grayscale(0.5);
+    filter: grayscale(0.5);
+    div {
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 2px;
+        padding: 15px 45px;
+        box-shadow: 1px 1px 1px rgba(39, 45, 45, 0.1);
+        text-align: center;
+        position: relative;
+        top: 33%;
+    }
+}
+
+.sections-row {
+    margin: 0;
+    .col-sm-12 {
+        margin-bottom: 15px;
+    }
+}
+
+.section-box {
+    height: 200px;
+    border: 1px solid $light-gray;
+    border-radius: 2px;
 }

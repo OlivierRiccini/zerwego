@@ -1,0 +1,14 @@
+.container-fluid {
+    height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+}
+
+.row {
+    height: 70%;
+    width: 100%;
+    margin: 0;
+    .col-xs-12:first-child {
+        overflow: scroll;
+    }
+}

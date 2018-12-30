@@ -3,6 +3,7 @@ import { Subject, Observable, Observer, of } from 'rxjs';
 import { ITrip } from '../interfaces/trip.interface';
 import { HttpClient } from '@angular/common/http';
 import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
+import { DestinationService } from './destination.service';
 // import { tripPreviewComponent } from '../trips/create-trip/trip-preview/trip-preview.component';
 
 const baseUrl = 'http://localhost:3000';
@@ -14,9 +15,19 @@ export class TripService {
   tripChanged = new Subject<any>();
 
   public trips: ITrip[] = [];
-  // public trip: ITrip = null;
+  public sections = [
+    'overview', 
+    'destination', 
+    'participants', 
+    'calendar', 
+    'transport', 
+    'accomodation', 
+    'activities', 
+    'budget'
+  ];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private destinationService: DestinationService) { }
 
   
   getTrips(): Observable<any> {
@@ -58,14 +69,26 @@ export class TripService {
       const trip = this.trips.find(t => t._id === id);
       if (trip) {
         console.log('Found it in service!');
-        // this.trip = trip;
-        subscirber.next(trip);
+        // Fecth country flag and call next with it
+        const countryName = trip.destination.split(',')[2].trim();
+        this.destinationService.getCountryFlag(countryName)
+        .subscribe(resp => {
+          trip.countryFlag = JSON.parse(resp._body)[0].flag;
+          subscirber.next(trip);
+        });
+    
       } else {
         console.log(`Could not find trip with id ${id} in service, searching in DB...`)
         this.getTrip(id).subscribe(
           serverResponse => {
-            // this.trip = serverResponse;
-            subscirber.next(serverResponse);
+            // Fecth country flag and call next with it
+            const countryName = serverResponse.destination.split(',')[2].trim();
+  
+            this.destinationService.getCountryFlag(countryName)
+            .subscribe(resp => {
+              serverResponse.countryFlag = JSON.parse(resp._body)[0].flag;
+              subscirber.next(serverResponse);
+            });
             console.log('Found it in DB!');
           },
           err => {

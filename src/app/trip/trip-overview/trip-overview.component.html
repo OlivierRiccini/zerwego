@@ -1,14 +1,15 @@
-<h2>{{ trip.tripName }}</h2>
-<h3>{{ trip.destination }}</h3>
-<p>From {{ trip.startDate }} To {{ trip.endDate }} </p>
-<p>Participants</p>
-<mat-form-field class="example-chip-list">
-    <mat-chip-list #chipList>
-        <mat-chip *ngFor="let participant of trip.participants">
-            {{participant.username}}
-        <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
-    </mat-chip-list>
-</mat-form-field>
+<div [style.backgroundImage]="'url('+ trip.imageUrl +')'" class="title-container">
+    <div>
+        <h2>{{ trip.tripName }}</h2>
+        <h3>{{ trip.destination }}</h3>
+        <img [src]="trip.countryFlag" alt="country-flag" style="height: 28px">
+    </div>
+</div>
 
-<img [src]="trip.imageUrl" [alt]="'photo of' + trip.destination">
+<div class="row sections-row">
+    <div *ngFor="let section of sections" class="col-sm-12 col-md-4">
+        <div class="section-box">
+            {{ section }}
+        </div>
+    </div>
+</div>

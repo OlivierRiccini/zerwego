@@ -3,19 +3,18 @@
         <nav class="col-sm-2">
             <div class="blue-border-box">
                 <p class="small-title">{{ trip.tripName }} 
-                    <i class="material-icons">edit</i></p>
+                    <button class="zerwego-btn edit-btn" type="button" (click)="openDialog()">
+                        <i class="material-icons">edit</i>
+                    </button>
                 <p>{{ trip.destination }}</p>
-                <p>
-                    <i class="material-icons">calendar_today</i>  
-                     {{ trip.startDate  | date:"MM/dd/yy" }} -> {{ trip.endDate | date:"MM/dd/yy" }}</p>
-                <p>{{ trip.participants.length }}</p>
+                <p>{{ trip.startDate  | date:"MM/dd/yy" }} -> {{ trip.endDate | date:"MM/dd/yy" }}</p>
+                <p>{{ trip.participants.length }}  <i class="material-icons">person</i></p>
             </div>
             <hr>
             <mat-list class="blue-border-box">
                 <a *ngFor="let section of sections" 
                     mat-list-item 
                     matRipple
-                    [matRippleColor]="red"
                     [ngClass]="activeSection === section ? 'active-tab' : ''" 
                     [routerLink]="['./', section]">
                     {{ section | titlecase }}
