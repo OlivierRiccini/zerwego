@@ -10,6 +10,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { TripModule } from './trip/trip.module';
 import { TripsModule } from './trips/trips.module';
 import { SharedModule } from './shared/shared.module';
+import { MatDialogRef} from '@angular/material';
 
 @NgModule({
   declarations: [

@@ -46,38 +46,38 @@ export class TripFormComponent implements OnInit {
 
   greenBtnLabel: string;
 
-  @Output() dataFromCreateTripEvent = new EventEmitter<ITrip>();
-
   constructor(private route: ActivatedRoute,
     private router: Router,
     private tripService: TripService,
     private userService: UserService,
     private destinationService: DestinationService,
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<TripComponent>,
-    // public dialogRef: MatDialogRef<TripFormComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: any
+    public dialogRef: MatDialogRef<TripComponent>
     ) { }
   
   // onNoClick(): void {
   //   this.dialogRef.close();
   // }
     
-  sendDatasToPreview() {
-    this.dataFromCreateTripEvent.emit(this.formValues);
+  sendTripFormValues(): void {
+    this.tripService.sendTripFormValues(this.formValues);   
   }
   
   ngOnInit() {
+    this.route.data
+    .subscribe(
+      (data) => {
+        console.log(data);
+      });
     this.route.params
     .subscribe(
       (params: Params) => {
-        this.id = +params['id'];
-        this.editMode = params['id'] != null;
+        console.log(params);
         this.createForm();
       }
-    )
+      )
+    console.log(this.route);
     this.onAutocomplete();
-    this.sendDatasToPreview();
   }
     
   private createForm() {
@@ -135,7 +135,8 @@ onAutocomplete(): void {
 
   onBlurTripNameInput(value: string) {
     this.formValues.tripName = value;
-    console.log(value);
+    this.sendTripFormValues();
+    // console.log(value);
   }
 
   onBlurDestinationInput(value: string) {
@@ -150,14 +151,15 @@ onAutocomplete(): void {
     if (link) {
       this.destinationService.getUrbanAreasLink(link) 
       .pipe(
-        // debounceTime(10000),
         switchMap((response: any) => this.destinationService.getCityImageLink(JSON.parse(response._body)._links["city:urban_area"].href)),
         switchMap((response: any) => this.destinationService.getDestinationImage(JSON.parse(response._body)._links["ua:images"].href))
       )
       .subscribe(
         (response: any) => {
           this.formValues.imageUrl = JSON.parse(response._body).photos[0].image.web;
-          // this.tripForm.value.imageUrl = JSON.parse(response._body).photos[0].image.web;
+          // Get flag
+          this.getCountryFlag(value);
+          this.sendTripFormValues();
         },
         (error) => {
           console.log(error);
@@ -165,12 +167,23 @@ onAutocomplete(): void {
       );
     };
   }
+
+  getCountryFlag(destination) {
+    console.log(destination);
+    const countryName = destination.split(',')[2].trim();
+    this.destinationService.getCountryFlag(countryName)
+      .subscribe(resp => {
+        this.formValues.countryFlag = JSON.parse(resp._body)[0].flag;
+    });
+  }
       
   onBlurStartDateInput(value: Date) {
+    this.sendTripFormValues();
     this.formValues.startDate = value;
   }
   
   onBlurEndDateInput(value: Date) {
+    this.sendTripFormValues();
     this.formValues.endDate = value;
   }
 
@@ -221,6 +234,7 @@ onAutocomplete(): void {
     }
     this.username = '';
     this.email = '';
+    this.sendTripFormValues();
   }
 
   onRemoveParticipant(email) {
@@ -236,6 +250,7 @@ onAutocomplete(): void {
     // this.participants.removeAt(index);
     // Remove from values to send
     this.formValues.participants.splice(index, 1);
+    this.sendTripFormValues();
   }
 
   onCloseDialog(quit: boolean) {

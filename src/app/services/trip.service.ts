@@ -14,6 +14,14 @@ const baseUrl = 'http://localhost:3000';
 export class TripService {
   tripChanged = new Subject<any>();
 
+  sendTripFormValues(trip: ITrip) {
+    this.tripChanged.next(trip);
+  }
+
+  getTripFormValues(): Observable<any> {
+    return this.tripChanged.asObservable();
+  }
+
   public trips: ITrip[] = [];
   public sections = [
     'overview', 

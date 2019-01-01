@@ -36,13 +36,19 @@ export class TripComponent implements OnInit {
   // @ViewChild(TripOverviewComponent) child: TripOverviewComponent
   // private trip: TripOverviewComponent;
 
-  constructor(private tripService: TripService,
-              private destinationService: DestinationService,
-              private route: ActivatedRoute,
-              private router: Router,
-              public dialog: MatDialog) { }
+  constructor(
+    private tripService: TripService,
+    private destinationService: DestinationService,
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog) { 
+      this.tripService.getTripFormValues().subscribe(trip => {  this.trip = trip; });
+    }
 
   ngOnInit() {
+    // this.route.firstChild.data.subscribe(data=> {
+    //   console.log(data);
+    // });
     this.route.params
       .subscribe(
         (params: Params) => {
@@ -53,13 +59,15 @@ export class TripComponent implements OnInit {
             this.resetTrip();
             Promise.resolve().then(() => { this.openDialog() });
           }
-          console.log(params);
         }
       );
   }
 
-  onActivate(overVoewComponent) {
-    this.activeSection = overVoewComponent.route.snapshot.routeConfig.path;
+  onActivate(child) {
+    // if (child.route.snapshot.routeConfig.path === 'edit') {
+    //   Promise.resolve().then(() => { this.openDialog() });
+    // }
+    this.activeSection = child.route.snapshot.routeConfig.path;
   }
 
   receiveDataFromTripForm($event) {
@@ -97,6 +105,12 @@ export class TripComponent implements OnInit {
       participants: []
     }
   }
+
+  // openDialog() {
+  //   this.modalFormService.openDialog().subscribe(data => {
+  //     console.log(data);
+  //   });
+  // }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(TripFormComponent, {

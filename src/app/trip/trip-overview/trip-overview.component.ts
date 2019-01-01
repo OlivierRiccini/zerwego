@@ -30,7 +30,9 @@ export class TripOverviewComponent implements OnInit {
   constructor(private tripService: TripService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {
+      this.tripService.getTripFormValues().subscribe(trip => {  this.trip = trip; });
+     }
 
   ngOnInit() {
     this.route.parent.params

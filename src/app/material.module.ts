@@ -39,6 +39,8 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material';
 
 @NgModule({
@@ -82,6 +84,10 @@ import {
     MatTooltipModule,
     MatTreeModule,
     ScrollingModule,
+  ],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
   ]
 })
 export class MaterialModule {}

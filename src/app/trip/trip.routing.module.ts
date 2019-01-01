@@ -13,8 +13,8 @@ import { TripDestinationComponent } from "./trip-destination/trip-destination.co
 
 const tripRoutes: Routes = [
     { path: 'trips/:params', component: TripComponent, children: [
-        { path: 'new', component: TripFormComponent },
-        { path: 'edit', component: TripFormComponent },
+        { path: 'new', component: TripFormComponent, data: {mode : 'new'} },
+        // { path: 'edit', component: TripFormComponent, data: {mode : 'edit'} },
         { path: 'overview', component: TripOverviewComponent },
         { path: 'destination', component: TripDestinationComponent },
         { path: 'participants', component: TripParticipantsComponent },
