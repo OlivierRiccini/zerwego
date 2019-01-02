@@ -16,12 +16,6 @@ export class TripsListComponent implements OnInit {
   constructor(public tripService: TripService, private route: ActivatedRoute) { }
 
   ngOnInit() { 
-    this.route.params
-      .subscribe(
-        (params: any) => {
-          console.log(params)
-        }
-      );
   };
 
   activateItem(tripId) {

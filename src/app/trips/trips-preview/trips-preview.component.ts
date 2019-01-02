@@ -1,9 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
-import { Trip } from 'src/app/models/trip.model';
 import { TripService } from '../../services/trip.service';
-import { TripsListComponent } from '../trips-list/trips-list.component';
 import { ITrip } from 'src/app/interfaces/trip.interface';
 
 @Component({
@@ -12,7 +9,16 @@ import { ITrip } from 'src/app/interfaces/trip.interface';
   styleUrls: ['./trips-preview.component.scss']
 })
 export class TripsPreviewComponent implements OnInit {
-  trip: ITrip;
+  trip: ITrip = {
+    _id: null,
+    tripName: '',
+    destination: '',
+    imageUrl: '',
+    startDate: null,
+    endDate: null,
+    participants: []
+  };
+  
   id: string;
 
   constructor(
@@ -39,7 +45,6 @@ export class TripsPreviewComponent implements OnInit {
   }
 
   deleteTrip() {
-    this.tripService.removeFromService(this.id);
     this.tripService.deleteTrip(this.id).subscribe(
       () => {
         console.log('Trip deleted with succes!');

@@ -48,6 +48,9 @@ export class TripService {
   
   createTrip(trip: ITrip) {
     // let newtTrip: any;
+    // Local storage
+    this.trips.push(trip);
+    // DB
     return this.http.post(baseUrl, trip)
     // .subscribe(
     //   (response) => {
@@ -62,20 +65,24 @@ export class TripService {
   }
     
   deleteTrip(id: string): Observable<any> {
+    // Remove from local storage
+    const index = this.trips.findIndex(trip => trip._id === id);
+    index >= 0 ? this.trips.splice(index, 1) : console.log('Error');
+    // DB
     return this.http.delete(`${baseUrl}/${id}`);
   }
 
   // MANAGE DATA CACHED IN SERVICE
   
-  removeFromService(id: string) {
-    const index = this.trips.findIndex(trip => trip._id === id);
-    this.trips.splice(index, 1);
-  }
+  // removeFromService(id: string) {
+  //   const index = this.trips.findIndex(trip => trip._id === id);
+  //   this.trips.splice(index, 1);
+  // }
 
-  loadTrip(id: string): Observable<any> {
+  loadTrip(id: string, onlyFromDB?: boolean): Observable<any> {
     const observable = Observable.create(subscirber => {
       const trip = this.trips.find(t => t._id === id);
-      if (trip) {
+      if (trip && !onlyFromDB) {
         console.log('Found it in service!');
         // Fecth country flag and call next with it
         const countryName = trip.destination.split(',')[2].trim();

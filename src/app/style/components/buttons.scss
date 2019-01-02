@@ -1,11 +1,12 @@
 .zerwego-btn {
-    background-color: $blue;
     color: #fff;
-    &:hover {
-        background-color: $darker-blue;
-    }
+    cursor: pointer;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 2px;
+    font-weight: 200;
     &:focus {
-        outline:0;
+        outline:0 !important;
     }
 }
 
@@ -22,17 +23,54 @@
     // }
 }
 
+.green-btn {
+    background-color: $green;
+    &:hover {
+        background-color: $darker-green;
+    }
+}
+
+.red-btn {
+    background-color: $red;
+    &:hover {
+        background-color: $darker-red;
+    }
+}
+
+.blue-btn {
+    background-color: $blue;
+    &:hover {
+        background-color: $darker-blue;
+    }
+}
+
+.grey-btn {
+    color: $dark-gray;
+    font-weight: 200;
+    padding: 8px 16px;
+    background-color: transparent;
+    // border: 1px solid $light-gray;
+    &:hover {
+        background-color: $light-gray;
+    }
+}
+
 .edit-btn {
-    // background-color: $blue;
-    // color: #fff;
+    background-color: $blue;
+    color: #fff;
     display: flex;
     border-radius: 3px;
     padding: 5px;
     cursor: pointer;
-    // &:hover {
-    //     background-color: $darker-blue;
-    // }
-    // &:focus {
-    //     outline:0;
-    // }
+    &:hover {
+        background-color: $darker-blue;
+    }
+}
+
+.btn-full-width {
+    width: 100%;
+}
+
+.right-btn {
+    float: right;
 }

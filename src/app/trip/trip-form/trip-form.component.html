@@ -1,49 +1,45 @@
-<form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="tripForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
     <mat-horizontal-stepper>
-      <mat-step label="Trip Name" state="phone">
+      <mat-step label="Name & Destination" state="phone">
         <br>
-        <p>Give this trip a name!</p>
-        <mat-form-field>
-          <input
-            matInput
-            placeholder="Trip Name"
-            #tripNameInput
-            (blur)="onBlurTripNameInput(tripNameInput.value)" 
-            type="text" 
-            id="tripName"
-            formControlName="tripName">
-        </mat-form-field>
+        <div class="row">
+          <div class=" col-xs-12 col-sm-6">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Trip Name"
+                #tripNameInput
+                type="text" 
+                id="tripName"
+                formControlName="tripName">
+            </mat-form-field>
+          </div>
+          <div class=" col-xs-12 col-sm-6">
+            <mat-form-field>
+              <input
+                matInput
+                placeholder="Destination"
+                #destinationInput
+                (blur)="onBlurDestinationInput(destinationInput.value)"
+                formControlName="destination" 
+                [matAutocomplete]="auto"
+                [matAutocompleteConnectedTo]="origin">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let option of destinationOptions" [value]="option">{{ option.matching_full_name }}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <!-- <p>Where are you going?</p> -->
         <hr>
         <!-- <div> -->
-          <button type="button" mat-button matStepperNext>Next</button>
+          <button type="button" class="zerwego-btn grey-btn" matStepperNext>Next</button>
+          <button type="button" class="zerwego-btn grey-btn right-btn right-btn" (click)="onCloseDialog(true)">{{ closeDialogLabel }}</button>
         <!-- </div> -->
       </mat-step>
-      <mat-step label="Destination" state="chat">
-        <br>
-        <p>Where are you going?</p>
-        <mat-form-field>
-          <input
-            matInput
-            placeholder="Destination"
-            #destinationInput
-            (blur)="onBlurDestinationInput(destinationInput.value)"
-            matInput
-            formControlName="destination" 
-            [matAutocomplete]="auto"
-            [matAutocompleteConnectedTo]="origin">
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            <mat-option *ngFor="let option of destinationOptions" [value]="option">{{ option.matching_full_name }}</mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-        <!-- <div> -->
-        <hr>
-        <button type="button" mat-button matStepperPrevious>Back</button>
-        <button type="button" mat-button matStepperNext>Next</button>
-        <!-- </div> -->
-      </mat-step>
+      
       <mat-step label="Dates">
         <br>
-        <p>From when to when?</p>
         <mat-form-field>
           <input
             matInput
@@ -66,77 +62,79 @@
         </mat-form-field>
         <!-- <div> -->
         <hr>
-        <button type="button" mat-button matStepperPrevious>Back</button>
-        <button type="button" mat-button matStepperNext>Next</button>
+        <button type="button" class="zerwego-btn grey-btn" matStepperPrevious>Back</button>
+        <button type="button" class="zerwego-btn grey-btn" matStepperNext>Next</button>
+        <button type="button" class="zerwego-btn grey-btn right-btn" (click)="onCloseDialog(true)">{{ closeDialogLabel }}</button>
         <!-- </div> -->
       </mat-step>
       <mat-step label="Participants">
         <br>
-        <p>Invite People!</p>
-        <div formArrayName="participants" class="form-group-box">
-          <p>Participants</p>
-          <mat-form-field>
-            <input  
-              matInput
-              placeholder="Username"
-              [errorStateMatcher]="matcher"
-              type="text"
-              [(ngModel)]="username" 
-              [ngModelOptions]="{standalone: true}">
-            <mat-error *ngIf="true">
-              Please username is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field>
-            <input 
-              matInput 
-              placeholder="Email"
-              type="text"
-              [(ngModel)]="email" 
-              [ngModelOptions]="{standalone: true}">
-          </mat-form-field>
-          <button 
-            type="button"
-            class="btn btn-blue btn-full-width"
-            (click)="onAddAnotherParticipant(username, email)">
-            Add {{ username }}
-          </button> 
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div formArrayName="participants" class="form-group-box">
+              <mat-form-field>
+                <input  
+                  matInput
+                  placeholder="Username"
+                  [errorStateMatcher]="matcher"
+                  type="text"
+                  [(ngModel)]="username" 
+                  [ngModelOptions]="{standalone: true}">
+                <mat-error *ngIf="true">
+                  Please username is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input 
+                  matInput 
+                  placeholder="Email"
+                  type="text"
+                  [(ngModel)]="email" 
+                  [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+              <button 
+                type="button"
+                class="zerwego-btn blue-btn btn-full-width"
+                (click)="onAddAnotherParticipant(username, email)">
+                Add {{ username }}
+              </button> 
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <mat-chip-list #chipList>
+                <mat-chip *ngFor="let participant of formValues.participants" [selectable]="selectable"
+   [removable]="removable">
+                  {{participant.username}}
+                  <mat-icon matChipRemove (click)="onRemoveParticipant(participant.email)">cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+          </div>
         </div>
         <!-- <div> -->
         <hr>
-        <button type="button" mat-button matStepperPrevious>Back</button>
-        <button type="button" mat-button matStepperNext>Next</button>
+        <button type="button" class="zerwego-btn grey-btn" matStepperPrevious>Back</button>
+        <button type="button" class="zerwego-btn grey-btn" matStepperNext>Next</button>
+        <button type="button" class="zerwego-btn grey-btn right-btn" (click)="onCloseDialog(true)">{{ closeDialogLabel }}</button>
         <!-- </div> -->
       </mat-step>
-      <mat-step label="Validation">
-        <br>
-        <p>Are you ready?</p>
+      <mat-step label="Double check">
         <hr>
-        <div class="row">
-          <div class="col-xs-12 col-sm-6">
-            <p>Your trip name: <strong>{{ formValues.tripName }}</strong>
-            <p>Where:</p> <strong>{{ formValues.destination }}</strong>
-            <p>From:</p>
-            <strong>{{ formValues.startDate }}</strong>
-            <p>to:</p>
-            <strong>{{ formValues.endDate }}</strong>
-            <p>With:</p>
-            <ul>
-              <li *ngFor="let participant of formValues.participants">{{ participant.username }}</li>
-            </ul>
-          </div>
-          <div class="col-xs-12 col-sm-6">
-              <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
-              <button type="button" class="btn btn-blue">Clear and Restart</button>
-              <button type="button" class="btn btn-blue" (click)="onCloseDialog(true)">Stop and Close</button>
-          </div>
-          <hr>
-          <button type="button" mat-button matStepperPrevious>Back</button>
-          <!-- <div class="box-buttons">
-              <button type="submit" class="btn btn-success">{{ greenBtnLabel }}</button>
-              <button type="button" class="btn btn-blue">Cancel all</button>
-          </div> -->
+        <p>Trip name: <strong>{{ formValues.tripName }}</strong></p>
+        <p>Destination: <strong>{{ formValues.destination }}</strong></p>  
+        <p>From: <strong>{{ formValues.startDate | date: 'yyyy-MM-dd' }}</strong> to <strong>{{ formValues.endDate | date: 'yyyy-MM-dd' }}</strong></p>
+        <div class="mat-chips-wrapper">
+          <p>Participants:</p>
+          <mat-chip-list #chipList>
+              <mat-chip *ngFor="let participant of formValues.participants" [selectable]="selectable" [removable]="removable">
+                {{participant.username}}
+                <mat-icon matChipRemove (click)="onRemoveParticipant(participant.email)">cancel</mat-icon>
+              </mat-chip>
+          </mat-chip-list>
         </div>
+        <button type="submit" class="zerwego-btn green-btn">{{ greenBtnLabel }}</button>
+        <hr>
+        <button type="button" class="zerwego-btn grey-btn" matStepperPrevious>Back</button>
+        <button type="button" class="zerwego-btn grey-btn right-btn" (click)="onCloseDialog()">{{ closeDialogLabel }}</button>
       </mat-step>
   
       <!-- Icon overrides. -->

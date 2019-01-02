@@ -1,11 +1,11 @@
-.flex-form {
-    display: flex;
-    justify-content: space-between;
+form {
+    font-weight: 200;
 }
-.form-group-box {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-shadow: 3px 3px 3px #eee;
-    padding: 15px;
-    height: fit-content;
+
+.mat-chips-wrapper {
+    margin-bottom: 24px;
+}
+
+.mat-form-field {
+    width: 100%;
 }

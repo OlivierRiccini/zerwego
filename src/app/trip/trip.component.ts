@@ -57,7 +57,7 @@ export class TripComponent implements OnInit {
             this.initTrip(this.id);
           } else {
             this.resetTrip();
-            Promise.resolve().then(() => { this.openDialog() });
+            Promise.resolve().then(() => { this.openDialog('new') });
           }
         }
       );
@@ -112,9 +112,11 @@ export class TripComponent implements OnInit {
   //   });
   // }
 
-  openDialog(): void {
+  openDialog(mode: string): void {
     const dialogRef = this.dialog.open(TripFormComponent, {
-      disableClose: true
+      disableClose: true,
+      data: { mode, tripId: this.id },
+      panelClass: ['custom-dialog-container']
     });
 
     dialogRef.afterClosed().subscribe(result => {
