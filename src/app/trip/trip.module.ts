@@ -15,6 +15,7 @@ import { TripAccomodationComponent } from './trip-accomodation/trip-accomodation
 import { TripParticipantsComponent } from './trip-participants/trip-participants.component';
 import { TripActivitiesComponent } from './trip-activities/trip-activities.component';
 import { TripDestinationComponent } from './trip-destination/trip-destination.component';
+import { Daterangepicker } from 'ng2-daterangepicker';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TripDestinationComponent } from './trip-destination/trip-destination.co
   imports: [
     CommonModule,
     TripRoutingModule,
+    Daterangepicker,
     SharedModule
   ],
   providers: [

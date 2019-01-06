@@ -42,24 +42,27 @@
         <br>
         <mat-form-field>
           <input
+            #dateRange
             matInput
             placeholder="From"
-            #startDateInput
-            (blur)="onBlurStartDateInput(startDateInput.value)"  
+            (selected)="selectedDate($event, daterange)"  
             type="date" 
-            id="startDate"
-            formControlName="startDate">
-        </mat-form-field>
-        <mat-form-field>
-          <input
+            daterangepicker
+            [options]="options" 
+            formControlName="dateRange"
+            (click)="openDaterangePicker($event)">
+        </mat-form-field> 
+        <!-- <mat-form-field> -->
+          <!-- <input
             matInput
             placeholder="To"
             #endDateInput
             (blur)="onBlurEndDateInput(endDateInput.value)"  
             type="date" 
             id="endDate"
-            formControlName="endDate">
-        </mat-form-field>
+            formControlName="endDate">  -->
+          <!-- <input matInput type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" /> -->
+        <!-- </mat-form-field> -->
         <!-- <div> -->
         <hr>
         <button type="button" class="zerwego-btn grey-btn" matStepperPrevious>Back</button>

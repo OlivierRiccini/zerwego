@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { switchMap, startWith } from 'rxjs/operators';
@@ -10,6 +10,9 @@ import { IUser } from 'src/app/interfaces/user.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TripComponent } from '../trip.component';
 import * as moment from 'moment';
+import { DaterangepickerConfig } from 'ng2-daterangepicker';
+import { DaterangePickerComponent } from 'ng2-daterangepicker';
+import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-trip-form',
@@ -17,11 +20,12 @@ import * as moment from 'moment';
   styleUrls: ['./trip-form.component.scss']
 })
 export class TripFormComponent implements OnInit {
+  
   id: string;
   editMode = false;
   tripForm: FormGroup;
   participants: FormArray;
-
+  
   destinationOptions: any[] = [];
   // To use when getting link
   historySearchCities: any[] = [];
@@ -34,27 +38,52 @@ export class TripFormComponent implements OnInit {
     endDate: null,
     participants: []
   };
-
+  
   tripToEdit: ITrip;
   username: string;
   email: string;
-
+  
   greenBtnLabel: string;
   closeDialogLabel: string;
   
+  @ViewChild(DaterangePickerComponent)
+  private picker: DaterangePickerComponent;
+
+  @ViewChild('dateRange') dateRangeEl:ElementRef;
+
+  public daterange: any = {};
+  public options: any = {
+    locale: { format: 'YYYY-MM-DD' },
+    alwaysShowCalendars: false,
+  };
+
   constructor(private route: ActivatedRoute,
     private router: Router,
     private tripService: TripService,
     private userService: UserService,
     private destinationService: DestinationService,
     private fb: FormBuilder,
+    private daterangepickerOptions: DaterangepickerConfig,
     public dialogRef: MatDialogRef<TripComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { 
       this.editMode = data.mode === 'edit';
       this.id = data.tripId;
+      this.daterangepickerOptions.settings = {
+        // locale: { format: 'YYYY-MM-DD' },
+        daterangepickerOptions: true,
+        autoApply: true,
+        alwaysShowCalendars: true,
+        // opens: "center",
+        // drops: "up",
+        linkedCalendars: false
+      };
+      this.daterangepickerOptions.skipCSS = true;
+      // this.daterangepickerOptions.showDropdowns = true;
+      // this.daterangepickerOptions.showDropdowns = true;
+      // this.picker.click();
     }
-  
+
   sendTripFormValues(): void {
     this.tripService.sendTripFormValues(this.formValues);   
   }
@@ -69,8 +98,7 @@ export class TripFormComponent implements OnInit {
       tripName: [''],
       destination: [''],
       imageUrl: [''],
-      startDate: [''],
-      endDate: [''],
+      dateRange: [''],
       participants: this.fb.array([])
     });
     if (this.editMode) {
@@ -79,8 +107,10 @@ export class TripFormComponent implements OnInit {
         this.tripForm.controls.tripName.setValue(trip.tripName);
         this.tripForm.controls.destination.setValue(trip.destination);
         this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
-        this.tripForm.controls.startDate.setValue(moment(trip.startDate).format('YYYY-MM-DD'));
-        this.tripForm.controls.endDate.setValue(moment(trip.endDate).format('YYYY-MM-DD'));
+        this.picker.datePicker.setStartDate(moment(trip.startDate).format('YYYY-MM-DD'));
+        this.picker.datePicker.setEndDate(moment(trip.endDate).format('YYYY-MM-DD'));
+        // this.tripForm.controls.startDate.setValue(moment(trip.startDate).format('YYYY-MM-DD'));
+        // this.tripForm.controls.endDate.setValue(moment(trip.endDate).format('YYYY-MM-DD'));
         this.tripToEdit = trip;
       });
       this.greenBtnLabel = 'Save Trip';
@@ -89,8 +119,20 @@ export class TripFormComponent implements OnInit {
       this.greenBtnLabel = 'Create Trip';
       this.closeDialogLabel = 'Give up';
     }
+    let inputEl = this.dateRangeEl.nativeElement as HTMLElement;
+    inputEl.click();
+    
+    // console.log(this.dateRangeEl.nativeElement.data('daterangepicker'));
+    // this.dateRangeEl.nativeElement.data() 
+    // this.dateRangeEl.nativeElement.setStyle();
+    // this.dateRangeEl.nativeElement.focus();
     // this.greenBtnLabel = 'Yes, there we go!';
     this.onInputChangesSubscriptions();
+  }
+
+  openDaterangePicker(event) {
+    console.log(event);
+    event.preventDefault();
   }
 
 onAutocomplete(): void {
@@ -170,18 +212,21 @@ onAutocomplete(): void {
         this.formValues.countryFlag = JSON.parse(resp._body)[0].flag;
     });
   }
-      
-  onBlurStartDateInput(value: Date) {
+
+
+  public selectedDate(value: any, datepicker?: any) {
+    // any object can be passed to the selected event and it will be passed back here
+    // datepicker.start = value.start;
+    // datepicker.end = value.end;
+
+    // or manupulat your own internal property
+    this.formValues.startDate = value.start;
+    this.formValues.endDate = value.end;
+
     this.sendTripFormValues();
-    this.formValues.startDate = value;
-  }
-  
-  onBlurEndDateInput(value: Date) {
-    this.sendTripFormValues();
-    this.formValues.endDate = value;
   }
 
- onSubmit() {
+  onSubmit() {
     if (this.editMode) {
       console.log('UPDATE NOT IMPLEMENTED YET');
     } else {
