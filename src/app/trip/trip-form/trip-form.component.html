@@ -40,30 +40,18 @@
       
       <mat-step label="Dates">
         <br>
-        <mat-form-field>
-          <input
-            #dateRange
-            matInput
-            placeholder="From"
-            (selected)="selectedDate($event, daterange)"  
-            type="date" 
-            daterangepicker
-            [options]="options" 
-            formControlName="dateRange"
-            (click)="openDaterangePicker($event)">
-        </mat-form-field> 
-        <!-- <mat-form-field> -->
-          <!-- <input
-            matInput
-            placeholder="To"
-            #endDateInput
-            (blur)="onBlurEndDateInput(endDateInput.value)"  
-            type="date" 
-            id="endDate"
-            formControlName="endDate">  -->
-          <!-- <input matInput type="text" name="daterangeInput" daterangepicker [options]="options" (selected)="selectedDate($event, daterange)" /> -->
-        <!-- </mat-form-field> -->
-        <!-- <div> -->
+          <mat-form-field>
+            <input
+              #dateRange
+              matInput
+              placeholder="Dates"
+              (selected)="selectedDate($event, daterange)"  
+              type="text" 
+              daterangepicker
+              [options]="options" 
+              formControlName="dateRange">
+          </mat-form-field> 
+        <!-- <div>  -->
         <hr>
         <button type="button" class="zerwego-btn grey-btn" matStepperPrevious>Back</button>
         <button type="button" class="zerwego-btn grey-btn" matStepperNext>Next</button>

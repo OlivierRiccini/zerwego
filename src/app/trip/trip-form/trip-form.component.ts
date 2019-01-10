@@ -73,8 +73,8 @@ export class TripFormComponent implements OnInit {
         // locale: { format: 'YYYY-MM-DD' },
         daterangepickerOptions: true,
         autoApply: true,
-        alwaysShowCalendars: true,
-        // opens: "center",
+        // alwaysShowCalendars: true,
+        opens: "left",
         // drops: "up",
         linkedCalendars: false
       };
@@ -119,9 +119,13 @@ export class TripFormComponent implements OnInit {
       this.greenBtnLabel = 'Create Trip';
       this.closeDialogLabel = 'Give up';
     }
-    let inputEl = this.dateRangeEl.nativeElement as HTMLElement;
-    inputEl.click();
-    
+    // setTimeout(() => {
+    //   let inputEl = this.dateRangeEl.nativeElement as HTMLElement;
+    //   // console.log(inputEl);
+    //   inputEl.focus();
+    //   // inputEl.click();
+    //   console.log('done');
+    // }, 2000);
     // console.log(this.dateRangeEl.nativeElement.data('daterangepicker'));
     // this.dateRangeEl.nativeElement.data() 
     // this.dateRangeEl.nativeElement.setStyle();
@@ -130,10 +134,10 @@ export class TripFormComponent implements OnInit {
     this.onInputChangesSubscriptions();
   }
 
-  openDaterangePicker(event) {
-    console.log(event);
-    event.preventDefault();
-  }
+  // openDaterangePicker(event) {
+  //   console.log(event);
+  //   event.preventDefault();
+  // }
 
 onAutocomplete(): void {
   this.tripForm
