@@ -19,7 +19,7 @@ import { element } from '@angular/core/src/render3';
   templateUrl: './trip-form.component.html',
   styleUrls: ['./trip-form.component.scss']
 })
-export class TripFormComponent implements OnInit {
+export class TripFormBaseComponent implements OnInit {
   
   id: string;
   editMode = false;
@@ -57,13 +57,13 @@ export class TripFormComponent implements OnInit {
     alwaysShowCalendars: false,
   };
 
-  constructor(private route: ActivatedRoute,
-    private router: Router,
-    private tripService: TripService,
-    private userService: UserService,
-    private destinationService: DestinationService,
-    private fb: FormBuilder,
-    private daterangepickerOptions: DaterangepickerConfig,
+  constructor(public route: ActivatedRoute,
+    public router: Router,
+    public tripService: TripService,
+    public userService: UserService,
+    public destinationService: DestinationService,
+    public fb: FormBuilder,
+    public daterangepickerOptions: DaterangepickerConfig,
     public dialogRef: MatDialogRef<TripComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { 
@@ -74,8 +74,8 @@ export class TripFormComponent implements OnInit {
         daterangepickerOptions: true,
         autoApply: true,
         // alwaysShowCalendars: true,
-        opens: "left",
-        // drops: "up",
+        opens: "center",
+        drops: "up",
         linkedCalendars: false
       };
       this.daterangepickerOptions.skipCSS = true;

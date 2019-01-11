@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TripService } from '../services/trip.service';
 import { ITrip } from 'src/app/interfaces/trip.interface';
 import { MatDialog } from '@angular/material';
-import { TripFormComponent } from './trip-form/trip-form.component';
+import { TripFormBaseComponent } from './trip-form/trip-form.component';
 import { TripOverviewComponent } from './trip-overview/trip-overview.component';
 import { DestinationService } from '../services/destination.service';
 
@@ -113,7 +113,7 @@ export class TripComponent implements OnInit {
   // }
 
   openDialog(mode: string): void {
-    const dialogRef = this.dialog.open(TripFormComponent, {
+    const dialogRef = this.dialog.open(TripFormBaseComponent, {
       disableClose: true,
       data: { mode, tripId: this.id },
       panelClass: ['custom-dialog-container']
