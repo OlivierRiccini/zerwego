@@ -36,6 +36,7 @@ export class TripEditFormComponent extends TripFormBaseComponent implements OnIn
 
   
   ngOnInit() {
+    super.ngOnInit();
   }
 
   onSubmit() {

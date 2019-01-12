@@ -46,12 +46,10 @@ export class TripComponent implements OnInit {
     }
 
   ngOnInit() {
-    // this.route.firstChild.data.subscribe(data=> {
-    //   console.log(data);
-    // });
     this.route.params
       .subscribe(
         (params: Params) => {
+          console.log(params);
           if (params['params'] !== 'new') {
             this.id = params['params'];
             this.initTrip(this.id);
@@ -64,9 +62,6 @@ export class TripComponent implements OnInit {
   }
 
   onActivate(child) {
-    // if (child.route.snapshot.routeConfig.path === 'edit') {
-    //   Promise.resolve().then(() => { this.openDialog() });
-    // }
     this.activeSection = child.route.snapshot.routeConfig.path;
   }
 
@@ -112,13 +107,17 @@ export class TripComponent implements OnInit {
   //   });
   // }
 
-  openDialog(mode: string): void {
+  private async openDialog(mode: string) {
+    if (mode === 'edit') { 
+      await this.router.navigate(['./', 'trips', this.id, this.activeSection, 'edit'])
+    } else if (mode === 'new') {
+      await this.router.navigate(['./', 'trips', 'new', 'overview']);
+    }; 
     const dialogRef = this.dialog.open(TripFormBaseComponent, {
       disableClose: true,
       data: { mode, tripId: this.id },
       panelClass: ['custom-dialog-container']
     });
-
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
