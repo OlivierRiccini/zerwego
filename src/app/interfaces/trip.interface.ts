@@ -8,5 +8,6 @@ export interface ITrip {
     imageUrl?: string,
     startDate?: Date;
     endDate?: Date;
+    admin?: IUser;
     participants?: IUser[]
 }

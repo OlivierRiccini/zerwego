@@ -1,8 +1,8 @@
  <div class="container-fluid"> 
     <div class="row">
         <nav class="col-sm-2">
-            <div class="blue-border-box">
-                <p class="small-title">{{ trip.tripName }} 
+            <div class="top-box">
+                <p class="small-title">{{ trip.tripName }}</p> 
                     <button class="zerwego-btn edit-btn" type="button" (click)="openDialog('edit')">
                         <i class="material-icons">edit</i>
                     </button>
@@ -11,7 +11,7 @@
                 <p>{{ trip.participants.length }}  <i class="material-icons">person</i></p>
             </div>
             <hr>
-            <mat-list class="blue-border-box">
+            <mat-list>
                 <a *ngFor="let section of sections" 
                     mat-list-item 
                     matRipple

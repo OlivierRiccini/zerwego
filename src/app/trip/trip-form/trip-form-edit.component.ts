@@ -6,13 +6,9 @@ import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
 import { ITrip } from 'src/app/interfaces/trip.interface';
-import { IUser } from 'src/app/interfaces/user.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TripComponent } from '../trip.component';
-import * as moment from 'moment';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
-import { DaterangePickerComponent } from 'ng2-daterangepicker';
-import { element } from '@angular/core/src/render3';
 import { TripFormBaseComponent } from './trip-form.component';
 
 @Component({
@@ -32,9 +28,10 @@ export class TripEditFormComponent extends TripFormBaseComponent implements OnIn
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { 
         super(route, router, tripService, userService, destinationService, fb, daterangepickerOptions, dialogRef, data);
-    }
-
-  
+        
+      }
+      
+      
   ngOnInit() {
     super.ngOnInit();
   }

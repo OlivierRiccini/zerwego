@@ -14,30 +14,30 @@ import { TripEditFormComponent } from "./trip-form/trip-form-edit.component";
 
 const tripRoutes: Routes = [
     { path: 'trips/:params', component: TripComponent, children: [
-        { path: 'new', component: TripAddFormComponent, data: {mode : 'new'} },
+        { path: 'new', component: TripAddFormComponent },
         { path: 'overview', component: TripOverviewComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
-        ]},
+            { path: 'edit', component: TripEditFormComponent }
+        ]}, 
         { path: 'destination', component: TripDestinationComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] },
         { path: 'participants', component: TripParticipantsComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] },
         { path: 'calendar', component: TripCalendarComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] },
         { path: 'transport', component: TripTransportComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] },
         { path: 'accomodation', component: TripAccomodationComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] },
         { path: 'activities', component: TripActivitiesComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] },
         { path: 'budget', component: TripBudgetComponent, children: [
-            { path: 'edit', component: TripEditFormComponent, data: {mode : 'edit'} }
+            { path: 'edit', component: TripEditFormComponent }
         ] }
     ]}
 ]

@@ -49,10 +49,12 @@ export class TripComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params) => {
-          console.log(params);
           if (params['params'] !== 'new') {
             this.id = params['params'];
             this.initTrip(this.id);
+            if (this.router.url.split('/')[4] === 'edit') {
+              Promise.resolve().then(() => { this.openDialog('edit') });
+            }
           } else {
             this.resetTrip();
             Promise.resolve().then(() => { this.openDialog('new') });
@@ -100,13 +102,7 @@ export class TripComponent implements OnInit {
       participants: []
     }
   }
-
-  // openDialog() {
-  //   this.modalFormService.openDialog().subscribe(data => {
-  //     console.log(data);
-  //   });
-  // }
-
+  
   private async openDialog(mode: string) {
     if (mode === 'edit') { 
       await this.router.navigate(['./', 'trips', this.id, this.activeSection, 'edit'])
@@ -115,7 +111,7 @@ export class TripComponent implements OnInit {
     }; 
     const dialogRef = this.dialog.open(TripFormBaseComponent, {
       disableClose: true,
-      data: { mode, tripId: this.id },
+      data: { mode, tripId: this.id, activeSection: this.activeSection },
       panelClass: ['custom-dialog-container']
     });
     dialogRef.afterClosed().subscribe(result => {

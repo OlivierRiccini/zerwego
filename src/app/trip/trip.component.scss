@@ -13,19 +13,14 @@ nav {
     top: 60px;
     box-shadow: 1px 1px 1px $light-gray;
     border: 1px solid $gray;
-    .edit-btn {
-        float: right;
-    }
 }
 
-.blue-border-box {
-    border-radius: 2px;
-    &:first-child p:last-child {
-        display: flex;
-        font-weight: 400;
-    };
-    &:last-child {
-        padding: 0;
+.top-box {
+    position: relative;
+    .edit-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }
 
@@ -47,38 +42,3 @@ mat-list a {
     text-decoration: underline;
     text-transform: uppercase;
 }
-
-
-// TEST
-// nav {
-//     height: calc(100vh - 60px);
-//     font-weight: 100;
-//     padding: 15px;
-//     background-color: $light-gray;
-//     position: sticky;
-//     top: 60px;
-//     box-shadow: 1px 1px 1px $light-gray;
-//     // border: 1px solid $transparent-blue;
-// }
-
-// mat-list a {
-//     width: 100%;
-//     color: $blue !important;
-//     &:hover {
-//         // color: $blue !important;
-//         text-decoration: none;
-//         font-weight: bolder;
-//         background: $light-gray;
-//     }
-// }
-
-// .active-tab {
-//     // background: $light-gray;
-//     font-weight: bolder;
-//     // text-decoration: underline;
-//     // background: $transparent-blue;
-//     // color: $blue !important;
-//     // border: 1px solid $transparent-blue;
-// }
-
-///////////////////

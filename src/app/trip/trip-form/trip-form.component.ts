@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { switchMap, startWith } from 'rxjs/operators';
 import { TripService } from 'src/app/services/trip.service';
@@ -12,7 +12,6 @@ import { TripComponent } from '../trip.component';
 import * as moment from 'moment';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import { DaterangePickerComponent } from 'ng2-daterangepicker';
-import { element } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-trip-form',
@@ -25,7 +24,6 @@ export class TripFormBaseComponent implements OnInit {
   editMode = false;
   tripForm: FormGroup;
   participants: FormArray;
-  
   destinationOptions: any[] = [];
   // To use when getting link
   historySearchCities: any[] = [];
@@ -36,8 +34,11 @@ export class TripFormBaseComponent implements OnInit {
     imageUrl: '',
     startDate: null,
     endDate: null,
+    admin: null,
     participants: []
   };
+
+  public tripAdmin: IUser = null;
   
   tripToEdit: ITrip;
   username: string;
@@ -45,17 +46,22 @@ export class TripFormBaseComponent implements OnInit {
   
   greenBtnLabel: string;
   closeDialogLabel: string;
+
+  public labels = {
+    buttons: {
+      submit: null,
+      cancel: null,
+      delete: null
+    }
+  };
+
+  private activeSection: string = null;
   
   @ViewChild(DaterangePickerComponent)
   private picker: DaterangePickerComponent;
 
-  @ViewChild('dateRange') dateRangeEl:ElementRef;
-
-  public daterange: any = {};
-  public options: any = {
-    locale: { format: 'YYYY-MM-DD' },
-    alwaysShowCalendars: false,
-  };
+  // public daterange: any = {};
+  public options: any = {};
 
   constructor(public route: ActivatedRoute,
     public router: Router,
@@ -66,22 +72,20 @@ export class TripFormBaseComponent implements OnInit {
     public daterangepickerOptions: DaterangepickerConfig,
     public dialogRef: MatDialogRef<TripComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-    ) { 
+    ) {
       this.editMode = data.mode === 'edit';
+      this.activeSection = data.activeSection;
       this.id = data.tripId;
+
       this.daterangepickerOptions.settings = {
-        // locale: { format: 'YYYY-MM-DD' },
+        locale: { format: 'YYYY-MM-DD' },
         daterangepickerOptions: true,
         autoApply: true,
-        // alwaysShowCalendars: true,
-        opens: "center",
-        drops: "up",
+        opens: "left",
+        drops: "down",
         linkedCalendars: false
       };
-      this.daterangepickerOptions.skipCSS = true;
-      // this.daterangepickerOptions.showDropdowns = true;
-      // this.daterangepickerOptions.showDropdowns = true;
-      // this.picker.click();
+      this.daterangepickerOptions.skipCSS = true; 
     }
 
   sendTripFormValues(): void {
@@ -99,6 +103,7 @@ export class TripFormBaseComponent implements OnInit {
       destination: [''],
       imageUrl: [''],
       dateRange: [''],
+      admin: [''],
       participants: this.fb.array([])
     });
     if (this.editMode) {
@@ -109,35 +114,26 @@ export class TripFormBaseComponent implements OnInit {
         this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
         this.picker.datePicker.setStartDate(moment(trip.startDate).format('YYYY-MM-DD'));
         this.picker.datePicker.setEndDate(moment(trip.endDate).format('YYYY-MM-DD'));
-        // this.tripForm.controls.startDate.setValue(moment(trip.startDate).format('YYYY-MM-DD'));
-        // this.tripForm.controls.endDate.setValue(moment(trip.endDate).format('YYYY-MM-DD'));
         this.tripToEdit = trip;
       });
-      this.greenBtnLabel = 'Save Trip';
-      this.closeDialogLabel = 'Cancel changes';
+      this.labels = {
+        buttons: {
+          submit: 'Save changes',
+          cancel: 'Close without saving',
+          delete: null
+        }
+      }
     } else {
-      this.greenBtnLabel = 'Create Trip';
-      this.closeDialogLabel = 'Give up';
+      this.labels = {
+        buttons: {
+          submit: 'Create',
+          cancel: 'Give up',
+          delete: null
+        }
+      }
     }
-    // setTimeout(() => {
-    //   let inputEl = this.dateRangeEl.nativeElement as HTMLElement;
-    //   // console.log(inputEl);
-    //   inputEl.focus();
-    //   // inputEl.click();
-    //   console.log('done');
-    // }, 2000);
-    // console.log(this.dateRangeEl.nativeElement.data('daterangepicker'));
-    // this.dateRangeEl.nativeElement.data() 
-    // this.dateRangeEl.nativeElement.setStyle();
-    // this.dateRangeEl.nativeElement.focus();
-    // this.greenBtnLabel = 'Yes, there we go!';
     this.onInputChangesSubscriptions();
   }
-
-  // openDaterangePicker(event) {
-  //   console.log(event);
-  //   event.preventDefault();
-  // }
 
 onAutocomplete(): void {
   this.tripForm
@@ -174,6 +170,13 @@ onAutocomplete(): void {
     this.tripForm.get('tripName').valueChanges.subscribe(
       value => {
         this.formValues.tripName = value;
+        this.sendTripFormValues();
+      }
+    )
+    this.tripForm.get('admin').valueChanges.subscribe(
+      value => {
+        this.formValues.admin = value;
+        this.tripAdmin = value;
         this.sendTripFormValues();
       }
     )
@@ -219,11 +222,6 @@ onAutocomplete(): void {
 
 
   public selectedDate(value: any, datepicker?: any) {
-    // any object can be passed to the selected event and it will be passed back here
-    // datepicker.start = value.start;
-    // datepicker.end = value.end;
-
-    // or manupulat your own internal property
     this.formValues.startDate = value.start;
     this.formValues.endDate = value.end;
 
@@ -232,8 +230,10 @@ onAutocomplete(): void {
 
   onSubmit() {
     if (this.editMode) {
+      console.log(this.formValues);
       console.log('UPDATE NOT IMPLEMENTED YET');
     } else {
+      console.log(this.formValues);
       this.tripService.createTrip(this.formValues)
         .subscribe(
           (response) => {
@@ -255,7 +255,7 @@ onAutocomplete(): void {
     });
     if (username && email) {
       if (userAlreadyExist === -1) {
-        this.formValues.participants.push({ username, email });
+        this.formValues.participants.push({ username, email});
       }
     }
     this.username = '';
@@ -278,9 +278,10 @@ onAutocomplete(): void {
       this.tripService.loadTrip(this.id, true).subscribe(trip => {
         this.formValues = trip; 
         this.sendTripFormValues();
+        this.router.navigate(['/', 'trips', this.id, this.activeSection]) ;
       });
     } else {
-      this.router.navigate(['/'])   
+      this.router.navigate(['/']) ;  
     };
   }
 }

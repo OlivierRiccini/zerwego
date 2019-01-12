@@ -1,5 +1,17 @@
+@import "../../style/config.scss";
+
 form {
     font-weight: 200;
+}
+
+form .row:nth-child(2) {
+    margin: 25px -15px 40px -15px;
+    p {
+        background-color: $light-gray;
+        padding: 15px;
+        border-radius: 2px;
+        font-weight: 400;
+    }
 }
 
 .mat-chips-wrapper {
@@ -8,4 +20,19 @@ form {
 
 .mat-form-field {
     width: 100%;
+}
+
+.form-group-box {
+    background-color: $light-gray;
+    padding: 15px;
+    border-radius: 2px;
+}
+
+.grey-btn {
+    float: right;
+}
+
+.active-chip {
+    color: #fff !important;
+    background-color: $blue !important;
 }

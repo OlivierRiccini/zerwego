@@ -139,6 +139,14 @@
     color: inherit;
 }
 
+.prev::after { 
+    content: "<";
+}
+
+.next::after { 
+    content: ">";
+}
+
 .daterangepicker td.week, .daterangepicker th.week {
     font-size: 80%;
     color: #ccc;
@@ -151,7 +159,7 @@
 }
 
 .daterangepicker td.in-range {
-    background-color: #ebf4f8;
+    background-color: $light-blue;
     border-color: transparent;
     color: #000;
     border-radius: 0;
@@ -170,7 +178,7 @@
 }
 
 .daterangepicker td.active, .daterangepicker td.active:hover {
-    background-color: #357ebd;
+    background-color: $blue;
     border-color: transparent;
     color: #fff;
 }
@@ -214,14 +222,14 @@
     height: 30px;
     line-height: 30px;
     display: block;
-    vertical-align: middle;
+    // vertical-align: middle;
     margin: 0 0 5px 0;
     padding: 0 6px 0 28px;
     width: 100%;
 }
 
 .daterangepicker .input-mini.active {
-    border: 1px solid #08c;
+    border: 1px solid $blue;
     border-radius: 4px;
 }
 
@@ -277,21 +285,21 @@
     background: #f5f5f5;
     border: 1px solid #f5f5f5;
     border-radius: 4px;
-    color: #08c;
+    color: $blue;
     padding: 3px 12px;
     margin-bottom: 8px;
     cursor: pointer;
 }
 
 .ranges li:hover {
-    background: #08c;
-    border: 1px solid #08c;
+    background: $blue;
+    border: 1px solid $blue;
     color: #fff;
 }
 
 .ranges li.active {
-    background: #08c;
-    border: 1px solid #08c;
+    background: $blue;
+    border: 1px solid $blue;
     color: #fff;
 }
 
