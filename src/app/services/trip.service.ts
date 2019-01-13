@@ -6,7 +6,7 @@ import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
 import { DestinationService } from './destination.service';
 // import { tripPreviewComponent } from '../trips/create-trip/trip-preview/trip-preview.component';
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://localhost:3000/trips';
 
 @Injectable({
   providedIn: 'root'
