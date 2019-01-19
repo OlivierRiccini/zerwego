@@ -10,7 +10,7 @@ import { ITrip } from 'src/app/interfaces/trip.interface';
 })
 export class TripsPreviewComponent implements OnInit {
   trip: ITrip = {
-    _id: null,
+    id: null,
     tripName: '',
     destination: '',
     imageUrl: '',

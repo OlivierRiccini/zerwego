@@ -28,7 +28,7 @@ export class TripFormBaseComponent implements OnInit {
   // To use when getting link
   historySearchCities: any[] = [];
   formValues: ITrip = {
-    _id: null,
+    id: null,
     tripName: '',
     destination: '',
     imageUrl: '',
@@ -240,7 +240,7 @@ onAutocomplete(): void {
             console.log('Trip successfully created!');
             const trip: ITrip = response;
             this.tripService.updateLocalStorage(trip);
-            this.router.navigate(['./trips', trip._id, 'overview']);
+            this.router.navigate(['./trips', trip.id, 'overview']);
             // this.onCloseDialog();
             this.dialogRef.close();
           },

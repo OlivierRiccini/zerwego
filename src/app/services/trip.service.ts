@@ -66,7 +66,7 @@ export class TripService {
     
   deleteTrip(id: string): Observable<any> {
     // Remove from local storage
-    const index = this.trips.findIndex(trip => trip._id === id);
+    const index = this.trips.findIndex(trip => trip.id === id);
     index >= 0 ? this.trips.splice(index, 1) : console.log('Error');
     // DB
     return this.http.delete(`${baseUrl}/${id}`);
@@ -75,13 +75,13 @@ export class TripService {
   // MANAGE DATA CACHED IN SERVICE
   
   // removeFromService(id: string) {
-  //   const index = this.trips.findIndex(trip => trip._id === id);
+  //   const index = this.trips.findIndex(trip => trip.id === id);
   //   this.trips.splice(index, 1);
   // }
 
   loadTrip(id: string, onlyFromDB?: boolean): Observable<any> {
     const observable = Observable.create(subscirber => {
-      const trip = this.trips.find(t => t._id === id);
+      const trip = this.trips.find(t => t.id === id);
       if (trip && !onlyFromDB) {
         console.log('Found it in service!');
         // Fecth country flag and call next with it

@@ -1,8 +1,8 @@
 <a class="trips-list-item"
-  [routerLink]="['preview', trip._id]"
+  [routerLink]="['preview', trip.id]"
   *ngFor="let trip of listOfTrips"
-  [ngClass]="activeTripId === trip._id ? 'active-item' : ''"
-  (click)="activateItem(trip._id)">
+  [ngClass]="activeTripId === trip.id ? 'active-item' : ''"
+  (click)="activateItem(trip.id)">
   <p>{{ trip.tripName }} - Destination: {{ trip.destination }}</p>
   <p>{{ trip.startDate | date: 'yyyy-MM-dd' }} -> {{ trip.endDate | date: 'yyyy-MM-dd' }}</p>
 </a>

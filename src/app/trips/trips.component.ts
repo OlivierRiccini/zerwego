@@ -25,7 +25,7 @@ export class TripsComponent implements OnInit {
       (response) => {
         this.listOfTrips = response;
         this.tripService.trips = response;
-        this.activeTripId = this.listOfTrips[0]._id;
+        this.activeTripId = this.listOfTrips[0].id;
       },
       (err) => console.log(err)
     );
