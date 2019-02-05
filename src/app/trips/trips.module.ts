@@ -4,7 +4,7 @@ import { TripsComponent } from './trips.component';
 import { TripsListComponent } from './trips-list/trips-list.component';
 import { TripsPreviewComponent } from './trips-preview/trips-preview.component';
 import { SharedModule } from '../shared/shared.module';
-import { TripsRoutingModule } from './trips.routing.module';
+import { TripsRoutingModule } from './trips-routing.module';
 
 @NgModule({
   declarations: [

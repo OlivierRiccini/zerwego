@@ -1,0 +1,14 @@
+<form [formGroup]="authForm" (ngSubmit)="onSingup()" (keydown.enter)="$event.preventDefault()">
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" formControlName="email">
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" formControlName="password">
+    </div>
+
+  <button type="submit" class="zerwego-btn green-btn">Sign Up</button>
+</form> 

@@ -7,7 +7,7 @@ const tripsRoutes: Routes = [
     { path: 'trips',  component: TripsComponent, children: [
         { path: 'preview/:id', component: TripsPreviewComponent },
     ]},
-]
+];
 @NgModule({
     imports: [
         RouterModule.forChild(tripsRoutes)

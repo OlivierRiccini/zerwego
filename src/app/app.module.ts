@@ -11,6 +11,7 @@ import { TripModule } from './trip/trip.module';
 import { TripsModule } from './trips/trips.module';
 import { SharedModule } from './shared/shared.module';
 import { MatDialogRef} from '@angular/material';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatDialogRef} from '@angular/material';
     SharedModule,
     TripModule,
     TripsModule,
+    AuthModule,
     SharedModule,
     AppRoutingModule,
   ],
