@@ -12,6 +12,7 @@ import { TripsModule } from './trips/trips.module';
 import { SharedModule } from './shared/shared.module';
 import { MatDialogRef} from '@angular/material';
 import { AuthModule } from './auth/auth.module';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AuthModule } from './auth/auth.module';
   ],
   providers: [
     TripService,
-    UserService
+    UserService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
