@@ -19,6 +19,7 @@ export class SignupComponent implements OnInit {
 
   private createForm() {
     this.authForm = this.fb.group({
+      name: [''],
       email: [''],
       password: ['']
     });
@@ -26,7 +27,7 @@ export class SignupComponent implements OnInit {
 
   public onSingup() {
     const user = this.authForm.value;
-    this.authService.signup(user).subscribe(
+    this.authService.register(user).subscribe(
       user => console.log(user),
       err => console.log('Error= ' + err)
     )

@@ -1,6 +1,11 @@
 <form [formGroup]="authForm" (ngSubmit)="onSingup()" (keydown.enter)="$event.preventDefault()">
 
     <div class="form-group">
+      <label for="name">Name</label>
+      <input type="name" id="name" name="name" formControlName="name">
+    </div>
+
+    <div class="form-group">
       <label for="email">Email</label>
       <input type="email" id="email" name="email" formControlName="email">
     </div>
