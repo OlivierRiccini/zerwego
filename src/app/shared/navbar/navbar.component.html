@@ -8,6 +8,7 @@
           <li><a routerLink="./trips">My Trips</a></li>
           <li *ngIf="!isLoggedIn"><a routerLink="/signin">Sign In</a></li>
           <li *ngIf="!isLoggedIn"><a routerLink="/signup">Sign up</a></li>
+          <li *ngIf="isLoggedIn">{{currentUser.name}}</li>
           <li *ngIf="isLoggedIn"><a (click)="onSignOut()">Sign out</a></li>
        </ul>
    </div> 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -8,6 +8,8 @@ const baseUrl = 'http://localhost:3000/users';
 
 @Injectable()
 export class AuthService {
+
+  dirty = new EventEmitter<IUser>();
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +23,7 @@ export class AuthService {
         if (user && token) {
           localStorage.setItem('x-auth', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
+          this.dirty.emit(user);
         }
         return user;
       }));
@@ -37,6 +40,7 @@ export class AuthService {
           localStorage.setItem('x-auth', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
+        this.dirty.emit(user);
         return user;
       }));
   }
@@ -55,6 +59,7 @@ export class AuthService {
           console.log('success');
           localStorage.removeItem('x-auth');
           localStorage.removeItem('currentUser');
+          this.dirty.emit(null);
         },
         err => console.log(err)
       )
@@ -66,19 +71,12 @@ export class AuthService {
   }
 
   getToken(): string {
-    const token = localStorage.getItem('x-auth');
-    // if (!token) {
-    //   throw new Error('Token not found');
-    // }
-    return token;
+    return localStorage.getItem('x-auth');
   }
 
   getUser(): IUser {
     const user = localStorage.getItem('currentUser');
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return JSON.parse(user);
+    return user ? JSON.parse(user) : false;
   }
 
   isLoggedIn(): boolean {
