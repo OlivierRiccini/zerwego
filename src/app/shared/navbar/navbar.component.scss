@@ -36,3 +36,10 @@ nav {
         color: #fff;
     }
 }
+
+ul li:last-child a {
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}

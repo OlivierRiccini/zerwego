@@ -24,7 +24,7 @@ export class SigninComponent implements OnInit {
     });
   }
 
-  public onSingup() {
+  public onSignin() {
     const user = this.authForm.value;
     this.authService.login(user.email, user.password).subscribe(
       user => console.log(user),
