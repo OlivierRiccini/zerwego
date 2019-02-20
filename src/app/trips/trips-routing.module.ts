@@ -2,9 +2,10 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from '@angular/router';
 import { TripsComponent } from "./trips.component";
 import { TripsPreviewComponent } from "./trips-preview/trips-preview.component";
+import { AuthGuard } from "../services/auth-guard.service";
 
 const tripsRoutes: Routes = [
-    { path: 'trips',  component: TripsComponent, children: [
+    { path: 'trips', component: TripsComponent, children: [
         { path: 'preview/:id', component: TripsPreviewComponent },
     ]},
 ];

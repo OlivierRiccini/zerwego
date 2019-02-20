@@ -11,9 +11,10 @@ import { TripActivitiesComponent } from "./trip-activities/trip-activities.compo
 import { TripParticipantsComponent } from "./trip-participants/trip-participants.component";
 import { TripDestinationComponent } from "./trip-destination/trip-destination.component";
 import { TripEditFormComponent } from "./trip-form/trip-form-edit.component";
+import { AuthGuard } from "../services/auth-guard.service";
 
 const tripRoutes: Routes = [
-    { path: 'trips/:params', component: TripComponent, children: [
+    // { path: 'trips/:params', component: TripComponent, children: [
         { path: 'new', component: TripAddFormComponent },
         { path: 'overview', component: TripOverviewComponent, children: [
             { path: 'edit', component: TripEditFormComponent }
@@ -39,7 +40,7 @@ const tripRoutes: Routes = [
         { path: 'budget', component: TripBudgetComponent, children: [
             { path: 'edit', component: TripEditFormComponent }
         ] }
-    ]}
+    // ]}
 ]
 
 @NgModule({
