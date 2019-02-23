@@ -47,21 +47,10 @@ export class TripService {
   }
   
   createTrip(trip: ITrip) {
-    // let newtTrip: any;
-    // Local storage
     this.trips.push(trip);
-    // DB
-    return this.http.post(baseUrl, trip)
-    // .subscribe(
-    //   (response) => {
-    //     console.log('Trip successfully created!');
-    //     newtTrip = response;
-    //     this.trips.push(newtTrip);
-    //     this.tripChanged.next(newtTrip);
-    //   },
-    //   (err) => console.log(err)
-    //   );
-      // return newtTrip;
+    console.log(trip)
+    // return this.http.post(baseUrl, trip)
+
   }
     
   deleteTrip(id: string): Observable<any> {

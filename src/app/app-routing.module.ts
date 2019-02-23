@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { AuthGuard } from './services/auth-guard.service';
+import { AuthGuardLoad, AuthGuardActivate } from './services/auth-guard.service';
 
+// const routes: Routes = [
+//   { path: '', component: HomeComponent },
+//     { path: 'trips', canLoad: [AuthGuard], loadChildren: './trips/trips.module#TripsModule' },
+//     { path: 'trip', canLoad: [AuthGuard], loadChildren: './trip/trip.module#TripModule' }
+// ];
 const routes: Routes = [
   { path: '', component: HomeComponent },
-    { path: '', canLoad: [AuthGuard], loadChildren: './trips/trips.module#TripsModule' },
-    { path: '', canLoad: [AuthGuard], loadChildren: './trip/trip.module#TripModule' }
+  { path: 'trips', canLoad: [AuthGuardLoad], canActivate: [AuthGuardActivate], runGuardsAndResolvers: 'always', loadChildren: './trips/trips.module#TripsModule' }
 ];
 
 @NgModule({

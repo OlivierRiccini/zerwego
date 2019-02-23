@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
 
 const baseUrl = 'http://localhost:3000/users';
@@ -29,8 +29,7 @@ export class AuthService {
       }));
   }
 
-  login(email: string, password: string): Observable<HttpResponse<Object>> {
-    console.log({ email, password });
+  login(email: string, password: string) {
     return this.http.post<any>(`${baseUrl}/login`, { email, password }, { observe: 'response' })
       .pipe(map(response => {
         const user = response.body;
@@ -43,6 +42,19 @@ export class AuthService {
         this.dirty.emit(user);
         return user;
       }));
+      // .do(response => {
+      //     const user = response.body;
+      //     const token = response.headers.get('x-auth');
+      //     // login successful if there's a jwt token in the response
+      //     if (user && token) {
+      //       localStorage.setItem('x-auth', token);
+      //       localStorage.setItem('currentUser', JSON.stringify(user));
+      //     }
+      //     this.dirty.emit(user);
+      //     return user;
+      //   }) 
+      // .shareReplay();
+      
   }
 
   logout() {
@@ -79,8 +91,8 @@ export class AuthService {
     return user ? JSON.parse(user) : false;
   }
 
-  isLoggedIn(): boolean {
-    return (this.getToken() && this.getUser()) ? true : false;
+  isLoggedIn(): Observable<boolean> {
+    return (this.getToken() && this.getUser()) ? of(true) : of(false);
   }
 
 }
