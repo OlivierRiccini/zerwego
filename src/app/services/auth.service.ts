@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
+import { Router } from '@angular/router';
 
 const baseUrl = 'http://localhost:3000/users';
 
@@ -10,8 +11,9 @@ const baseUrl = 'http://localhost:3000/users';
 export class AuthService {
 
   dirty = new EventEmitter<IUser>();
+  openAuthDialogEvent = new EventEmitter<'signup' | 'signin'>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   register(user: IUser): Observable<HttpResponse<Object>> {
     return this.http.post<any>(`${baseUrl}/register`, user, { observe: 'response' })
@@ -59,7 +61,6 @@ export class AuthService {
 
   logout() {
     // remove user from local storage to log user out
-    console.log('service');
     const httpOptions = {
       headers: new HttpHeaders({
         'x-auth': this.getToken()
@@ -72,6 +73,7 @@ export class AuthService {
           localStorage.removeItem('x-auth');
           localStorage.removeItem('currentUser');
           this.dirty.emit(null);
+          this.router.navigate(['/']);
         },
         err => console.log(err)
       )
@@ -93,6 +95,10 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return (this.getToken() && this.getUser()) ? of(true) : of(false);
+  }
+
+  openAuthDialog(mode: 'signup' | 'signin') {
+    this.openAuthDialogEvent.emit(mode);
   }
 
 }

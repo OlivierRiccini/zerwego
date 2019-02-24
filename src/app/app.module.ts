@@ -16,6 +16,9 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardLoad, AuthGuardActivate } from './services/auth-guard.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DestinationService } from './services/destination.service';
+import { SigninComponent } from './auth/signin.component';
+import { SignupComponent } from './auth/signup.component';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { DestinationService } from './services/destination.service';
     NavbarComponent,
     HomeComponent,
     FooterComponent,
+    // SigninComponent,
+    // SignupComponent,
+    // AuthComponent
   ],
   imports: [
     // BrowserModule,
@@ -42,6 +48,7 @@ import { DestinationService } from './services/destination.service';
     AuthGuardLoad,
     AuthGuardActivate
   ],
+  entryComponents: [SigninComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,44 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { AuthComponent } from './auth.component';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HomeComponent } from '../home/home.component';
+
+@Component({
+  selector: 'app-signup',
+  templateUrl: './auth.component.html',
+})
+export class SignupComponent extends AuthComponent implements OnInit {
+
+  authForm: FormGroup;
+
+  constructor(
+    public fb: FormBuilder,
+    public authService: AuthService,
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute,
+    public dialogRef: MatDialogRef<HomeComponent>) { 
+      super(fb, authService, dialogRef)
+  }
+  
+  ngOnInit() {
+    super.ngOnInit();
+    this.signUpMode = true;
+    this.label = {
+      submit: 'Sign up',
+      changeForm: 'I already have an account'
+    }; 
+    this.authForm.addControl('name', new FormControl(''));
+  }
+
+  public onSubmit() {
+    const user = this.authForm.value;
+    this.authService.register(user).subscribe(
+      user => console.log(user),
+      err => console.log('Error= ' + err)
+    )
+  }
+}

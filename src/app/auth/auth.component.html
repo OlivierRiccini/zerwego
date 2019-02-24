@@ -1,6 +1,6 @@
-<form [formGroup]="authForm" (ngSubmit)="onSingup()" (keydown.enter)="$event.preventDefault()">
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
 
-    <div class="form-group">
+    <div *ngIf="signUpMode" class="form-group">
       <label for="name">Name</label>
       <input type="name" id="name" name="name" formControlName="name">
     </div>
@@ -15,5 +15,8 @@
       <input type="password" id="password" name="password" formControlName="password">
     </div>
 
-  <button type="submit" class="zerwego-btn green-btn">Sign Up</button>
+  <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
+  <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
+      {{ label.changeForm }}
+    </button>
 </form> 

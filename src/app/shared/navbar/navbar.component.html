@@ -6,8 +6,8 @@
        <ul>
           <li><a routerLink="./trips/new/overview">Create a trip</a></li>
           <li><a routerLink="./trips">My Trips</a></li>
-          <li *ngIf="!isLoggedIn"><a routerLink="/signin">Sign In</a></li>
-          <li *ngIf="!isLoggedIn"><a routerLink="/signup">Sign up</a></li>
+          <li *ngIf="!isLoggedIn"><a (click)="onAuth('signin')">Sign In</a></li>
+          <li *ngIf="!isLoggedIn"><a (click)="onAuth('signup')">Sign up</a></li>
           <li *ngIf="isLoggedIn">{{currentUser.name}}</li>
           <li *ngIf="isLoggedIn"><a (click)="onSignOut()">Sign out</a></li>
        </ul>

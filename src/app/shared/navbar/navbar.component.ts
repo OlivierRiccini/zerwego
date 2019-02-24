@@ -33,7 +33,10 @@ export class NavbarComponent implements OnInit {
   public onSignOut(): void {
     this.authService.logout();
     this.router.navigate(['/']);
+  }
 
+  public onAuth(mode: 'signup' | 'signin') {
+    this.authService.openAuthDialog(mode);
   }
 
 }
