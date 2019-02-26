@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
+import * as jwt from 'jsonwebtoken';
 
 const baseUrl = 'http://localhost:3000/users';
 
@@ -38,6 +39,8 @@ export class AuthService {
         const token = response.headers.get('x-auth');
         // login successful if there's a jwt token in the response
         if (user && token) {
+          var decoded = jwt.decode(token, {complete: true});
+          console.log(decoded);
           localStorage.setItem('x-auth', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
@@ -94,7 +97,7 @@ export class AuthService {
   }
 
   isLoggedIn(): Observable<boolean> {
-    return (this.getToken() && this.getUser()) ? of(true) : of(false);
+    return (this.getToken() && this.getToken() !== 'undefined' && this.getUser()) ? of(true) : of(false);
   }
 
   switchDialog(isAModeChange: boolean) {
