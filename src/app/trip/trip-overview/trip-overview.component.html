@@ -1,8 +1,8 @@
-<div [style.backgroundImage]="'url('+ trip.imageUrl +')'" class="title-container">
+<div [style.backgroundImage]="trip.imageUrl ? 'url('+ trip.imageUrl +')' : ''" class="title-container">
     <div>
         <h2>{{ trip.tripName }}</h2>
         <h3>{{ trip.destination }}</h3>
-        <img [src]="trip.countryFlag" alt="country-flag" style="height: 28px">
+        <img [src]="trip.countryFlag ? trip.countryFlag : ''" alt="country-flag" style="height: 28px">
     </div>
 </div>
 

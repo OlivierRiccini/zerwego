@@ -16,7 +16,6 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.isLoggedIn().subscribe(isLoggedInResult => this.isLoggedIn = isLoggedInResult);
-    // this.isLoggedIn = await this.authService.isLoggedIn().toPromise();
     this.currentUser = this.authService.getUser();
     this.authService.dirty.subscribe(
       user => {
@@ -34,9 +33,4 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
   }
-
-  public onAuth(mode: 'signup' | 'signin') {
-    this.authService.openAuthDialog(mode);
-  }
-
 }

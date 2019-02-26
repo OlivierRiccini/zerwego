@@ -11,7 +11,7 @@ const baseUrl = 'http://localhost:3000/users';
 export class AuthService {
 
   dirty = new EventEmitter<IUser>();
-  openAuthDialogEvent = new EventEmitter<'signup' | 'signin'>();
+  switchDialogEvent = new EventEmitter<boolean>();
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -97,8 +97,8 @@ export class AuthService {
     return (this.getToken() && this.getUser()) ? of(true) : of(false);
   }
 
-  openAuthDialog(mode: 'signup' | 'signin') {
-    this.openAuthDialogEvent.emit(mode);
+  switchDialog(isAModeChange: boolean) {
+    this.switchDialogEvent.emit(isAModeChange);
   }
 
 }

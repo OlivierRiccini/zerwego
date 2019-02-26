@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 
 @Component({
@@ -18,10 +18,9 @@ export class SignupComponent extends AuthComponent implements OnInit {
     public fb: FormBuilder,
     public authService: AuthService,
     public dialog: MatDialog,
-    private router: Router,
-    private route: ActivatedRoute,
-    public dialogRef: MatDialogRef<HomeComponent>) { 
-      super(fb, authService, dialogRef)
+    public dialogRef: MatDialogRef<HomeComponent>,
+    public router: Router) { 
+      super(fb, authService, dialogRef, router)
   }
   
   ngOnInit() {
