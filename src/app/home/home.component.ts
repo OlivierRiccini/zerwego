@@ -1,31 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Router, NavigationEnd } from '@angular/router';
 import { SigninComponent } from '../auth/signin.component';
 import { AuthService } from '../services/auth.service';
 import { SignupComponent } from '../auth/signup.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   tagline: string = 'Trips must be memorable, it starts with a good organization';
   private dialogSwitch: boolean;
+  private subscriptions: Subscription[] = [];
 
   constructor(public dialog: MatDialog, private router: Router, private authService: AuthService) {
-    this.authService.switchDialogEvent.subscribe((event: boolean) => this.dialogSwitch = event);
-    router.events
-    .subscribe(e => {
-      if (e instanceof NavigationEnd) {
-        const url: string = e.url.replace('/', '');
-        if (url !== '') { this.openDialog(url) };
-      }
-    });
+    this.subscriptions.push(
+      this.authService.switchDialogEvent.subscribe(
+        (event: boolean) => this.dialogSwitch = event
+      ),
+      router.events
+        .subscribe(e => {
+          if (e instanceof NavigationEnd) {
+            const url: string = e.url.replace('/', '');
+            if (url !== '') { this.openDialog(url) };
+          }
+        })
+    )
   }
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    for (const subscription of this.subscriptions) {
+      subscription.unsubscribe();
+    }
+  }
 
   async openDialog(mode: string) {
     let dialogRef;
