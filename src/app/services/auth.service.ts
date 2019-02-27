@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
-import * as jwt from 'jsonwebtoken';
+import * as jwt_decode from "jwt-decode";
 
 const baseUrl = 'http://localhost:3000/users';
 
@@ -21,7 +21,7 @@ export class AuthService {
       .pipe(map(response => {
         const user = response.body;
         const token = response.headers.get('x-auth');
-        console.log(token);
+        // console.log(token);
         // login successful if there's a jwt token in the response
         if (user && token) {
           localStorage.setItem('x-auth', token);
@@ -39,7 +39,7 @@ export class AuthService {
         const token = response.headers.get('x-auth');
         // login successful if there's a jwt token in the response
         if (user && token) {
-          var decoded = jwt.decode(token, {complete: true});
+          var decoded = jwt_decode(token);
           console.log(decoded);
           localStorage.setItem('x-auth', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
