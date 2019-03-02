@@ -20,11 +20,11 @@ export class AuthService {
     return this.http.post<any>(`${baseUrl}/register`, user, { observe: 'response' })
       .pipe(map(response => {
         const user = response.body;
-        const token = response.headers.get('x-auth');
+        const token = response.headers.get('Authorization');
         // console.log(token);
         // login successful if there's a jwt token in the response
         if (user && token) {
-          localStorage.setItem('x-auth', token);
+          localStorage.setItem('Authorization', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.dirty.emit(user);
         }
@@ -36,12 +36,12 @@ export class AuthService {
     return this.http.post<any>(`${baseUrl}/login`, { email, password }, { observe: 'response' })
       .pipe(map(response => {
         const user = response.body;
-        const token = response.headers.get('x-auth');
+        const token = response.headers.get('Authorization');
         // login successful if there's a jwt token in the response
         if (user && token) {
           var decoded = jwt_decode(token);
           console.log(decoded);
-          localStorage.setItem('x-auth', token);
+          localStorage.setItem('Authorization', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
         this.dirty.emit(user);
@@ -63,23 +63,27 @@ export class AuthService {
   }
 
   logout() {
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('currentUser');
+    this.dirty.emit(null);
+    this.router.navigate(['/']);
     // remove user from local storage to log user out
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'x-auth': this.getToken()
-      })
-    }
-    return this.http.delete<any>(`${baseUrl}/logout`, httpOptions)
-      .subscribe(
-        () => {
-          console.log('success');
-          localStorage.removeItem('x-auth');
-          localStorage.removeItem('currentUser');
-          this.dirty.emit(null);
-          this.router.navigate(['/']);
-        },
-        err => console.log(err)
-      )
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'x-auth': this.getToken()
+    //   })
+    // }
+    // return this.http.delete<any>(`${baseUrl}/logout`, httpOptions)
+    //   .subscribe(
+    //     () => {
+    //       console.log('success');
+    //       localStorage.removeItem('x-auth');
+    //       localStorage.removeItem('currentUser');
+    //       this.dirty.emit(null);
+    //       this.router.navigate(['/']);
+    //     },
+    //     err => console.log(err)
+    //   )
       // .pipe(map(() => {
       //     console.log('success');
       //     localStorage.removeItem('x-auth');
@@ -88,7 +92,7 @@ export class AuthService {
   }
 
   getToken(): string {
-    return localStorage.getItem('x-auth');
+    return localStorage.getItem('Authorization');
   }
 
   getUser(): IUser {
