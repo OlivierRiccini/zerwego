@@ -27,17 +27,17 @@ export class SigninComponent extends AuthComponent implements OnInit {
     super.ngOnInit();
     this.signInMode = true;
     this.label = {
-      title: this.authForm,
+      title: 'Sign in',
       submit: 'Sign in',
       changeForm: 'I don\t have an account yet'
     };
-    this.authService.endOfSessionEvent.subscribe(
-      endOfSession => {
-        this.label.title = endOfSession ? 'Sessions expired, reconnect!' : 'Sign PPP';
-        console.log(this.label)
-      },
-      err => console.log(err)
-    );
+    // this.authService.endOfSessionEvent.subscribe(
+    //   endOfSession => {
+    //     this.label.title = endOfSession ? 'Sessions expired, reconnect!' : 'Sign PPP';
+    //     console.log(this.label)
+    //   },
+    //   err => console.log(err)
+    // );
   }
 
   public onSubmit() {

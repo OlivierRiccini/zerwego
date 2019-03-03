@@ -13,7 +13,7 @@ export class AuthService {
 
   public loggedObs = new EventEmitter<IUser>();
   public switchDialogEvent = new EventEmitter<boolean>();
-  public endOfSessionEvent = new EventEmitter<boolean>();
+  // public endOfSessionEvent = new EventEmitter<boolean>();
   private tokenExpirationTimer: number;
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -67,8 +67,9 @@ export class AuthService {
   autoLogout(tokenDurationTime: number) {
     this.tokenExpirationTimer = <any>setTimeout(() => {
       this.logout();
-      this.router.navigate(['/', 'signin']);
-      this.endOfSessionEvent.emit(true);
+      // this.endOfSessionEvent.emit(true);
+      const ok : boolean= confirm('Session expired, let\'s login!');
+      ok ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./']);
     }, tokenDurationTime);
   }
 
