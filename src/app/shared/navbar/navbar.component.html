@@ -5,7 +5,7 @@
    <div class="nav-right">
        <ul>
           <li><a routerLink="./trips/new/overview">Create a trip</a></li>
-          <li><a routerLink="./trips">My Trips</a></li>
+          <li *ngIf="isLoggedIn"><a routerLink="./trips">My Trips</a></li>
           <li *ngIf="!isLoggedIn"><a routerLink="./signin">Sign In</a></li>
           <li *ngIf="!isLoggedIn"><a routerLink="./signup">Sign up</a></li>
           <li *ngIf="isLoggedIn">{{currentUser.name}}</li>
