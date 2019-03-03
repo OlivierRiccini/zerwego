@@ -14,6 +14,7 @@ import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import { DaterangePickerComponent } from 'ng2-daterangepicker';
 import { element } from '@angular/core/src/render3';
 import { TripFormBaseComponent } from './trip-form.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     templateUrl: './trip-form.component.html',
@@ -21,8 +22,10 @@ import { TripFormBaseComponent } from './trip-form.component';
 })
 export class TripAddFormComponent extends TripFormBaseComponent implements OnInit {
 
-  constructor(public route: ActivatedRoute,
+  constructor(
+    public route: ActivatedRoute,
     public router: Router,
+    public authService: AuthService,
     public tripService: TripService,
     public userService: UserService,
     public destinationService: DestinationService,
@@ -31,7 +34,7 @@ export class TripAddFormComponent extends TripFormBaseComponent implements OnIni
     public dialogRef: MatDialogRef<TripComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { 
-        super(route, router, tripService, userService, destinationService, fb, daterangepickerOptions, dialogRef, data);
+        super(route, router, authService, tripService, userService, destinationService, fb, daterangepickerOptions, dialogRef, data);
     }
 
   

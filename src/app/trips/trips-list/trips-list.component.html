@@ -1,5 +1,5 @@
 <a class="trips-list-item"
-  [routerLink]="['preview', trip.id]"
+  [routerLink]="[trip.id, 'preview']"
   *ngFor="let trip of listOfTrips"
   [ngClass]="activeTripId === trip.id ? 'active-item' : ''"
   (click)="activateItem(trip.id)">

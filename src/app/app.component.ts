@@ -1,8 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { AuthComponent } from './auth/auth.component';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SigninComponent } from './auth/signin.component';
+import { Component } from '@angular/core';
 
 // import { geolocation } from 'geolocation';
 

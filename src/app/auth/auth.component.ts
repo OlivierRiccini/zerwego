@@ -13,8 +13,9 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
 
   public label = {
-      submit: null,
-      changeForm: null
+    title: null,
+    submit: null,
+    changeForm: null
   }; 
   public signInMode: boolean = false;
   public signUpMode: boolean = false; 
@@ -23,7 +24,6 @@ export class AuthComponent implements OnInit {
   constructor(public fb: FormBuilder, public authService: AuthService, public dialogRef: MatDialogRef<HomeComponent>, public router: Router) { }
 
   ngOnInit() {
-    console.log('test');
     this.createForm();
   }
 
@@ -38,6 +38,5 @@ export class AuthComponent implements OnInit {
       this.dialogRef.close();
       this.router.navigate(['./', mode]);
       this.authService.switchDialog(true);
-
   }
 }

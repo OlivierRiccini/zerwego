@@ -12,6 +12,7 @@ import { TripComponent } from '../trip.component';
 import * as moment from 'moment';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import { DaterangePickerComponent } from 'ng2-daterangepicker';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-trip-form',
@@ -63,8 +64,10 @@ export class TripFormBaseComponent implements OnInit {
   // public daterange: any = {};
   public options: any = {};
 
-  constructor(public route: ActivatedRoute,
+  constructor(
+    public route: ActivatedRoute,
     public router: Router,
+    public authService: AuthService,
     public tripService: TripService,
     public userService: UserService,
     public destinationService: DestinationService,
@@ -86,6 +89,9 @@ export class TripFormBaseComponent implements OnInit {
         linkedCalendars: false
       };
       this.daterangepickerOptions.skipCSS = true; 
+      this.authService.loggedObs.subscribe(user => {
+        if (!user) { this.dialogRef.close() };
+      })
     }
 
   sendTripFormValues(): void {

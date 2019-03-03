@@ -27,15 +27,26 @@ export class SigninComponent extends AuthComponent implements OnInit {
     super.ngOnInit();
     this.signInMode = true;
     this.label = {
+      title: this.authForm,
       submit: 'Sign in',
       changeForm: 'I don\t have an account yet'
-    }; 
+    };
+    this.authService.endOfSessionEvent.subscribe(
+      endOfSession => {
+        this.label.title = endOfSession ? 'Sessions expired, reconnect!' : 'Sign PPP';
+        console.log(this.label)
+      },
+      err => console.log(err)
+    );
   }
 
   public onSubmit() {
     const user = this.authForm.value;
     this.authService.login(user.email, user.password).subscribe(
-      user => console.log(user),
+      () => {
+        this.dialogRef.close();
+        this.router.navigate(['./', 'trips']);
+      },
       err => console.log(err)
     )
   }

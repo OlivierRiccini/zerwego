@@ -27,6 +27,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     super.ngOnInit();
     this.signUpMode = true;
     this.label = {
+      title: 'Sign up',
       submit: 'Sign up',
       changeForm: 'I already have an account'
     }; 

@@ -1,19 +1,20 @@
 <form [formGroup]="authForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
 
-    <div *ngIf="signUpMode" class="form-group">
-      <label for="name">Name</label>
-      <input type="name" id="name" name="name" formControlName="name">
-    </div>
+  <p mat-dialog-title>{{ label.title }}</p>
+  <div *ngIf="signUpMode" class="form-group">
+    <label for="name">Name</label>
+    <input type="name" id="name" name="name" formControlName="name">
+  </div>
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" formControlName="email">
-    </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" formControlName="email">
+  </div>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" formControlName="password">
-    </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" formControlName="password">
+  </div>
 
   <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
   <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">

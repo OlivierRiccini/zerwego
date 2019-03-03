@@ -11,22 +11,24 @@ const baseUrl = 'http://localhost:3000/users';
 @Injectable()
 export class AuthService {
 
-  dirty = new EventEmitter<IUser>();
-  switchDialogEvent = new EventEmitter<boolean>();
+  public loggedObs = new EventEmitter<IUser>();
+  public switchDialogEvent = new EventEmitter<boolean>();
+  public endOfSessionEvent = new EventEmitter<boolean>();
+  private tokenExpirationTimer: number;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   register(user: IUser): Observable<HttpResponse<Object>> {
     return this.http.post<any>(`${baseUrl}/register`, user, { observe: 'response' })
       .pipe(map(response => {
-        const user = response.body;
+        let user;
         const token = response.headers.get('Authorization');
-        // console.log(token);
-        // login successful if there's a jwt token in the response
-        if (user && token) {
+        if (token) {
+          var decoded = jwt_decode(token);
+          user = decoded.payload;
           localStorage.setItem('Authorization', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
-          this.dirty.emit(user);
+          this.loggedObs.emit(user);
         }
         return user;
       }));
@@ -35,60 +37,39 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post<any>(`${baseUrl}/login`, { email, password }, { observe: 'response' })
       .pipe(map(response => {
-        const user = response.body;
-        const token = response.headers.get('Authorization');
+        let user;
+        const token = response.headers.get('authorization');
         // login successful if there's a jwt token in the response
-        if (user && token) {
+        if (token) {
           var decoded = jwt_decode(token);
-          console.log(decoded);
+          user = decoded.payload;
           localStorage.setItem('Authorization', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
+
+          if (decoded.hasOwnProperty('exp')) {
+            const tokenDurationTime: number = (decoded.exp - decoded.iat) * 1000;
+            this.autoLogout(tokenDurationTime);
+          }
         }
-        this.dirty.emit(user);
+        this.loggedObs.emit(user);
         return user;
       }));
-      // .do(response => {
-      //     const user = response.body;
-      //     const token = response.headers.get('x-auth');
-      //     // login successful if there's a jwt token in the response
-      //     if (user && token) {
-      //       localStorage.setItem('x-auth', token);
-      //       localStorage.setItem('currentUser', JSON.stringify(user));
-      //     }
-      //     this.dirty.emit(user);
-      //     return user;
-      //   }) 
-      // .shareReplay();
-      
   }
 
   logout() {
     localStorage.removeItem('Authorization');
     localStorage.removeItem('currentUser');
-    this.dirty.emit(null);
+    this.loggedObs.emit(null);
+    clearTimeout(this.tokenExpirationTimer);
     this.router.navigate(['/']);
-    // remove user from local storage to log user out
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'x-auth': this.getToken()
-    //   })
-    // }
-    // return this.http.delete<any>(`${baseUrl}/logout`, httpOptions)
-    //   .subscribe(
-    //     () => {
-    //       console.log('success');
-    //       localStorage.removeItem('x-auth');
-    //       localStorage.removeItem('currentUser');
-    //       this.dirty.emit(null);
-    //       this.router.navigate(['/']);
-    //     },
-    //     err => console.log(err)
-    //   )
-      // .pipe(map(() => {
-      //     console.log('success');
-      //     localStorage.removeItem('x-auth');
-      //     localStorage.removeItem('currentUser');
-      // }));
+  }
+
+  autoLogout(tokenDurationTime: number) {
+    this.tokenExpirationTimer = <any>setTimeout(() => {
+      this.logout();
+      this.router.navigate(['/', 'signin']);
+      this.endOfSessionEvent.emit(true);
+    }, tokenDurationTime);
   }
 
   getToken(): string {
