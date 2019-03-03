@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  // styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
 
@@ -38,5 +38,10 @@ export class AuthComponent implements OnInit {
       this.dialogRef.close();
       this.router.navigate(['./', mode]);
       this.authService.switchDialog(true);
+  }
+
+  public onCloseDialog() {
+    console.log('blaaa');
+    this.dialogRef.close();
   }
 }

@@ -9,6 +9,7 @@ import { HomeComponent } from '../home/home.component';
 @Component({
   selector: 'app-signup',
   templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
 export class SignupComponent extends AuthComponent implements OnInit {
 
@@ -37,7 +38,10 @@ export class SignupComponent extends AuthComponent implements OnInit {
   public onSubmit() {
     const user = this.authForm.value;
     this.authService.register(user).subscribe(
-      user => console.log(user),
+      user => {
+        this.dialogRef.close();
+        console.log(user);
+      },
       err => console.log('Error= ' + err)
     )
   }

@@ -9,6 +9,7 @@ import { HomeComponent } from '../home/home.component';
 @Component({
   selector: 'app-signin',
   templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
 export class SigninComponent extends AuthComponent implements OnInit {
 
