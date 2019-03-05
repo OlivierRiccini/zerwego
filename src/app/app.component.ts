@@ -12,18 +12,20 @@ import { UserInterfaceService } from './services/user-interface.service';
 })
 export class AppComponent {
   title = 'zerwego';
+  // public confirmMessage: string;
 
   constructor(private dialog: MatDialog, private userInterfaceService: UserInterfaceService) {
     userInterfaceService.confirmEvent.subscribe(
       res => {
-        if (res) { this.onOpenCofirm() }
+        if (res) { this.onOpenCofirm(res) }
       }
     )
   }
 
-  onOpenCofirm() {
+  onOpenCofirm(message) {
     this.dialog.open(ConfirmComponent, {
       width: '350px',
+      data: { message }
     });
   }
 

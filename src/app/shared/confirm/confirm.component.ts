@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { UserInterfaceService } from 'src/app/services/user-interface.service';
 
 @Component({
@@ -10,14 +10,14 @@ import { UserInterfaceService } from 'src/app/services/user-interface.service';
 export class ConfirmComponent implements OnInit {
   public message: string;
 
-  constructor(private dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmComponent>, private userInterfaceService: UserInterfaceService) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmComponent>, private userInterfaceService: UserInterfaceService) { 
     // userInterfaceService.getConfirmMessage().subscribe(
     //   message => this.message = message
     // )
     this.userInterfaceService.getConfirmMessage().subscribe(
       message => {
         this.message = message;
-        this.onOpenCofirm();
+        // this.onOpenCofirm();
         console.log(message);
       } 
     )
@@ -33,10 +33,11 @@ export class ConfirmComponent implements OnInit {
     // )
   }
 
-  onOpenCofirm() {
-    this.dialog.open(ConfirmComponent, {
-      width: '350px',
-    });
-  }
+  // onOpenCofirm() {
+  //   this.dialog.open(ConfirmComponent, {
+  //     width: '350px',
+  //     data: { message: 'blooo' }
+  //   });
+  // }
 
 }
