@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
+import { UserInterfaceService } from './user-interface.service';
 
 const baseUrl = 'http://localhost:3000/users';
 
@@ -16,7 +17,7 @@ export class AuthService {
   // public endOfSessionEvent = new EventEmitter<boolean>();
   private tokenExpirationTimer: number;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private userInterfaceService: UserInterfaceService) { }
 
   register(user: IUser): Observable<HttpResponse<Object>> {
     return this.http.post<any>(`${baseUrl}/register`, user, { observe: 'response' })
@@ -67,9 +68,9 @@ export class AuthService {
   autoLogout(tokenDurationTime: number) {
     this.tokenExpirationTimer = <any>setTimeout(() => {
       this.logout();
-      // this.endOfSessionEvent.emit(true);
-      const ok : boolean= confirm('Session expired, let\'s login!');
-      ok ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./']);
+      this.userInterfaceService.confirm('Session expired, let\'s login!');
+      // const ok : boolean= confirm('Session expired, let\'s login!');
+      // ok ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./']);
     }, tokenDurationTime);
   }
 

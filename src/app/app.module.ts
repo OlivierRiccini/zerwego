@@ -13,6 +13,9 @@ import { AuthGuardLoad, AuthGuardActivate } from './services/auth-guard.service'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DestinationService } from './services/destination.service';
 import { SigninComponent } from './auth/signin.component';
+import { SignupComponent } from './auth/signup.component';
+import { ConfirmComponent } from './shared/confirm/confirm.component';
+import { UserInterfaceService } from './services/user-interface.service';
 
 @NgModule({
   declarations: [
@@ -33,10 +36,11 @@ import { SigninComponent } from './auth/signin.component';
     UserService,
     DestinationService,
     AuthService,
+    UserInterfaceService,
     AuthGuardLoad,
     AuthGuardActivate
   ],
-  entryComponents: [SigninComponent],
+  entryComponents: [SigninComponent, SignupComponent, ConfirmComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
