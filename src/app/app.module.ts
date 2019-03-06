@@ -16,13 +16,15 @@ import { SigninComponent } from './auth/signin.component';
 import { SignupComponent } from './auth/signup.component';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { UserInterfaceService } from './services/user-interface.service';
+import { HomeSignupComponent } from './home/home-signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    HomeSignupComponent
   ],
   imports: [
     BrowserAnimationsModule,
