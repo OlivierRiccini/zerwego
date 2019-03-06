@@ -68,9 +68,13 @@ export class AuthService {
   autoLogout(tokenDurationTime: number) {
     this.tokenExpirationTimer = <any>setTimeout(() => {
       this.logout();
-      this.userInterfaceService.confirm('Session expired, let\'s login!');
-      // const ok : boolean= confirm('Session expired, let\'s login!');
-      // ok ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./']);
+      this.userInterfaceService.confirm({
+        message: 'Session expired, let\'s login!',
+        trueLabel: 'Let\'s login',
+        falseLabel: 'No thanks'
+      }).subscribe(
+        response => response ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./'])
+      );
     }, tokenDurationTime);
   }
 

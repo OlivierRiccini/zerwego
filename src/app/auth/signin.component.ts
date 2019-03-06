@@ -46,7 +46,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
     this.authService.login(user.email, user.password).subscribe(
       () => {
         this.dialogRef.close();
-        this.router.navigate(['./', 'trips']);
+        // this.router.navigate(['./', 'trips']);
       },
       err => console.log(err)
     )

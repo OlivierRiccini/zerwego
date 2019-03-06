@@ -1,3 +1,8 @@
-<p>{{ data.message }}</p>
-<button type="button">Let's login</button>
-<button type="button">No thanks</button>
+<div mat-dialog-content>
+    <p>{{ data.message }}</p>
+</div>
+<hr>
+<div>
+    <button type="button" class="zerwego-btn green-btn" (click)="onResponse(true)">{{ data.trueLabel }}</button>
+    <button type="button" class="zerwego-btn red-btn" (click)="onResponse(false)">{{ data.falseLabel }}</button>
+</div>

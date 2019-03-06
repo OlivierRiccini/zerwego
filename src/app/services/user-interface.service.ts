@@ -1,18 +1,22 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
+import { IConfirmData } from '../interfaces/shared.interfaces';
  
 @Injectable()
 export class UserInterfaceService  {
-    public confirmEvent = new Subject<string>();
+    public confirmEvent = new EventEmitter<IConfirmData>();
+    public confirResponseEvent = new EventEmitter<boolean>();
 
     constructor() {}
 
-    public confirm(message: string) {
-        this.confirmEvent.next(message);
+    public confirm(confirmData: IConfirmData): Observable<boolean> {
+        this.confirmEvent.next(confirmData);
+        return this.confirResponseEvent.asObservable();
     }
 
-    getConfirmMessage(): Observable<string> {
-        return this.confirmEvent.asObservable();
+    getConfirmUserResponse(response: boolean): void {
+        console.log(response);
+        this.confirResponseEvent.emit(response);
     }
   
 }

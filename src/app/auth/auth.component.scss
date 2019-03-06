@@ -10,4 +10,8 @@ mat-form-field {
 div:last-child {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    button:first-child {
+        margin-bottom: 5px;
+    }
 }

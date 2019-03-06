@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { MatDialog } from '@angular/material';
 import { UserInterfaceService } from './services/user-interface.service';
+import { IConfirmData } from './interfaces/shared.interfaces';
 
 // import { geolocation } from 'geolocation';
 
@@ -12,20 +13,19 @@ import { UserInterfaceService } from './services/user-interface.service';
 })
 export class AppComponent {
   title = 'zerwego';
-  // public confirmMessage: string;
 
   constructor(private dialog: MatDialog, private userInterfaceService: UserInterfaceService) {
     userInterfaceService.confirmEvent.subscribe(
-      res => {
-        if (res) { this.onOpenCofirm(res) }
+      confirmData => {
+        if (confirmData) { this.onOpenCofirm(confirmData) }
       }
     )
   }
 
-  onOpenCofirm(message) {
+  onOpenCofirm(confirmData: IConfirmData) {
     this.dialog.open(ConfirmComponent, {
       width: '350px',
-      data: { message }
+      data: confirmData
     });
   }
 

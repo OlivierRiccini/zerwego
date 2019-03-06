@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { UserInterfaceService } from 'src/app/services/user-interface.service';
+import { IConfirmData } from 'src/app/interfaces/shared.interfaces';
 
 @Component({
   selector: 'app-confirm',
@@ -8,36 +9,26 @@ import { UserInterfaceService } from 'src/app/services/user-interface.service';
   styleUrls: ['./confirm.component.scss']
 })
 export class ConfirmComponent implements OnInit {
-  public message: string;
+  public confirmData: IConfirmData;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog, public dialogRef: MatDialogRef<ConfirmComponent>, private userInterfaceService: UserInterfaceService) { 
-    // userInterfaceService.getConfirmMessage().subscribe(
-    //   message => this.message = message
-    // )
-    this.userInterfaceService.getConfirmMessage().subscribe(
-      message => {
-        this.message = message;
-        // this.onOpenCofirm();
-        console.log(message);
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: IConfirmData,
+    private userInterfaceService: UserInterfaceService,
+    public dialogRef: MatDialogRef<ConfirmComponent>
+    ) { 
+    this.userInterfaceService.confirmEvent.subscribe(
+      confirmData => {
+        this.confirmData = confirmData;
       } 
     )
   }
 
-  ngOnInit() {
-    // this.userInterfaceService.getConfirmMessage().subscribe(
-    //   message => {
-    //     this.message = message;
-    //     this.onOpenCofirm();
-    //     console.log(message);
-    //   } 
-    // )
-  }
+  ngOnInit() {}
 
-  // onOpenCofirm() {
-  //   this.dialog.open(ConfirmComponent, {
-  //     width: '350px',
-  //     data: { message: 'blooo' }
-  //   });
-  // }
+  onResponse(response: boolean): void {
+    console.log(response);
+    this.userInterfaceService.getConfirmUserResponse(response);
+    this.dialogRef.close();
+  }
 
 }
