@@ -17,6 +17,7 @@ import { SignupComponent } from './auth/signup.component';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { UserInterfaceService } from './services/user-interface.service';
 import { HomeSignupComponent } from './home/home-signup.component';
+import { NotificationComponent } from './shared/notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { HomeSignupComponent } from './home/home-signup.component';
     AuthGuardLoad,
     AuthGuardActivate
   ],
-  entryComponents: [SigninComponent, SignupComponent, ConfirmComponent],
+  entryComponents: [SigninComponent, SignupComponent, ConfirmComponent, NotificationComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

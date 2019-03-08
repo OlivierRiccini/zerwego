@@ -7,11 +7,13 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaterialModule } from '../material.module';
 import { AuthInterceptor } from '../services/auth-interceptor.service';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
     EditBtnComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    NotificationComponent
   ],
   imports: [
     CommonModule
@@ -23,7 +25,8 @@ import { ConfirmComponent } from './confirm/confirm.component';
     HttpClientModule,
     MaterialModule,
     EditBtnComponent,
-    ConfirmComponent
+    ConfirmComponent,
+    NotificationComponent
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }]
 })

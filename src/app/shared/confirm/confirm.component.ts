@@ -26,7 +26,6 @@ export class ConfirmComponent implements OnInit {
   ngOnInit() {}
 
   onResponse(response: boolean): void {
-    console.log(response);
     this.userInterfaceService.getConfirmUserResponse(response);
     this.dialogRef.close();
   }

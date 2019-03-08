@@ -46,7 +46,6 @@ export class AuthService {
           user = decoded.payload;
           localStorage.setItem('Authorization', token);
           localStorage.setItem('currentUser', JSON.stringify(user));
-
           if (decoded.hasOwnProperty('exp')) {
             const tokenDurationTime: number = (decoded.exp - decoded.iat) * 1000;
             this.autoLogout(tokenDurationTime);
@@ -63,6 +62,7 @@ export class AuthService {
     this.loggedObs.emit(null);
     clearTimeout(this.tokenExpirationTimer);
     this.router.navigate(['/']);
+    this.userInterfaceService.success('Successfully logedOut');
   }
 
   autoLogout(tokenDurationTime: number) {

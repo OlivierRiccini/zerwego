@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { UserInterfaceService } from './services/user-interface.service';
-import { IConfirmData } from './interfaces/shared.interfaces';
+import { IConfirmData, INotificationData } from './interfaces/shared.interfaces';
+import { NotificationComponent } from './shared/notification/notification.component';
 
 // import { geolocation } from 'geolocation';
 
@@ -14,19 +15,36 @@ import { IConfirmData } from './interfaces/shared.interfaces';
 export class AppComponent {
   title = 'zerwego';
 
-  constructor(private dialog: MatDialog, private userInterfaceService: UserInterfaceService) {
+  constructor(
+    private userInterfaceService: UserInterfaceService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar) {
     userInterfaceService.confirmEvent.subscribe(
       confirmData => {
-        if (confirmData) { this.onOpenCofirm(confirmData) }
+        if (confirmData) { this.openCofirm(confirmData) }
+      }
+    )
+    userInterfaceService.notificationEvent.subscribe(
+      notifData => {
+        if (notifData) { this.openNotification(notifData) }
       }
     )
   }
 
-  onOpenCofirm(confirmData: IConfirmData) {
+  openCofirm(confirmData: IConfirmData) {
     this.dialog.open(ConfirmComponent, {
       width: '350px',
       data: confirmData
     });
   }
+
+  openNotification(notifData: INotificationData) {
+    this.snackBar.openFromComponent(NotificationComponent, {
+      duration: 5000,
+      panelClass: [notifData.type],
+      data: notifData
+    });
+  }
+
 
 }

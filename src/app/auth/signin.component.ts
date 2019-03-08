@@ -5,6 +5,7 @@ import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
+import { UserInterfaceService } from '../services/user-interface.service';
 
 @Component({
   selector: 'app-signin',
@@ -20,7 +21,9 @@ export class SigninComponent extends AuthComponent implements OnInit {
     public authService: AuthService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<HomeComponent>,
-    public router: Router) { 
+    public router: Router,
+    private userInterfaceService: UserInterfaceService
+    ) { 
       super(fb, authService, dialogRef, router);
     }
     
@@ -46,9 +49,10 @@ export class SigninComponent extends AuthComponent implements OnInit {
     this.authService.login(user.email, user.password).subscribe(
       () => {
         this.dialogRef.close();
+        this.userInterfaceService.success('Successfully logged in!');
         // this.router.navigate(['./', 'trips']);
       },
-      err => console.log(err)
+      err => this.userInterfaceService.error(err.error.message)
     )
   }
 

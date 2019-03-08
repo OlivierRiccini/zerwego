@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserInterfaceService } from '../services/user-interface.service';
 
 @Component({
   selector: 'app-home-signup',
@@ -13,7 +14,8 @@ export class HomeSignupComponent implements OnInit {
 
   constructor(
     public fb: FormBuilder,
-    public authService: AuthService
+    public authService: AuthService,
+    private userInterfaceService: UserInterfaceService
     ) { 
         this.signupForm = this.fb.group({
             name: [''],
@@ -30,9 +32,9 @@ export class HomeSignupComponent implements OnInit {
     const user = this.signupForm.value;
     this.authService.register(user).subscribe(
       user => {
-        console.log(user);
+        this.userInterfaceService.success(`Successfully registered!`);
       },
-      err => console.log(err)
+      err => this.userInterfaceService.error(err.message)
     )
   }
 }

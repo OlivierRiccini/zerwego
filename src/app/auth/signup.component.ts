@@ -5,6 +5,7 @@ import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
+import { UserInterfaceService } from '../services/user-interface.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +21,9 @@ export class SignupComponent extends AuthComponent implements OnInit {
     public authService: AuthService,
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<HomeComponent>,
-    public router: Router) { 
+    public router: Router,
+    private userInterfaceService: UserInterfaceService
+    ) { 
       super(fb, authService, dialogRef, router)
   }
   
@@ -40,9 +43,9 @@ export class SignupComponent extends AuthComponent implements OnInit {
     this.authService.register(user).subscribe(
       user => {
         this.dialogRef.close();
-        console.log(user);
+        this.userInterfaceService.success('Successfully registered!');
       },
-      err => console.log('Error= ' + err)
+      err => this.userInterfaceService.error(err.message)
     )
   }
 }
