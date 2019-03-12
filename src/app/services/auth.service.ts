@@ -23,11 +23,13 @@ export class AuthService {
     return this.http.post<any>(`${baseUrl}/register`, user, { observe: 'response' })
       .pipe(map(response => {
         let user;
-        const token = response.headers.get('Authorization');
+        const token = response.headers.get('authorization');
+        const refreshToken = response.headers.get('refresh_token');
         if (token) {
           var decoded = jwt_decode(token);
           user = decoded.payload;
           localStorage.setItem('Authorization', token);
+          localStorage.setItem('Refresh_token', refreshToken);
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.loggedObs.emit(user);
         }
@@ -39,16 +41,18 @@ export class AuthService {
     return this.http.post<any>(`${baseUrl}/login`, { email, password }, { observe: 'response' })
       .pipe(map(response => {
         let user;
-        const token = response.headers.get('authorization');
-        // login successful if there's a jwt token in the response
-        if (token) {
-          var decoded = jwt_decode(token);
+        const accesToken = response.headers.get('authorization');
+        const refreshToken = response.headers.get('refresh_token');
+        // login successful if there's a jwt accesToken in the response
+        if (accesToken) {
+          var decoded = jwt_decode(accesToken);
           user = decoded.payload;
-          localStorage.setItem('Authorization', token);
+          localStorage.setItem('Authorization', accesToken);
+          localStorage.setItem('Refresh_token', refreshToken);
           localStorage.setItem('currentUser', JSON.stringify(user));
           if (decoded.hasOwnProperty('exp')) {
-            const tokenDurationTime: number = (decoded.exp - decoded.iat) * 1000;
-            this.autoLogout(tokenDurationTime);
+            const accesTokenDurationTime: number = (decoded.exp - decoded.iat) * 1000;
+            // this.autoLogout(tokenDurationTime);
           }
         }
         this.loggedObs.emit(user);
@@ -80,6 +84,13 @@ export class AuthService {
 
   getToken(): string {
     return localStorage.getItem('Authorization');
+  }
+
+  getTokens() {
+    return {
+      accessToken: localStorage.getItem('Authorization'),
+      refreshToken: localStorage.getItem('Refresh_token')
+    }
   }
 
   getUser(): IUser {
