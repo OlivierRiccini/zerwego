@@ -62,6 +62,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('Authorization');
+    localStorage.removeItem('Refresh_token');
     localStorage.removeItem('currentUser');
     this.loggedObs.emit(null);
     clearTimeout(this.tokenExpirationTimer);

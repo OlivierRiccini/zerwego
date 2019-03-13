@@ -52,7 +52,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
         this.userInterfaceService.success('Successfully logged in!');
         // this.router.navigate(['./', 'trips']);
       },
-      err => this.userInterfaceService.error(err.error.message)
+      err => this.userInterfaceService.error(err)
     )
   }
 
