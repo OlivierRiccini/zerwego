@@ -24,12 +24,12 @@ export class AuthService {
       .pipe(map(response => {
         let user;
         const token = response.headers.get('authorization');
-        const refreshToken = response.headers.get('refresh_token');
+        // const refreshToken = response.headers.get('refresh_token');
         if (token) {
           var decoded = jwt_decode(token);
           user = decoded.payload;
           localStorage.setItem('Authorization', token);
-          localStorage.setItem('Refresh_token', refreshToken);
+          // localStorage.setItem('Refresh_token', refreshToken);
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.loggedObs.emit(user);
         }
@@ -48,7 +48,7 @@ export class AuthService {
           var decoded = jwt_decode(accesToken);
           user = decoded.payload;
           localStorage.setItem('Authorization', accesToken);
-          localStorage.setItem('Refresh_token', refreshToken);
+          // localStorage.setItem('Refresh_token', refreshToken);
           localStorage.setItem('currentUser', JSON.stringify(user));
           if (decoded.hasOwnProperty('exp')) {
             const accesTokenDurationTime: number = (decoded.exp - decoded.iat) * 1000;
@@ -62,7 +62,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('Authorization');
-    localStorage.removeItem('Refresh_token');
+    // localStorage.removeItem('Refresh_token');
     localStorage.removeItem('currentUser');
     this.loggedObs.emit(null);
     clearTimeout(this.tokenExpirationTimer);
@@ -88,10 +88,7 @@ export class AuthService {
   }
 
   getTokens() {
-    return {
-      accessToken: localStorage.getItem('Authorization'),
-      refreshToken: localStorage.getItem('Refresh_token')
-    }
+    return localStorage.getItem('Authorization')
   }
 
   getUser(): IUser {

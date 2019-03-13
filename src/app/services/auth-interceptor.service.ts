@@ -11,12 +11,12 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>,
     next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const tokens = this.auth.getTokens();
-    if (tokens.accessToken && tokens.refreshToken) {
+    const token = this.auth.getTokens();
+    if (token) {
       const cloned = req.clone({
         headers: new HttpHeaders({
-          'Authorization': `Bearer ${tokens.accessToken}`,
-          'Refresh_token': tokens.refreshToken
+          'Authorization': `Bearer ${token}`
+          // 'Refresh_token': tokens.refreshToken
         })
       });
 
