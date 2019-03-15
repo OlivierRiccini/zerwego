@@ -1,12 +1,14 @@
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders, HttpResponse, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
  
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
  
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService) {
+  }
   
   intercept(req: HttpRequest<any>,
     next: HttpHandler): Observable<HttpEvent<any>> {
@@ -20,7 +22,14 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       });
 
-      return next.handle(cloned);
+
+      return next.handle(cloned).pipe(
+        tap((ev: HttpEvent<any>) => {
+          if (ev instanceof HttpResponse) {
+            console.log(ev.headers);
+          }
+        })
+      );
     }
     else {
       return next.handle(req);
