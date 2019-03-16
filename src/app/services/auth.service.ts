@@ -61,26 +61,32 @@ export class AuthService {
   }
 
   logout() {
+    const token: string = this.getToken();
+    console.log(token)
+
+    console.log('logout')
     localStorage.removeItem('Authorization');
-    // localStorage.removeItem('Refresh_token');
     localStorage.removeItem('currentUser');
     this.loggedObs.emit(null);
     clearTimeout(this.tokenExpirationTimer);
     this.router.navigate(['/']);
     this.userInterfaceService.success('Successfully logedOut');
+    this.http.delete(`${baseUrl}/logout/${token}`).subscribe(() => {});
   }
 
-  autoLogout(tokenDurationTime: number) {
-    this.tokenExpirationTimer = <any>setTimeout(() => {
-      this.logout();
-      this.userInterfaceService.confirm({
-        message: 'Session expired, let\'s login!',
-        trueLabel: 'Let\'s login',
-        falseLabel: 'No thanks'
-      }).subscribe(
-        response => response ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./'])
-      );
-    }, tokenDurationTime);
+  autoLogout() {
+    this.logout();
+    this.userInterfaceService.confirm({
+      message: 'Session expired, let\'s login!',
+      trueLabel: 'Let\'s login',
+      falseLabel: 'No thanks'
+    }).subscribe(
+      response => response ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./'])
+    );
+  }
+
+  refreshToken(token: string) {
+    localStorage.setItem('Authorization', token);
   }
 
   getToken(): string {

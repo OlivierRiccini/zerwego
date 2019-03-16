@@ -18,7 +18,6 @@ export class AuthInterceptor implements HttpInterceptor {
       const cloned = req.clone({
         headers: new HttpHeaders({
           'Authorization': `Bearer ${token}`
-          // 'Refresh_token': tokens.refreshToken
         })
       });
 
@@ -26,10 +25,16 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(cloned).pipe(
         tap((ev: HttpEvent<any>) => {
           if (ev instanceof HttpResponse) {
-            console.log(ev.headers);
+            const token: string = ev.headers.get('authorization');
+            if (token) {
+              this.auth.refreshToken(token);
+            }
           }
-        })
-      );
+        }, err => {
+          if (err.error.message.message === 'Refresh token is expired, user has to login') {
+            this.auth.autoLogout();
+          }
+        }))
     }
     else {
       return next.handle(req);
