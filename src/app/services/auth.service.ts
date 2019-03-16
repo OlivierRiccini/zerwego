@@ -7,15 +7,13 @@ import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';
 
-const baseUrl = 'http://localhost:3000/users';
+const baseUrl = 'http://localhost:3000/auth';
 
 @Injectable()
 export class AuthService {
 
   public loggedObs = new EventEmitter<IUser>();
   public switchDialogEvent = new EventEmitter<boolean>();
-  // public endOfSessionEvent = new EventEmitter<boolean>();
-  private tokenExpirationTimer: number;
 
   constructor(private http: HttpClient, private router: Router, private userInterfaceService: UserInterfaceService) { }
 
@@ -42,7 +40,6 @@ export class AuthService {
       .pipe(map(response => {
         let user;
         const accesToken = response.headers.get('authorization');
-        const refreshToken = response.headers.get('refresh_token');
         // login successful if there's a jwt accesToken in the response
         if (accesToken) {
           var decoded = jwt_decode(accesToken);
@@ -62,13 +59,9 @@ export class AuthService {
 
   logout() {
     const token: string = this.getToken();
-    console.log(token)
-
-    console.log('logout')
     localStorage.removeItem('Authorization');
     localStorage.removeItem('currentUser');
     this.loggedObs.emit(null);
-    clearTimeout(this.tokenExpirationTimer);
     this.router.navigate(['/']);
     this.userInterfaceService.success('Successfully logedOut');
     this.http.delete(`${baseUrl}/logout/${token}`).subscribe(() => {});
