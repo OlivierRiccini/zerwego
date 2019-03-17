@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { HomeComponent } from '../home/home.component';
 import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
+import { MyErrorStateMatcher } from '../shared/utils/error-matcher';
+
 
 @Component({
   selector: 'app-auth',
@@ -20,8 +22,14 @@ export class AuthComponent implements OnInit {
   public signInMode: boolean = false;
   public signUpMode: boolean = false; 
   public authForm: FormGroup;
+  public matcher = new MyErrorStateMatcher();
 
-  constructor(public fb: FormBuilder, public authService: AuthService, public dialogRef: MatDialogRef<HomeComponent>, public router: Router) { }
+  constructor(
+    public fb:FormBuilder,
+    public authService: AuthService,
+    public dialogRef: MatDialogRef<HomeComponent>,
+    public router: Router
+    ) { }
 
   ngOnInit() {
     this.createForm();
@@ -29,8 +37,8 @@ export class AuthComponent implements OnInit {
 
   private createForm() {
     this.authForm = this.fb.group({
-      email: [''],
-      password: ['']
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
     });
   }
 

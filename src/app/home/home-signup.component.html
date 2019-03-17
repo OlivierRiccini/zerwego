@@ -1,29 +1,46 @@
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
     <div class="form-group">
         <mat-form-field>
-            <input matInput placeholder="Name" type="text" id="name" formControlName="name">
+            <input matInput placeholder="Name" type="text" id="name2" formControlName="name">
+            <mat-error>
+                Name is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
     </div>
 
     <div class="form-group">
         <mat-form-field>
-        <input matInput placeholder="Email" type="email" id="email" formControlName="email">
+            <input matInput placeholder="Email" type="email" id="email2" formControlName="email">
+            <mat-error *ngIf="signupForm.get('email').hasError('email') && !signupForm.get('email').hasError('required')">
+                Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="signupForm.get('email').hasError('required')">
+                Email is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
     </div>
 
     <div class="form-group">
         <mat-form-field>
-        <input matInput placeholder="Password" type="password" id="password" formControlName="password">
+            <input matInput placeholder="Password" type="password" id="password2" formControlName="password">
+            <mat-error>
+                Password is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="form-group">
+        <mat-form-field>
+            <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword">
+            <mat-error *ngIf="signupForm.get('confirmPassword').hasError('notSame')">
+                Passwords do not match
+            </mat-error>  
         </mat-form-field>
     </div>
 
     <div>
-        <!-- <button type="submit" class="zerwego-btn green-btn">Signup</button> -->
         <button type="submit" class="zerwego-btn blue-btn home-btn">
             Create my first trip!
         </button>
-        <!-- <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
-        cCear
-        </button> -->
     </div>
 </form> 

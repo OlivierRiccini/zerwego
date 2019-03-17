@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
+import { checkPasswords } from '../shared/utils/validators';
 
 @Component({
   selector: 'app-signup',
@@ -35,10 +36,14 @@ export class SignupComponent extends AuthComponent implements OnInit {
       submit: 'Sign up',
       changeForm: 'I already have an account'
     }; 
-    this.authForm.addControl('name', new FormControl(''));
+    this.authForm.addControl('name', new FormControl('', Validators.required));
+    this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]))
   }
 
   public onSubmit() {
+    if (this.authForm.invalid) {
+      return;
+    }
     const user = this.authForm.value;
     this.authService.register(user).subscribe(
       user => {

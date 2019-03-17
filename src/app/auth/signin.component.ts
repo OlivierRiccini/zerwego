@@ -45,6 +45,9 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmit() {
+    if (this.authForm.invalid) {
+      return;
+    }
     const user = this.authForm.value;
     this.authService.login(user.email, user.password).subscribe(
       () => {
