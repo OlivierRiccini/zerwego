@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
+import { FacebookService } from '../services/facebook.service';
 
 @Component({
   selector: 'app-signin',
@@ -22,7 +23,8 @@ export class SigninComponent extends AuthComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
-    private userInterfaceService: UserInterfaceService
+    private userInterfaceService: UserInterfaceService,
+    private facebookService: FacebookService
     ) { 
       super(fb, authService, dialogRef, router);
     }
@@ -35,13 +37,6 @@ export class SigninComponent extends AuthComponent implements OnInit {
       submit: 'Sign in',
       changeForm: 'I don\t have an account yet'
     };
-    // this.authService.endOfSessionEvent.subscribe(
-    //   endOfSession => {
-    //     this.label.title = endOfSession ? 'Sessions expired, reconnect!' : 'Sign PPP';
-    //     console.log(this.label)
-    //   },
-    //   err => console.log(err)
-    // );
   }
 
   public onSubmit() {
@@ -57,6 +52,10 @@ export class SigninComponent extends AuthComponent implements OnInit {
       },
       err => this.userInterfaceService.error(err)
     )
+  }
+
+  public onFacebookLogin() {
+    this.facebookService.fbLogin();
   }
 
 }

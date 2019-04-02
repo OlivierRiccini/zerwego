@@ -18,6 +18,7 @@ import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { UserInterfaceService } from './services/user-interface.service';
 import { HomeSignupComponent } from './home/home-signup.component';
 import { NotificationComponent } from './shared/notification/notification.component';
+import { FacebookService } from './services/facebook.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { NotificationComponent } from './shared/notification/notification.compon
     AuthService,
     UserInterfaceService,
     AuthGuardLoad,
-    AuthGuardActivate
+    AuthGuardActivate,
+    FacebookService
   ],
   entryComponents: [SigninComponent, SignupComponent, ConfirmComponent, NotificationComponent],
   bootstrap: [AppComponent]
