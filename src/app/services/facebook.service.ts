@@ -19,9 +19,37 @@ export class FacebookService {
     };
 
     fbLogin(): void {
-        FB.login(result => {
-            console.log(result);
-        }, {scope: 'public_profile,email'});
+        console.log("submit login to facebook");
+        // FB.login();
+        FB.login((response)=>
+            {
+                if (response.authResponse)
+                {    
+                console.log('submitLogin',response);
+                this.getFacebookUser(response.authResponse.userID);
+                //login success
+                //login success code here
+                //redirect to home page
+               }
+               else
+               {
+               console.log('User login failed');
+             }
+        }, { scope: 'public_profile, email'});
+    }
+
+    getFacebookUser(userId: string) {
+        console.log(userId);
+        FB.api(
+            userId,
+            {'fields': 'id, name, email, friends'},
+            function (response) {
+              if (response && !response.error) {
+                  console.log(response);
+                /* handle the result */
+              }
+            }
+        );
     }
     
 }
