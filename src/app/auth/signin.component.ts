@@ -44,7 +44,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
       return;
     }
     const user = this.authForm.value;
-    this.authService.login(user.email, user.password).subscribe(
+    this.authService.login({type: 'password', email: user.email, password: user.password}).subscribe(
       () => {
         this.dialogRef.close();
         this.userInterfaceService.success('Successfully logged in!');

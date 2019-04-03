@@ -6,6 +6,7 @@ import { IUser } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';
+import { ICredentials } from '../models/auth.model';
 
 const baseUrl = 'http://localhost:3000/auth';
 
@@ -35,8 +36,8 @@ export class AuthService {
       }));
   }
 
-  login(email: string, password: string) {
-    return this.http.post<any>(`${baseUrl}/login`, { email, password }, { observe: 'response' })
+  login(credentials: ICredentials) {
+    return this.http.post<any>(`${baseUrl}/login`, credentials, { observe: 'response' })
       .pipe(map(response => {
         let user;
         const accesToken = response.headers.get('authorization');

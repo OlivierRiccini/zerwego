@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { of, Observable } from "rxjs";
+import { AuthService } from "./auth.service";
+import { ICredentials } from "../models/auth.model";
 
 declare const FB: any;
 
@@ -8,7 +10,7 @@ declare const FB: any;
 })
 export class FacebookService {
 
-    constructor() {
+    constructor(private authService: AuthService) {
         FB.init({
             appId            : '2290018351254667',
             autoLogAppEvents : false,
@@ -21,15 +23,19 @@ export class FacebookService {
     fbLogin(): void {
         console.log("submit login to facebook");
         // FB.login();
-        FB.login((response)=>
+        FB.login(async response=>
             {
                 if (response.authResponse)
                 {    
                 console.log('submitLogin',response);
-                this.getFacebookUser(response.authResponse.userID);
-                //login success
-                //login success code here
-                //redirect to home page
+                const user = await this.getFacebookUser(response.authResponse.userID);
+                const credentials: ICredentials = {
+                    type: 'facebook',
+                    name: user.name,
+                    email: user.email,
+                    facebookId: response.authResponse.userID
+                }
+                this.authService.login(credentials);
                }
                else
                {
@@ -38,18 +44,21 @@ export class FacebookService {
         }, { scope: 'public_profile, email'});
     }
 
-    getFacebookUser(userId: string) {
-        console.log(userId);
-        FB.api(
-            userId,
-            {'fields': 'id, name, email, friends'},
-            function (response) {
-              if (response && !response.error) {
-                  console.log(response);
-                /* handle the result */
-              }
-            }
-        );
+    async getFacebookUser(userId: string): Promise<{name: string, email: string, id: string}> {
+        return new Promise((resolve, reject) => { 
+            FB.api(
+                userId,
+                {'fields': 'id, name, email'},
+                function (response) {
+                  if (response && !response.error) {
+                      resolve(response);
+                    /* handle the result */
+                  } else {
+                      reject('Error facebook login');
+                  }
+                }
+            );
+        });
     }
     
 }
