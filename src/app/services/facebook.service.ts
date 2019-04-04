@@ -27,15 +27,18 @@ export class FacebookService {
             {
                 if (response.authResponse)
                 {    
-                console.log('submitLogin',response);
+                console.log('submitLogin', response);
                 const user = await this.getFacebookUser(response.authResponse.userID);
+                console.log('user', user);
                 const credentials: ICredentials = {
                     type: 'facebook',
                     name: user.name,
                     email: user.email,
-                    facebookId: response.authResponse.userID
+                    facebookId: user.id
                 }
-                this.authService.login(credentials);
+                this.authService.login(credentials).subscribe(
+                    () => console.log('Facebook max')
+                );
                }
                else
                {
@@ -44,7 +47,7 @@ export class FacebookService {
         }, { scope: 'public_profile, email'});
     }
 
-    async getFacebookUser(userId: string): Promise<{name: string, email: string, id: string}> {
+    async getFacebookUser(userId: string): Promise<any> {
         return new Promise((resolve, reject) => { 
             FB.api(
                 userId,
