@@ -55,7 +55,12 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onFacebookLogin() {
-    this.facebookService.fbLogin();
+    this.onCloseDialog();
+    this.facebookService.fbLogin().then(
+      () => {
+        this.userInterfaceService.success('Successfully logged in!');
+      }
+    );
   }
 
 }

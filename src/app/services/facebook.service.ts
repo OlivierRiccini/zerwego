@@ -20,31 +20,30 @@ export class FacebookService {
 
     };
 
-    fbLogin(): void {
+    fbLogin(): Promise<void> {
         console.log("submit login to facebook");
-        // FB.login();
-        FB.login(async response=>
-            {
-                if (response.authResponse)
-                {    
-                console.log('submitLogin', response);
-                const user = await this.getFacebookUser(response.authResponse.userID);
-                console.log('user', user);
-                const credentials: ICredentials = {
-                    type: 'facebook',
-                    name: user.name,
-                    email: user.email,
-                    facebookId: user.id
-                }
-                this.authService.login(credentials).subscribe(
-                    () => console.log('Facebook max')
-                );
-               }
-               else
-               {
-               console.log('User login failed');
-             }
-        }, { scope: 'public_profile, email'});
+        return new Promise((resolve, reject) => {
+            FB.login(async response=>
+                {
+                    if (response.authResponse)
+                    {    
+                    console.log('submitLogin', response);
+                    const user = await this.getFacebookUser(response.authResponse.userID);
+                    console.log('user', user);
+                    const credentials: ICredentials = {
+                        type: 'facebook',
+                        name: user.name,
+                        email: user.email,
+                        facebookId: user.id
+                    }
+                    this.authService.login(credentials).subscribe(
+                        () => resolve()
+                    );
+                   } else {
+                    reject('User login failed');
+                 }
+            }, { scope: 'public_profile, email'});
+        })
     }
 
     async getFacebookUser(userId: string): Promise<any> {
