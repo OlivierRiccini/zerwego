@@ -1,3 +1,4 @@
+<h2 class="text-center">Create your first trip!</h2>
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
     <div class="form-group">
         <mat-form-field>
@@ -40,8 +41,14 @@
 
     <div>
         <button type="submit" class="zerwego-btn blue-btn home-btn">
-            Create my first trip!
+            Sing up
         </button>
     </div>
-    
 </form> 
+<br>
+<p class="text-center"> Or sign up with</p>
+<div class="social-box">
+    <button type="button" class="facebook btn" (click)="facebookLogin()"><i class="fab fa-facebook-f"></i></button>
+    <button type="button" class="google btn"><i class="fab fa-google-plus-g"></i></button>
+    <button type="button" class="linkedin btn"><i class="fab fa-linkedin-in"></i></button>
+</div>

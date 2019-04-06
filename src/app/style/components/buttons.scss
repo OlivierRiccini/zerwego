@@ -3,7 +3,7 @@
     cursor: pointer;
     padding: 10px 20px;
     border: none;
-    border-radius: 2px;
+    border-radius: 3px;
     font-weight: 200;
     &:focus {
         outline:0 !important;
@@ -75,4 +75,55 @@
 
 .right-btn {
     float: right;
+}
+
+
+.social-box {
+    display: flex;
+    button {
+        border-radius: 3px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .facebook {
+        color: #fff;
+        background-color: #3B5998;
+        // border: 1px solid #3B5998;
+        transition: 0.2s;
+        &:hover {
+            // background-color: #3B5998;
+            opacity: 0.85;
+            color: #fff;
+        }
+    }
+    
+    .google {
+        color: #fff;
+        // border: 1px solid #dd4b39;
+        background-color: #dd4b39;
+        transition: 0.2s;
+        &:hover {
+            // background-color: #dd4b39;
+            opacity: 0.85;
+            // color: #fff;
+        }
+    }
+    
+    .linkedin {
+        color: #fff;
+        // border: 1px solid #0073b1;
+        background-color: #0073b1;
+        transition: 0.2s;
+        &:hover {
+            opacity: 0.85;
+            // background-color: #0073b1;
+            // color: #fff;
+        }
+    }    
+    button:nth-child(2) {
+        margin: 0 5px;
+    }
 }

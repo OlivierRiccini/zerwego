@@ -40,13 +40,17 @@
     </mat-form-field>
   </div>
 
-  <div>
+  <div class="submit-box">
     <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
     <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
       {{ label.changeForm }}
     </button>
   </div>
-
-  <hr>
-  <button type="button" class="btn btn-social btn-facebook" (click)="onFacebookLogin()"><span class="fa fa-facebook"></span>  Facebook</button>
 </form> 
+<hr>
+<p class="text-center"> Or {{ label.title }} with</p>
+<div class="social-box">
+    <button type="button" class="facebook btn" (click)="onFacebookLogin()"><i class="fab fa-facebook-f"></i></button>
+    <button type="button"  class="google btn"><i class="fab fa-google-plus-g"></i></button>
+    <button type="button"  class="linkedin btn"><i class="fab fa-linkedin-in"></i></button>
+</div>

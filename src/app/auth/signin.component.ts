@@ -23,10 +23,10 @@ export class SigninComponent extends AuthComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
-    private userInterfaceService: UserInterfaceService,
-    private facebookService: FacebookService
+    public userInterfaceService: UserInterfaceService,
+    public facebookService: FacebookService
     ) { 
-      super(fb, authService, dialogRef, router);
+      super(fb, authService, dialogRef, router, userInterfaceService, facebookService);
     }
     
   ngOnInit() {
@@ -52,15 +52,6 @@ export class SigninComponent extends AuthComponent implements OnInit {
       },
       err => this.userInterfaceService.error(err)
     )
-  }
-
-  public onFacebookLogin() {
-    this.onCloseDialog();
-    this.facebookService.fbLogin().then(
-      () => {
-        this.userInterfaceService.success('Successfully logged in!');
-      }
-    );
   }
 
 }

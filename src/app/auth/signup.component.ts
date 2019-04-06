@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { checkPasswords } from '../shared/utils/validators';
+import { FacebookService } from '../services/facebook.service';
 
 @Component({
   selector: 'app-signup',
@@ -23,9 +24,10 @@ export class SignupComponent extends AuthComponent implements OnInit {
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
-    private userInterfaceService: UserInterfaceService
+    public userInterfaceService: UserInterfaceService,
+    public facebookService: FacebookService
     ) { 
-      super(fb, authService, dialogRef, router)
+      super(fb, authService, dialogRef, router, userInterfaceService, facebookService)
   }
   
   ngOnInit() {
@@ -53,4 +55,5 @@ export class SignupComponent extends AuthComponent implements OnInit {
       err => this.userInterfaceService.error(err.message)
     )
   }
+  
 }

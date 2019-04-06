@@ -7,11 +7,16 @@ mat-form-field {
     width: 100%;
 }
 
-div:last-child {
+.submit-box {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     button:first-child {
         margin-bottom: 5px;
     }
+}
+
+.social-box button {
+    width: -webkit-fill-available;
+    padding: 10px 20px;
 }
