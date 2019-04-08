@@ -30,3 +30,18 @@ mat-form-field {
 ::ng-deep .mat-horizontal-content-container {
     padding: 0 !important;
 }
+
+.select-with-mat-radio-group {
+    margin-top: 25px;
+    font-weight: 200;
+}
+
+::ng-deep .mat-radio-group {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form-group:last-child .green-btn {
+    width: 100%;
+}
