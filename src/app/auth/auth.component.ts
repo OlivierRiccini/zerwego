@@ -66,4 +66,5 @@ export class AuthComponent implements OnInit {
     console.log('blaaa');
     this.dialogRef.close();
   }
+  
 }

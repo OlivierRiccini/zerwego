@@ -6,7 +6,7 @@ import { IUser } from '../interfaces/user.interface';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';
-import { ICredentials } from '../models/auth.model';
+import { ICredentials, IForgotPassword } from '../models/auth.model';
 
 const baseUrl = 'http://localhost:3000/auth';
 
@@ -102,6 +102,10 @@ export class AuthService {
 
   switchDialog(isAModeChange: boolean) {
     this.switchDialogEvent.emit(isAModeChange);
+  }
+
+  forgotPassword(contact: IForgotPassword) {
+    return this.http.post<any>(`${baseUrl}/forgot-password`, contact);
   }
 
 }

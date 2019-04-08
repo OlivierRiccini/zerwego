@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { FacebookService } from '../services/facebook.service';
+import { ForgotPasswordMode } from '../models/auth.model';
 
 @Component({
   selector: 'app-signin',
@@ -15,6 +16,7 @@ import { FacebookService } from '../services/facebook.service';
 })
 export class SigninComponent extends AuthComponent implements OnInit {
 
+  public forgotPasswordForm: FormGroup;
   authForm: FormGroup;
 
   constructor(
@@ -31,6 +33,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
     
   ngOnInit() {
     super.ngOnInit();
+    this.creatForgotPasswordForm();
     this.signInMode = true;
     this.label = {
       title: 'Sign in',
@@ -50,6 +53,25 @@ export class SigninComponent extends AuthComponent implements OnInit {
         this.userInterfaceService.success('Successfully logged in!');
         // this.router.navigate(['./', 'trips']);
       },
+      err => this.userInterfaceService.error(err)
+    )
+  }
+
+  creatForgotPasswordForm() {
+    this.forgotPasswordForm = this.fb.group({
+      emailForgotPass: ['', [Validators.email]],
+      phoneForgotPass: ['']
+    });
+  }
+
+  public onSubmitForgotPasswordForm() {
+    console.log(this.forgotPasswordForm.value.phoneForgotPass);
+    const contact = { 
+      type: 'sms' as ForgotPasswordMode,
+      phone: this.forgotPasswordForm.value.phoneForgotPass
+    };
+    this.authService.forgotPassword(contact).subscribe(
+      res => this.userInterfaceService.success(res),
       err => this.userInterfaceService.error(err)
     )
   }

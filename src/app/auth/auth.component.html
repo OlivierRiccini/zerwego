@@ -1,56 +1,91 @@
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
-  <i class="material-icons" (click)="onCloseDialog()"> close </i>
-  <p mat-dialog-title>{{ label.title }}</p>
-  <div *ngIf="signUpMode" class="form-group">
-      <mat-form-field>
-        <input matInput placeholder="Name" type="text" id="name1" formControlName="name">
-        <mat-error>
-          Name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-  </div>
+<mat-horizontal-stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+      <i class="material-icons" (click)="onCloseDialog()"> close </i>
+      <p mat-dialog-title>{{ label.title }}</p>
+      <div *ngIf="signUpMode" class="form-group">
+          <mat-form-field>
+            <input matInput placeholder="Name" type="text" id="name1" formControlName="name">
+            <mat-error>
+              Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+      </div>
 
-  <div class="form-group">
-    <mat-form-field>
-      <input matInput placeholder="Email" type="email" id="email1" formControlName="email">
-      <mat-error *ngIf="authForm.get('email').hasError('email') && !authForm.get('email').hasError('required')">
-        Please enter a valid email address
-      </mat-error>
-      <mat-error *ngIf="authForm.get('email').hasError('required')">
-        Email is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-  </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Email" type="email" id="email1" formControlName="email">
+          <mat-error *ngIf="authForm.get('email').hasError('email') && !authForm.get('email').hasError('required')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="authForm.get('email').hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-  <div class="form-group">
-    <mat-form-field>
-      <input matInput placeholder="Password" type="password" id="password1" formControlName="password">
-      <mat-error>
-        Password is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-  </div>
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Password" type="password" id="password1" formControlName="password">
+          <mat-error>
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-  <div *ngIf="signUpMode" class="form-group">
-    <mat-form-field>
-        <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword">
-        <mat-error *ngIf="authForm.get('confirmPassword').hasError('notSame')">
-            Passwords do not match
-        </mat-error>  
-    </mat-form-field>
-  </div>
+      <div *ngIf="signUpMode" class="form-group">
+        <mat-form-field>
+            <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword">
+            <mat-error *ngIf="authForm.get('confirmPassword').hasError('notSame')">
+                Passwords do not match
+            </mat-error>  
+        </mat-form-field>
+      </div>
 
-  <div class="submit-box">
-    <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
-    <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
-      {{ label.changeForm }}
+      <div class="submit-box">
+        <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
+        <!-- <button *ngIf="signInMode" type="button" class="zerwego-btn grey-btn" (click)="onForgotPassword()">
+          Forgot password?
+        </button> -->
+        <button *ngIf="signInMode" type="button" matStepperNext class="zerwego-btn grey-btn">Forgot password?</button>
+        <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
+          {{ label.changeForm }}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step *ngIf="signInMode">
+    <i class="material-icons" (click)="onCloseDialog()">close</i>
+    <p mat-dialog-title>Forgot Password</p>
+    <form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmitForgotPasswordForm()" (keydown.enter)="$event.preventDefault()">
+      <div class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Email" type="email" id="emailForgotPass" formControlName="emailForgotPass">
+          <!-- <mat-error *ngIf="forgotPasswordForm.get('emailForgotPass').hasError('email')">
+            Please enter a valid email address
+          </mat-error> -->
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Phone" type="phone" id="phoneForgotPass" formControlName="phoneForgotPass">
+            <!-- <mat-error>
+              Please enter a valid email address
+            </mat-error> -->
+            <!-- <mat-error *ngIf="forgotPasswordForm.get('phone').hasError('required')">
+              Phone number is <strong>required</strong>
+            </mat-error> -->
+          </mat-form-field>
+          <button type="submit" class="zerwego-btn green-btn">Send new password</button>
+      </div>
+    </form>
+    <button type="button" matStepperPrevious class="zerwego-btn grey-btn">
+      <i class="material-icons left-arrow">keyboard_backspace</i>
     </button>
+  </mat-step>
+</mat-horizontal-stepper>
+  <hr>
+  <p class="text-center"> Or {{ label.title }} with</p>
+  <div class="social-box">
+      <button type="button" class="facebook btn" (click)="onFacebookLogin()"><i class="fab fa-facebook-f"></i></button>
+      <button type="button"  class="google btn"><i class="fab fa-google-plus-g"></i></button>
+      <button type="button"  class="linkedin btn"><i class="fab fa-linkedin-in"></i></button>
   </div>
-</form> 
-<hr>
-<p class="text-center"> Or {{ label.title }} with</p>
-<div class="social-box">
-    <button type="button" class="facebook btn" (click)="onFacebookLogin()"><i class="fab fa-facebook-f"></i></button>
-    <button type="button"  class="google btn"><i class="fab fa-google-plus-g"></i></button>
-    <button type="button"  class="linkedin btn"><i class="fab fa-linkedin-in"></i></button>
-</div>
