@@ -20,6 +20,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
   authForm: FormGroup;
   stepper: MatStepper;
   public forgotPasswordButtonLabel: string = 'Send new password';
+  public forgotPasswordFormIsSubmited: boolean = false;
 
   constructor(
     public fb: FormBuilder,
@@ -53,7 +54,6 @@ export class SigninComponent extends AuthComponent implements OnInit {
       () => {
         this.dialogRef.close();
         this.userInterfaceService.success('Successfully logged in!');
-        // this.router.navigate(['./', 'trips']);
       },
       err => this.userInterfaceService.error(err)
     )
@@ -71,15 +71,23 @@ export class SigninComponent extends AuthComponent implements OnInit {
 
   public onSelectMode(contactMode) {
     const toEnable = contactMode === 'email' ? 'emailForgotPass' : 'phoneForgotPass';
+    const toDisable = contactMode !== 'email' ? 'emailForgotPass' : 'phoneForgotPass';
+    this.forgotPasswordForm.get(toEnable).setValidators([Validators.required]);
+    this.forgotPasswordForm.get(toDisable).clearValidators();
     this.forgotPasswordForm.get(toEnable).enable();
+    this.forgotPasswordForm.get(toDisable).disable();
   }
 
   public onSubmitForgotPasswordForm(stepper: MatStepper) {
+    this.forgotPasswordFormIsSubmited = true;
+    // if (!this.forgotPasswordForm.valid) {
+    //   return;
+    // };
     this.stepper = stepper;
     let type = this.forgotPasswordForm.value.contactMode;
-    // if (type === 'sms') { type = 'phone' };
     const contact: IForgotPassword = {type};
-    contact[type] = type === 'email' ?  this.forgotPasswordForm.value.emailForgotPass : this.forgotPasswordForm.value.phoneForgotPass;
+    const to = type === 'email' ? 'email' : 'phone';
+    contact[to] = type === 'email' ?  this.forgotPasswordForm.value.emailForgotPass : this.forgotPasswordForm.value.phoneForgotPass;
     this.authService.forgotPassword(contact).subscribe(
       res => {
         this.userInterfaceService.success(res);
