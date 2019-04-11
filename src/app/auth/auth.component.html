@@ -44,9 +44,6 @@
 
       <div class="submit-box">
         <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
-        <!-- <button *ngIf="signInMode" type="button" class="zerwego-btn grey-btn" (click)="onForgotPassword()">
-          Forgot password?
-        </button> -->
         <button *ngIf="signInMode" type="button" matStepperNext class="zerwego-btn grey-btn">Forgot password?</button>
         <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
           {{ label.changeForm }}
@@ -59,15 +56,31 @@
     <p mat-dialog-title>Forgot Password</p>
     <form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmitForgotPasswordForm(stepper)" (keydown.enter)="$event.preventDefault()">
       <div class="form-group select-with-mat-radio-group">
-        <mat-label>How would you like to receive your new password? </mat-label>
+        <mat-label [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+          How would you like to receive your new password?
+        </mat-label>
         <br>
         <mat-radio-group aria-label="Select an option" formControlName="contactMode">
-          <mat-radio-button color="primary" value="sms" (change)="onSelectMode('sms')">Sms</mat-radio-button>
-          <mat-radio-button color="primary" value="email" (change)="onSelectMode('email')">Email</mat-radio-button>
+          <mat-radio-button
+            color="primary"
+            value="sms"
+            (change)="onSelectMode('sms')">
+            <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+              Sms
+            </span>
+          </mat-radio-button>
+          <mat-radio-button
+            color="primary"
+            value="email"
+            (change)="onSelectMode('email')">
+            <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+              Email
+            </span>
+          </mat-radio-button>
+          <!-- <mat-error *ngIf="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required')">
+              Contact mode is <strong>required</strong>
+          </mat-error> -->
         </mat-radio-group>        
-        <mat-error *ngIf="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required')">
-            Contact mode is <strong>required</strong>
-        </mat-error>
       </div>
       <div class="form-group">
         <mat-form-field>
@@ -80,18 +93,18 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Phone" type="phone" id="phoneForgotPass" formControlName="phoneForgotPass">
-            <!-- <mat-error>
-              Please enter a valid email address
-            </mat-error> -->
-            <mat-error *ngIf="forgotPasswordForm.get('phoneForgotPass').hasError('required')">
-              Phone number is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-          <button type="submit" class="zerwego-btn green-btn">
-            {{ forgotPasswordButtonLabel }}
-          </button>
+          <input matInput placeholder="Phone" type="phone" id="phoneForgotPass" formControlName="phoneForgotPass">
+          <!-- <mat-error>
+            Please enter a valid email address
+          </mat-error> -->
+          <mat-error *ngIf="forgotPasswordForm.get('phoneForgotPass').hasError('required')">
+            Phone number is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
+      <button type="submit" class="zerwego-btn green-btn">
+        {{ forgotPasswordButtonLabel }}
+      </button>
     </form>
     <button type="button" matStepperPrevious class="zerwego-btn grey-btn">
       <i class="material-icons left-arrow">keyboard_backspace</i>

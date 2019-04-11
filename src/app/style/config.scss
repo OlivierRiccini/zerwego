@@ -21,11 +21,13 @@ $darker-red: rgb(175, 35, 51);
 $purple: #610F7F;
 
 // ANGULAR MATERIAL
-// I suggest that you should use another prefix, but `my-app` is fine as well
-// Primary colour
+
+// Primary color
 $my-app-primary: mat-palette($mat-indigo, 500);
-// Accent colour
+// Accent color
 $my-app-accent: mat-palette($mat-pink, A200);
+// Warn color
+$my-app-warn: mat-palette($mat-red);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent);
 @include angular-material-theme($my-app-theme);

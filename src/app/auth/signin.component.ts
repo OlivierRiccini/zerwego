@@ -62,7 +62,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
   creatForgotPasswordForm() {
     this.forgotPasswordForm = this.fb.group({
       contactMode: ['', [Validators.required]],
-      emailForgotPass: ['', [Validators.email]],
+      emailForgotPass: [''],
       phoneForgotPass: ['']
     });
     this.forgotPasswordForm.get('emailForgotPass').disable();
@@ -70,9 +70,22 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSelectMode(contactMode) {
-    const toEnable = contactMode === 'email' ? 'emailForgotPass' : 'phoneForgotPass';
-    const toDisable = contactMode !== 'email' ? 'emailForgotPass' : 'phoneForgotPass';
-    this.forgotPasswordForm.get(toEnable).setValidators([Validators.required]);
+    const validators = [ Validators.required ];
+    let toEnable: string;
+    let toDisable: string;
+    if (contactMode === 'email') {
+      toEnable = 'emailForgotPass';
+      toDisable = 'phoneForgotPass';
+      validators.push(Validators.email);
+    } else {
+      toEnable = 'phoneForgotPass';
+      toDisable = 'emailForgotPass';
+    }
+    // const validators = [ Validators.required ];
+    // const toEnable = contactMode === 'email' ? 'emailForgotPass' : 'phoneForgotPass';
+    // const toDisable = contactMode !== 'email' ? 'emailForgotPass' : 'phoneForgotPass';
+
+    this.forgotPasswordForm.get(toEnable).setValidators(validators);
     this.forgotPasswordForm.get(toDisable).clearValidators();
     this.forgotPasswordForm.get(toEnable).enable();
     this.forgotPasswordForm.get(toDisable).disable();
@@ -80,9 +93,9 @@ export class SigninComponent extends AuthComponent implements OnInit {
 
   public onSubmitForgotPasswordForm(stepper: MatStepper) {
     this.forgotPasswordFormIsSubmited = true;
-    // if (!this.forgotPasswordForm.valid) {
-    //   return;
-    // };
+    if (!this.forgotPasswordForm.valid) {
+      return;
+    }
     this.stepper = stepper;
     let type = this.forgotPasswordForm.value.contactMode;
     const contact: IForgotPassword = {type};
