@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TripService } from '../services/trip.service';
 import { ITrip } from 'src/app/models/trip';
 import { MatDialog } from '@angular/material';
-import { TripFormBaseComponent } from './trip-form/trip-form.component';
+import { TripFormBaseComponent } from './trip-form/trip-form-base.component';
 import { TripOverviewComponent } from './trip-overview/trip-overview.component';
 import { DestinationService } from '../services/destination.service';
 
