@@ -2,7 +2,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { IUser } from '../interfaces/user.interface';
+import { IUser } from '../models/user';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';

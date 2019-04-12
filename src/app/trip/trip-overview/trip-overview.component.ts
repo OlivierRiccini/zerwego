@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { ITrip } from 'src/app/interfaces/trip.interface';
+import { ITrip } from 'src/app/models/trip';
 import { TripService } from 'src/app/services/trip.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { MatDialog } from '@angular/material';

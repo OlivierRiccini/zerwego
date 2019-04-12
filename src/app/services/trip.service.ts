@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, Observer, of } from 'rxjs';
-import { ITrip } from '../interfaces/trip.interface';
+import { ITrip } from '../models/trip';
 import { HttpClient } from '@angular/common/http';
-import { ObserveOnSubscriber } from 'rxjs/internal/operators/observeOn';
 import { DestinationService } from './destination.service';
 // import { tripPreviewComponent } from '../trips/create-trip/trip-preview/trip-preview.component';
 

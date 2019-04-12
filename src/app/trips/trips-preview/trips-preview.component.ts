@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TripService } from '../../services/trip.service';
-import { ITrip } from 'src/app/interfaces/trip.interface';
+import { ITrip } from 'src/app/models/trip';
 
 @Component({
   selector: 'app-trips-preview',

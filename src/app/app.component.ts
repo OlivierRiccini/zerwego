@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { UserInterfaceService } from './services/user-interface.service';
-import { IConfirmData, INotificationData } from './interfaces/shared.interfaces';
+import { IConfirmData, INotificationData } from './models/shared.';
 import { NotificationComponent } from './shared/notification/notification.component';
 
 // import { geolocation } from 'geolocation';

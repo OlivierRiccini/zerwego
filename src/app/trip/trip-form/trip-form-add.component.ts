@@ -1,19 +1,13 @@
-import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { switchMap, startWith } from 'rxjs/operators';
+import { FormBuilder } from '@angular/forms';
 import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
-import { ITrip } from 'src/app/interfaces/trip.interface';
-import { IUser } from 'src/app/interfaces/user.interface';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TripComponent } from '../trip.component';
-import * as moment from 'moment';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
-import { DaterangePickerComponent } from 'ng2-daterangepicker';
-import { element } from '@angular/core/src/render3';
-import { TripFormBaseComponent } from './trip-form.component';
+import { TripFormBaseComponent } from './trip-form-base.component';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -40,10 +34,33 @@ export class TripAddFormComponent extends TripFormBaseComponent implements OnIni
   
   ngOnInit() {
     super.ngOnInit();
+    this.setLabels();
   }
 
   onSubmit() {
+    console.log(this.tripForm.value);
+    this.tripService.createTrip(this.tripForm.value)
+      .subscribe(
+        (response) => {
+          console.log('Trip successfully created!');
+          const trip: any = response;
+          this.tripService.updateLocalStorage(trip);
+          this.router.navigate(['./trips', trip.id, 'overview']);
+          // this.onCloseDialog();
+          this.dialogRef.close();
+        },
+      (err) => console.log(err)
+    );
+  }
 
+  private setLabels(): void {
+    this.labels = {
+      buttons: {
+        submit: 'Create',
+        cancel: 'Give up',
+        delete: null
+      }
+    }
   }
 
 

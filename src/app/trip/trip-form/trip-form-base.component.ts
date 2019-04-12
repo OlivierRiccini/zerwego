@@ -5,8 +5,8 @@ import { switchMap, startWith } from 'rxjs/operators';
 import { TripService } from 'src/app/services/trip.service';
 import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
-import { ITrip } from 'src/app/interfaces/trip.interface';
-import { IUser } from 'src/app/interfaces/user.interface';
+import { ITrip } from 'src/app/models/trip';
+import { IUser } from 'src/app/models/user';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TripComponent } from '../trip.component';
 import * as moment from 'moment';
@@ -21,23 +21,24 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class TripFormBaseComponent implements OnInit {
   
-  id: string;
-  editMode = false;
-  tripForm: FormGroup;
+  public id: string;
+  public editMode = false;
+  public tripForm: FormGroup;
   participants: FormArray;
   destinationOptions: any[] = [];
   // To use when getting link
   historySearchCities: any[] = [];
-  formValues: ITrip = {
-    id: null,
-    tripName: '',
-    destination: '',
-    imageUrl: '',
-    startDate: null,
-    endDate: null,
-    admin: null,
-    participants: []
-  };
+
+  // formValues: ITrip = {
+  //   id: null,
+  //   tripName: '',
+  //   destination: '',
+  //   imageUrl: '',
+  //   startDate: null,
+  //   endDate: null,
+  //   admin: null,
+  //   participants: []
+  // };
 
   public tripAdmin: IUser = null;
   
@@ -76,7 +77,7 @@ export class TripFormBaseComponent implements OnInit {
     public dialogRef: MatDialogRef<TripComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-      this.editMode = data.mode === 'edit';
+      // this.editMode = data.mode === 'edit';
       this.activeSection = data.activeSection;
       this.id = data.tripId;
 
@@ -112,37 +113,12 @@ export class TripFormBaseComponent implements OnInit {
       admin: [''],
       participants: this.fb.array([])
     });
-    if (this.editMode) {
-      this.tripService.loadTrip(this.id).subscribe(trip => {
-        this.formValues = trip; 
-        this.tripForm.controls.tripName.setValue(trip.tripName);
-        this.tripForm.controls.destination.setValue(trip.destination);
-        this.tripForm.controls.imageUrl.setValue(trip.imageUrl);
-        this.picker.datePicker.setStartDate(moment(trip.startDate).format('YYYY-MM-DD'));
-        this.picker.datePicker.setEndDate(moment(trip.endDate).format('YYYY-MM-DD'));
-        this.tripToEdit = trip;
-      });
-      this.labels = {
-        buttons: {
-          submit: 'Save changes',
-          cancel: 'Close without saving',
-          delete: null
-        }
-      }
-    } else {
-      this.labels = {
-        buttons: {
-          submit: 'Create',
-          cancel: 'Give up',
-          delete: null
-        }
-      }
-    }
+
     this.onInputChangesSubscriptions();
   }
 
-onAutocomplete(): void {
-  this.tripForm
+  onAutocomplete(): void {
+    this.tripForm
     .get('destination')
     .valueChanges
     .pipe(
@@ -232,27 +208,6 @@ onAutocomplete(): void {
     this.formValues.endDate = value.end;
 
     this.sendTripFormValues();
-  }
-
-  onSubmit() {
-    if (this.editMode) {
-      console.log(this.formValues);
-      console.log('UPDATE NOT IMPLEMENTED YET');
-    } else {
-      console.log(this.formValues);
-      this.tripService.createTrip(this.formValues)
-        .subscribe(
-          (response) => {
-            console.log('Trip successfully created!');
-            const trip: ITrip = response;
-            this.tripService.updateLocalStorage(trip);
-            this.router.navigate(['./trips', trip.id, 'overview']);
-            // this.onCloseDialog();
-            this.dialogRef.close();
-          },
-          (err) => console.log(err)
-        );
-    }
   }
 
   onAddAnotherParticipant(username: string, email: string) {

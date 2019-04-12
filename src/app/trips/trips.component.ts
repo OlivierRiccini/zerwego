@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TripService } from 'src/app/services/trip.service';
-import { ITrip } from 'src/app/interfaces/trip.interface';
+import { ITrip } from 'src/app/models/trip';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 

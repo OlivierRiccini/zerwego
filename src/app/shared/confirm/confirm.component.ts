@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { UserInterfaceService } from 'src/app/services/user-interface.service';
-import { IConfirmData } from 'src/app/interfaces/shared.interfaces';
+import { IConfirmData } from 'src/app/models/shared.';
 
 @Component({
   selector: 'app-confirm',

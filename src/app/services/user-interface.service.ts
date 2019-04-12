@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { IConfirmData, INotificationData } from '../interfaces/shared.interfaces';
+import { IConfirmData, INotificationData } from '../models/shared.';
  
 @Injectable()
 export class UserInterfaceService  {
