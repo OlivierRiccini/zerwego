@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TripComponent } from './trip.component';
-import { TripFormBaseComponent } from './trip-form/trip-form.component';
+import { TripFormBaseComponent } from './trip-form/trip-form-base.component';
 import { TripOverviewComponent } from './trip-overview/trip-overview.component';
 // import { DestinationService } from '../services/destination.service';
 // import { AppModule } from '../app.module';
