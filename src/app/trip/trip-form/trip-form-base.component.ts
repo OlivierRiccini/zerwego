@@ -3,9 +3,9 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { switchMap, startWith } from 'rxjs/operators';
 import { TripService } from 'src/app/services/trip.service';
-import { UserService } from 'src/app/services/user.service';
+// import { UserService } from 'src/app/services/user.service';
 import { DestinationService } from 'src/app/services/destination.service';
-import { ITrip } from 'src/app/models/trip';
+import { ITrip, IParticipant } from 'src/app/models/trip';
 import { IUser } from 'src/app/models/user';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TripComponent } from '../trip.component';
@@ -45,9 +45,10 @@ export class TripFormBaseComponent implements OnInit {
   tripToEdit: ITrip;
   username: string;
   email: string;
+  phone: string;
   
-  greenBtnLabel: string;
-  closeDialogLabel: string;
+  // greenBtnLabel: string;
+  // closeDialogLabel: string;
 
   public labels = {
     buttons: {
@@ -60,7 +61,7 @@ export class TripFormBaseComponent implements OnInit {
   private activeSection: string = null;
   
   @ViewChild(DaterangePickerComponent)
-  private picker: DaterangePickerComponent;
+  public picker: DaterangePickerComponent;
 
   // public daterange: any = {};
   public options: any = {};
@@ -70,7 +71,7 @@ export class TripFormBaseComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public tripService: TripService,
-    public userService: UserService,
+    // public userService: UserService,
     public destinationService: DestinationService,
     public fb: FormBuilder,
     public daterangepickerOptions: DaterangepickerConfig,
@@ -96,24 +97,26 @@ export class TripFormBaseComponent implements OnInit {
     }
 
   sendTripFormValues(): void {
-    this.tripService.sendTripFormValues(this.formValues);   
+    // this.tripService.sendTripFormValues(this.formValues);   
   }
   
-  ngOnInit() {
+  public ngOnInit() {
     this.createForm();
     this.onAutocomplete();
   }
     
   private createForm() {
+    const currentUser = this.authService.getCurrentUser() || null;
     this.tripForm = this.fb.group({
       tripName: [''],
       destination: [''],
       imageUrl: [''],
       dateRange: [''],
       admin: [''],
-      participants: this.fb.array([])
+      participants: this.fb.array([
+        {info: {username: currentUser.username, email: currentUser.email}, isAdmin: true}
+      ])
     });
-
     this.onInputChangesSubscriptions();
   }
 
@@ -151,22 +154,25 @@ export class TripFormBaseComponent implements OnInit {
   onInputChangesSubscriptions() {
     this.tripForm.get('tripName').valueChanges.subscribe(
       value => {
-        this.formValues.tripName = value;
-        this.sendTripFormValues();
+        // this.formValues.tripName = value;
+        // this.sendTripFormValues();
       }
     )
     this.tripForm.get('admin').valueChanges.subscribe(
-      value => {
-        this.formValues.admin = value;
-        this.tripAdmin = value;
-        this.sendTripFormValues();
+      user => {
+        const previousAdmin = this.tripForm.value.participants.find((u: IParticipant) => u.isAdmin);
+        if (previousAdmin) { delete previousAdmin.isAdmin };
+        user.isAdmin = true;
+        // this.formValues.admin = value;
+        // this.tripAdmin = value;
+        // this.sendTripFormValues();
       }
     )
   }
 
   onBlurDestinationInput(value: string) {
     // Get destination name
-    this.formValues.destination = value;
+    // this.formValues.destination = value;
     // Get destination image from api
     let cityObject = this.historySearchCities.find(item => {
       return item.matching_full_name === value;
@@ -181,10 +187,10 @@ export class TripFormBaseComponent implements OnInit {
       )
       .subscribe(
         (response: any) => {
-          this.formValues.imageUrl = JSON.parse(response._body).photos[0].image.web;
+          // this.formValues.imageUrl = JSON.parse(response._body).photos[0].image.web;
           // Get flag
           this.getCountryFlag(value);
-          this.sendTripFormValues();
+          // this.sendTripFormValues();
         },
         (error) => {
           console.log(error);
@@ -198,47 +204,63 @@ export class TripFormBaseComponent implements OnInit {
     const countryName = destination.split(',')[2].trim();
     this.destinationService.getCountryFlag(countryName)
       .subscribe(resp => {
-        this.formValues.countryFlag = JSON.parse(resp._body)[0].flag;
+        // this.formValues.countryFlag = JSON.parse(resp._body)[0].flag;
     });
   }
 
 
   public selectedDate(value: any, datepicker?: any) {
-    this.formValues.startDate = value.start;
-    this.formValues.endDate = value.end;
+    // this.formValues.startDate = value.start;
+    // this.formValues.endDate = value.end;
 
-    this.sendTripFormValues();
+    // this.sendTripFormValues();
   }
 
-  onAddAnotherParticipant(username: string, email: string) {
-    let userAlreadyExist = this.formValues.participants.findIndex((user: IUser) => {
-      return user.email === email;
+  onAddAnotherParticipant(username: string, email?: string, phone?: string) {
+    // let userAlreadyExist = this.formValues.participants.findIndex((user: IUser) => {
+    //   return user.email === email;
+    // });
+    let userAlreadyExist = this.tripForm.value.participants.findIndex((user: IParticipant) => {
+      return user.info.email && user.info.email === email || user.info.phone && user.info.phone === phone;
     });
-    if (username && email) {
-      if (userAlreadyExist === -1) {
-        this.formValues.participants.push({ username, email});
-      }
+    if (username && email && userAlreadyExist === -1) {
+        this.tripForm.value.participants.push({info: {username, email}});
+    }
+    if (username && phone && userAlreadyExist === -1) {
+      this.tripForm.value.participants.push({info: {username, phone}});
+    }
+    if (username && phone && email && userAlreadyExist === -1) {
+      this.tripForm.value.participants.push({info: {username, email, phone}});
     }
     this.username = '';
     this.email = '';
-    this.sendTripFormValues();
+    this.phone = '';
+    // this.sendTripFormValues();
   }
 
-  onRemoveParticipant(email) {
-    let index = this.formValues.participants.findIndex((user: IUser) => {
-      return user.email === email;
-    });
-    // Remove from values to send
-    this.formValues.participants.splice(index, 1);
-    this.sendTripFormValues();
+  onRemoveParticipant(index: number) {
+    if (isNaN(index) || index < 0) {
+      console.log('Impossible to remove');
+      return;
+    }
+    this.tripForm.value.participants.splice(index, 1);
+    // let index = this.formValues.participants.findIndex((user: IUser) => {
+    //   return user.email === email;
+    // });
+    // let index = this.tripForm.value.participants.findIndex((user: IUser) => {
+    //   return user.email === email;
+    // });
+    // // Remove from values to send
+    // this.tripForm.value.participants.splice(index, 1);
+    // this.sendTripFormValues();
   }
 
   onCloseDialog() {
     this.dialogRef.close();
     if (this.editMode) { 
       this.tripService.loadTrip(this.id, true).subscribe(trip => {
-        this.formValues = trip; 
-        this.sendTripFormValues();
+        // this.formValues = trip; 
+        // this.sendTripFormValues();
         this.router.navigate(['/', 'trips', this.id, this.activeSection]) ;
       });
     } else {

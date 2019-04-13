@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TripService } from '../services/trip.service';
 import { ITrip } from 'src/app/models/trip';
@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material';
 import { TripFormBaseComponent } from './trip-form/trip-form-base.component';
 import { TripOverviewComponent } from './trip-overview/trip-overview.component';
 import { DestinationService } from '../services/destination.service';
+import { TripAddFormComponent } from './trip-form/trip-form-add.component';
+import { TripEditFormComponent } from './trip-form/trip-form-edit.component';
+import { ComponentType } from '@angular/cdk/overlay/index';
 
 @Component({
   selector: 'app-trip',
@@ -104,12 +107,15 @@ export class TripComponent implements OnInit {
   }
   
   private async openDialog(mode: string) {
+    let component: ComponentType<{}> | TemplateRef<{}>;
     if (mode === 'edit') { 
       await this.router.navigate(['./', 'trips', this.id, this.activeSection, 'edit'])
+      component = TripEditFormComponent;
     } else if (mode === 'new') {
       await this.router.navigate(['./', 'trips', 'new', 'overview']);
+      component = TripAddFormComponent;
     }; 
-    const dialogRef = this.dialog.open(TripFormBaseComponent, {
+    const dialogRef = this.dialog.open(component, {
       disableClose: true,
       data: { mode, tripId: this.id, activeSection: this.activeSection },
       panelClass: ['custom-dialog-container']

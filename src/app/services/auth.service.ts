@@ -6,7 +6,7 @@ import { IUser } from '../models/user';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';
-import { ICredentials, IForgotPassword } from '../models/auth.model';
+import { ICredentials, IForgotPassword } from '../models/auth';
 
 const baseUrl = 'http://localhost:3000/auth';
 
@@ -91,13 +91,13 @@ export class AuthService {
     return localStorage.getItem('Authorization')
   }
 
-  getUser(): IUser {
+  getCurrentUser(): IUser {
     const user = localStorage.getItem('currentUser');
     return user ? JSON.parse(user) : false;
   }
 
   isLoggedIn(): Observable<boolean> {
-    return (this.getToken() && this.getToken() !== 'undefined' && this.getUser()) ? of(true) : of(false);
+    return (this.getToken() && this.getToken() !== 'undefined' && this.getCurrentUser()) ? of(true) : of(false);
   }
 
   switchDialog(isAModeChange: boolean) {

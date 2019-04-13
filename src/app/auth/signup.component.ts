@@ -38,7 +38,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
       submit: 'Sign up',
       changeForm: 'I already have an account'
     }; 
-    this.authForm.addControl('name', new FormControl('', Validators.required));
+    this.authForm.addControl('username', new FormControl('', Validators.required));
     this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]))
   }
 

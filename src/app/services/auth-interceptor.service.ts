@@ -31,7 +31,8 @@ export class AuthInterceptor implements HttpInterceptor {
             }
           }
         }, err => {
-          if (err.error.message.message === 'Refresh token is expired, user has to login') {
+          if (err.error.name === 'TokenExpiredError'
+              || err.error.message.message === 'Refresh token is expired, user has to login') {
             this.auth.autoLogout();
           }
         }))

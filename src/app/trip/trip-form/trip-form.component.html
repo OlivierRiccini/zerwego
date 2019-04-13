@@ -23,7 +23,7 @@
           [matAutocomplete]="auto"
           [matAutocompleteConnectedTo]="origin">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of destinationOptions" [value]="option">{{ option.matching_full_name }}</mat-option>
+          <mat-option *ngFor="let option of destinationOptions" [value]="option.matching_full_name">{{ option.matching_full_name }}</mat-option>
         </mat-autocomplete>
       </mat-form-field>
     </div>
@@ -66,21 +66,28 @@
             [(ngModel)]="email" 
             [ngModelOptions]="{standalone: true}">
         </mat-form-field>
+        <mat-form-field>
+          <input 
+            matInput 
+            placeholder="Phone"
+            type="text"
+            [(ngModel)]="phone" 
+            [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
         <button 
           type="button"
           class="zerwego-btn blue-btn btn-full-width"
-          (click)="onAddAnotherParticipant(username, email)">
+          (click)="onAddAnotherParticipant(username, email, phone)">
           Add {{ username }}
         </button> 
       </div>
     </div>
     <div class="col-xs-12 col-sm-7">
       <mat-chip-list #chipList>
-        <mat-chip *ngFor="let participant of formValues.participants" [selectable]="selectable" 
-          [removable]="removable"
-          [ngClass]="(tripAdmin && tripAdmin.email === participant.email) ? 'active-chip' : ''" >
-          {{participant.username}}
-          <mat-icon matChipRemove (click)="onRemoveParticipant(participant.email)">cancel</mat-icon>
+        <mat-chip *ngFor="let participant of tripForm.value.participants; let i = index"
+          [ngClass]="participant.isAdmin ? 'active-chip' : ''" >
+          {{participant.info.username}}
+          <mat-icon matChipRemove (click)="onRemoveParticipant(i)">cancel</mat-icon>
         </mat-chip>
       </mat-chip-list>
     </div>
@@ -106,8 +113,8 @@
             placeholder="Admin" 
             formControlName="admin" 
             matInput>
-            <mat-option *ngFor="let user of formValues.participants" [value]="user">
-                {{ user.username }}
+            <mat-option *ngFor="let user of tripForm.value.participants" [value]="user">
+                {{ user.info.username }}
             </mat-option>
           </mat-select>
         </mat-form-field> 

@@ -1,4 +1,11 @@
 import { IUser } from "./user";
+import { ContactMode } from "./shared";
+
+export type ParticipationStatus = 
+| 'pending'
+| 'request_accepted'
+| 'request_rejected'
+| 'not_registred'
 
 export interface ITrip {
     id?: string,
@@ -11,18 +18,14 @@ export interface ITrip {
     participants?: IParticipant[];
 };
 
-export type ParticipationStatus = 
-| 'pending'
-| 'request_accepted'
-| 'request_rejected'
-| 'not_registred'
-
 export interface IParticipant {
     userId?: string,
     info: {
-        email: string,
-        name: string
+        username: string
+        email?: string,
+        phone?: string,
     },
     isAdmin?: boolean,
+    contactMethod?: ContactMode,
     status: ParticipationStatus
 }

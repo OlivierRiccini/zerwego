@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { of, Observable } from "rxjs";
 import { AuthService } from "./auth.service";
-import { ICredentials } from "../models/auth.model";
+import { ICredentials } from "../models/auth";
 
 declare const FB: any;
 
@@ -21,18 +21,15 @@ export class FacebookService {
     };
 
     fbLogin(): Promise<void> {
-        console.log("submit login to facebook");
         return new Promise((resolve, reject) => {
             FB.login(async response=>
                 {
                     if (response.authResponse)
                     {    
-                    console.log('submitLogin', response);
                     const user = await this.getFacebookUser(response.authResponse.userID);
-                    console.log('user', user);
                     const credentials: ICredentials = {
                         type: 'facebook',
-                        name: user.name,
+                        username: user.name,
                         email: user.email,
                         facebookId: user.id
                     }

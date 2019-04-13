@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { FacebookService } from '../services/facebook.service';
-import { ForgotPasswordMode, IForgotPassword } from '../models/auth.model';
+import { IForgotPassword } from '../models/auth';
+import { ContactMode } from '../models/shared';
 
 @Component({
   selector: 'app-signin',
@@ -69,7 +70,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
     this.forgotPasswordForm.get('phoneForgotPass').disable();
   }
 
-  public onSelectMode(contactMode) {
+  public onSelectMode(contactMode: ContactMode) {
     const validators = [ Validators.required ];
     let toEnable: string;
     let toDisable: string;
