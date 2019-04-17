@@ -68,7 +68,7 @@ export class TripService {
   // }
 
   loadTrip(id: string, onlyFromDB?: boolean): Observable<any> {
-    const observable = Observable.create(subscirber => {
+    const observable = Observable.create(subscriber => {
       const trip = this.trips.find(t => t.id === id);
       if (trip && !onlyFromDB) {
         console.log('Found it in service!');
@@ -77,7 +77,7 @@ export class TripService {
         this.destinationService.getCountryFlag(countryName)
         .subscribe(resp => {
           trip.countryFlag = JSON.parse(resp._body)[0].flag;
-          subscirber.next(trip);
+          subscriber.next(trip);
         });
     
       } else {
@@ -90,12 +90,12 @@ export class TripService {
             this.destinationService.getCountryFlag(countryName)
             .subscribe(resp => {
               serverResponse.countryFlag = JSON.parse(resp._body)[0].flag;
-              subscirber.next(serverResponse);
+              subscriber.next(serverResponse);
             });
             console.log('Found it in DB!');
           },
           err => {
-            subscirber.error(new Error(`Error could not even find trip with id ${id} in DB`));
+            subscriber.error(new Error(`Error could not even find trip with id ${id} in DB`));
           }
         );
       }

@@ -6,7 +6,7 @@ import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { MyErrorStateMatcher } from '../shared/utils/error-matcher';
 import { UserInterfaceService } from '../services/user-interface.service';
-import { FacebookService } from '../services/facebook.service';
+import { SocialService } from '../services/social.service';
 
 
 @Component({
@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
     public userInterfaceService: UserInterfaceService,
-    public facebookService: FacebookService
+    public socialService: SocialService
     ) { }
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class AuthComponent implements OnInit {
 
   public onFacebookLogin() {
     this.onCloseDialog();
-    this.facebookService.fbLogin().then(
+    this.socialService.fbLogin().then(
       () => {
         this.userInterfaceService.success('Successfully logged in!');
       }

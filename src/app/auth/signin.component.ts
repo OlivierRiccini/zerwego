@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef, MatStepper } from '@angular/material';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
-import { FacebookService } from '../services/facebook.service';
+import { SocialService } from '../services/social.service';
 import { IForgotPassword } from '../models/auth';
 import { ContactMode } from '../models/shared';
 
@@ -30,9 +30,9 @@ export class SigninComponent extends AuthComponent implements OnInit {
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
     public userInterfaceService: UserInterfaceService,
-    public facebookService: FacebookService
+    public socialService: SocialService
     ) { 
-      super(fb, authService, dialogRef, router, userInterfaceService, facebookService);
+      super(fb, authService, dialogRef, router, userInterfaceService, socialService);
     }
     
   ngOnInit() {

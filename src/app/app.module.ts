@@ -18,7 +18,28 @@ import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { UserInterfaceService } from './services/user-interface.service';
 import { HomeSignupComponent } from './home/home-signup.component';
 import { NotificationComponent } from './shared/notification/notification.component';
-import { FacebookService } from './services/facebook.service';
+import { SocialService } from './services/social.service';
+import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
+import { GoogleLoginProvider, FacebookLoginProvider, LinkedInLoginProvider} from "angularx-social-login";
+
+let config = new AuthServiceConfig([
+  // {
+  //   id: GoogleLoginProvider.PROVIDER_ID,
+  //   provider: new GoogleLoginProvider("Google-OAuth-Client-Id")
+  // },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('2290018351254667')
+  },
+  // {
+  //   id: LinkedInLoginProvider.PROVIDER_ID,
+  //   provider: new LinkedInLoginProvider("LinkedIn-client-Id", false, 'en_US')
+  // }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -34,6 +55,7 @@ import { FacebookService } from './services/facebook.service';
     AuthModule,
     SharedModule,
     AppRoutingModule,
+    SocialLoginModule
   ],
   providers: [
     TripService,
@@ -43,7 +65,11 @@ import { FacebookService } from './services/facebook.service';
     UserInterfaceService,
     AuthGuardLoad,
     AuthGuardActivate,
-    FacebookService
+    SocialService,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
   ],
   entryComponents: [SigninComponent, SignupComponent, ConfirmComponent, NotificationComponent],
   bootstrap: [AppComponent]
