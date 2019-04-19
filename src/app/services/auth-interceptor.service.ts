@@ -14,6 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler): Observable<HttpEvent<any>> {
 
     const token = this.auth.getTokens();
+    console.log(token);
     if (token) {
       const cloned = req.clone({
         headers: new HttpHeaders({
@@ -32,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
           }
         }, err => {
           if (err.error.name === 'TokenExpiredError'
-              || err.error.message.message === 'Refresh token is expired, user has to login') {
+              || err.error.message === 'Refresh token is expired, user has to login') {
             this.auth.autoLogout();
           }
         }))

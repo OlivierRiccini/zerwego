@@ -39,19 +39,13 @@ export class AuthService {
   login(credentials: ICredentials) {
     return this.http.post<any>(`${baseUrl}/login`, credentials, { observe: 'response' })
       .pipe(map(response => {
-        let user;
+        let user: IUser;
         const accesToken = response.headers.get('authorization');
-        // login successful if there's a jwt accesToken in the response
         if (accesToken) {
           var decoded = jwt_decode(accesToken);
           user = decoded.payload;
           localStorage.setItem('Authorization', accesToken);
-          // localStorage.setItem('Refresh_token', refreshToken);
           localStorage.setItem('currentUser', JSON.stringify(user));
-          if (decoded.hasOwnProperty('exp')) {
-            const accesTokenDurationTime: number = (decoded.exp - decoded.iat) * 1000;
-            // this.autoLogout(tokenDurationTime);
-          }
         }
         this.loggedObs.emit(user);
         return user;
@@ -59,13 +53,16 @@ export class AuthService {
   }
 
   logout() {
-    const token: string = this.getToken();
-    localStorage.removeItem('Authorization');
-    localStorage.removeItem('currentUser');
-    this.loggedObs.emit(null);
-    this.router.navigate(['/']);
-    this.userInterfaceService.success('Successfully logedOut');
-    this.http.delete(`${baseUrl}/logout/${token}`).subscribe(() => {});
+    this.http.delete(`${baseUrl}/logout`).subscribe(
+      () => {
+        localStorage.removeItem('Authorization');
+        localStorage.removeItem('currentUser');
+        this.loggedObs.emit(null);
+        this.router.navigate(['/']);
+        this.userInterfaceService.success('Successfully logedOut');
+      },
+      err => this.userInterfaceService.error(err)
+    );
   }
 
   autoLogout() {

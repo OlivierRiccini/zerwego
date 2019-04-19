@@ -15,11 +15,9 @@ import { TripAccomodationComponent } from './trip-accomodation/trip-accomodation
 import { TripParticipantsComponent } from './trip-participants/trip-participants.component';
 import { TripActivitiesComponent } from './trip-activities/trip-activities.component';
 import { TripDestinationComponent } from './trip-destination/trip-destination.component';
-// import { Daterangepicker } from 'ng2-daterangepicker';
 import { TripAddFormComponent } from './trip-form/trip-form-add.component';
 import { TripEditFormComponent } from './trip-form/trip-form-edit.component';
 import { Daterangepicker } from 'ng2-daterangepicker';
-// import { TripFormModule } from './trip-form/trip-form.module';
 
 @NgModule({
   declarations: [
@@ -40,18 +38,10 @@ import { Daterangepicker } from 'ng2-daterangepicker';
     CommonModule,
     TripRoutingModule,
     Daterangepicker,
-    SharedModule,
-    // TripFormModule
+    SharedModule
   ],
   entryComponents: [
-    TripFormBaseComponent,
-    // // TripComponent,
-    // TripAddFormComponent,
-    // TripEditFormComponent
-  ],
-  // bootstrap: [TripComponent, TripFormBaseComponent]
-  // providers: [
-  //   DestinationService
-  // ],
+    TripFormBaseComponent
+  ]
 })
 export class TripModule {}
