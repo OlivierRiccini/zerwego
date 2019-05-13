@@ -38,7 +38,7 @@ export class TripsComponent implements OnInit, OnDestroy {
           console.log('No trip found');
         }
       },
-      (err) => console.log(err)
+      (err) => console.log('err')
     ));
 
    
