@@ -67,8 +67,6 @@ export class AuthService {
       tap(() => this.doLogoutUser()),
       mapTo(true),
       catchError(error => {
-        console.log(error);
-        // alert(error.error);
         return of(false);
       }));
   }
@@ -88,7 +86,6 @@ export class AuthService {
       tap((response: any) => {
         const jwt = response.headers.get('jwt');
         const refreshToken = response.headers.get('refreshToken'); 
-        // this.storeJwtToken(jwt);
         this.storeTokens({refreshToken, jwt});
     }));
   }
@@ -110,7 +107,7 @@ export class AuthService {
     this.switchDialogEvent.emit(isAModeChange);
   }
 
-  public autoLogout() {
+  public autoLogout(): void {
     this.logout().subscribe(
       () => {
         this.router.navigate(['/']);
@@ -120,7 +117,7 @@ export class AuthService {
           falseLabel: 'No thanks'
         })
         .subscribe((response: boolean) => {
-          response ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./'])
+          response ? this.router.navigate(['/', 'signin']) : this.router.navigate(['./'])        
         });
       }
     );
@@ -141,7 +138,7 @@ export class AuthService {
     this.userInterfaceService.success('Successfully logedOut');
   }
 
-  private getRefreshToken() {
+  public getRefreshToken() {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 

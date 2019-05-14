@@ -7,11 +7,10 @@ import { catchError, filter, take, switchMap } from 'rxjs/operators';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  // private isRefreshing = false;
+  private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(public authService: AuthService) { 
-    // this.isRefreshing = false;
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -22,10 +21,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
-        if (error.error.message === 'Refresh token is no longer valid, user has to login') {
+        if (!this.isRefreshing && error.error.message === 'Refresh token is no longer valid, user has to login') {
           this.authService.autoLogout();
+          return next.handle(null);
+        } else {
+          return this.handle401Error(request, next);
         }
-        return this.handle401Error(request, next);
       } else {
         return throwError(error);
       }
