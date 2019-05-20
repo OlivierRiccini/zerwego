@@ -12,7 +12,35 @@
           </mat-form-field>
       </div>
 
-      <div class="form-group">
+      <div *ngIf="!signUpMode" class="form-group select-with-mat-radio-group">
+        <mat-label [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+          Would you like to {{ signUpMode ? 'signup' : 'signin' }} with email or phone?
+        </mat-label>
+        <br>
+        <mat-radio-group aria-label="Select an option" formControlName="contactMode">
+          <mat-radio-button
+            color="primary"
+            value="email"
+            [checked]="authFormIsEmail"
+            (change)="onSelectContactMode('authForm', authForm, 'email')">
+            <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+              Email
+            </span>
+          </mat-radio-button>
+          <mat-radio-button
+            color="primary"
+            value="sms"
+            [checked]="authFormIsPhone"
+            (change)="onSelectContactMode('authForm', authForm, 'sms')">
+            <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+              Sms
+            </span>
+          </mat-radio-button>
+        </mat-radio-group>        
+      </div>
+
+
+      <div *ngIf="authFormIsEmail" class="form-group">
         <mat-form-field>
           <input matInput placeholder="Email" type="email" id="email1" formControlName="email">
           <mat-error *ngIf="authForm.get('email').hasError('email') && !authForm.get('email').hasError('required')">
@@ -20,6 +48,18 @@
           </mat-error>
           <mat-error *ngIf="authForm.get('email').hasError('required')">
             Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="authFormIsPhone" class="form-group">
+        <mat-form-field>
+          <input matInput placeholder="Phone" type="phone" id="phone1" formControlName="phone">
+          <!-- <mat-error *ngIf="authForm.get('phone').hasError('phone') && !authForm.get('phone').hasError('required')">
+            Please enter a valid email address
+          </mat-error> -->
+          <mat-error *ngIf="authForm.get('phone').hasError('required')">
+            Phone number is <strong>required</strong>
           </mat-error>
         </mat-form-field>
       </div>
@@ -63,27 +103,26 @@
         <mat-radio-group aria-label="Select an option" formControlName="contactMode">
           <mat-radio-button
             color="primary"
-            value="sms"
-            (change)="onSelectMode('sms')">
-            <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
-              Sms
-            </span>
-          </mat-radio-button>
-          <mat-radio-button
-            color="primary"
             value="email"
-            (change)="onSelectMode('email')">
+            [checked]="forgotPasswordFormIsEmail"
+            (change)="onSelectContactMode('forgotPasswordForm', forgotPasswordForm, 'email')">
             <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
               Email
             </span>
           </mat-radio-button>
-          <!-- <mat-error *ngIf="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required')">
-              Contact mode is <strong>required</strong>
-          </mat-error> -->
+          <mat-radio-button
+            color="primary"
+            value="sms"
+            [checked]="forgotPasswordFormIsPhone"
+            (change)="onSelectContactMode('forgotPasswordForm', forgotPasswordForm, 'sms')">
+            <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+              Sms
+            </span>
+          </mat-radio-button>
         </mat-radio-group>        
       </div>
       <div class="form-group">
-        <mat-form-field>
+        <mat-form-field *ngIf="forgotPasswordFormIsEmail">
           <input matInput placeholder="Email" type="email" id="emailForgotPass" formControlName="emailForgotPass">
           <mat-error *ngIf="forgotPasswordForm.get('emailForgotPass').hasError('email')">
             Please enter a valid email address
@@ -92,11 +131,8 @@
             Email is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field *ngIf="forgotPasswordFormIsPhone">
           <input matInput placeholder="Phone" type="phone" id="phoneForgotPass" formControlName="phoneForgotPass">
-          <!-- <mat-error>
-            Please enter a valid email address
-          </mat-error> -->
           <mat-error *ngIf="forgotPasswordForm.get('phoneForgotPass').hasError('required')">
             Phone number is <strong>required</strong>
           </mat-error>

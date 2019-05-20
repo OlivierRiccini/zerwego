@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { HomeComponent } from '../home/home.component';
 import { MatDialogRef } from '@angular/material';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MyErrorStateMatcher } from '../shared/utils/error-matcher';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
+import { ContactMode } from '../models/shared';
 
 
 @Component({
@@ -25,6 +26,11 @@ export class AuthComponent implements OnInit {
   public signUpMode: boolean = false; 
   public authForm: FormGroup;
   public matcher = new MyErrorStateMatcher();
+  
+  public forgotPasswordFormIsPhone = false;
+  public forgotPasswordFormIsEmail = true;
+  public authFormIsEmail: boolean = true;
+  public authFormIsPhone: boolean = false;
 
   constructor(
     public fb:FormBuilder,
@@ -41,9 +47,30 @@ export class AuthComponent implements OnInit {
 
   private createForm() {
     this.authForm = this.fb.group({
+      contactMode: [''],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+  }
+
+  public onSelectContactMode(formName: string, form: FormGroup, contactMode: ContactMode): void {
+    const validators = [ Validators.required ];
+    let toAdd: string;
+    let toRemove: string;
+    if (contactMode === 'email') {
+      this[formName + 'IsEmail'] = true;
+      this[formName + 'IsPhone'] = false;
+      toAdd = formName === 'authForm' ? 'email' : 'emailForgotPass';
+      toRemove = formName === 'authForm' ? 'phone' :  'phoneForgotPass';
+      validators.push(Validators.email);
+    } else {
+      this[formName + 'IsEmail'] = false;
+      this[formName + 'IsPhone'] = true;
+      toAdd = formName === 'authForm' ? 'phone' : 'phoneForgotPass';
+      toRemove = formName === 'authForm' ? 'email' : 'emailForgotPass';
+    }
+    form.addControl(toAdd, new FormControl('', validators));
+    form.removeControl(toRemove);
   }
 
   public onChangeDialogMode(mode: 'signup' | 'signin') {
@@ -63,7 +90,6 @@ export class AuthComponent implements OnInit {
   }
 
   public onCloseDialog() {
-    console.log('blaaa');
     this.dialogRef.close();
   }
   

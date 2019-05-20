@@ -6,7 +6,8 @@ export type LoginType =
 
 export interface ICredentials {
     type: string,
-    email: string,
+    email?: string,
+    phone?: string,
     username?: string,
     password?: string,
     facebookId?: string

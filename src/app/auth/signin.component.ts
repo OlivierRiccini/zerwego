@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ControlContainer, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef, MatStepper } from '@angular/material';
@@ -47,6 +47,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmit() {
+    console.log(this.authForm.value);
     if (this.authForm.invalid) {
       return;
     }
@@ -54,43 +55,36 @@ export class SigninComponent extends AuthComponent implements OnInit {
     this.authService.login({type: 'password', email: user.email, password: user.password}).subscribe(
       () => {
         this.dialogRef.close();
-        this.userInterfaceService.success('Successfully logged in!');
-      },
-      err => this.userInterfaceService.error(err)
+      }
     )
   }
 
   creatForgotPasswordForm() {
     this.forgotPasswordForm = this.fb.group({
       contactMode: ['', [Validators.required]],
-      emailForgotPass: [''],
-      phoneForgotPass: ['']
+      emailForgotPass: ['']
     });
-    this.forgotPasswordForm.get('emailForgotPass').disable();
-    this.forgotPasswordForm.get('phoneForgotPass').disable();
   }
 
-  public onSelectMode(contactMode: ContactMode) {
-    const validators = [ Validators.required ];
-    let toEnable: string;
-    let toDisable: string;
-    if (contactMode === 'email') {
-      toEnable = 'emailForgotPass';
-      toDisable = 'phoneForgotPass';
-      validators.push(Validators.email);
-    } else {
-      toEnable = 'phoneForgotPass';
-      toDisable = 'emailForgotPass';
-    }
-    // const validators = [ Validators.required ];
-    // const toEnable = contactMode === 'email' ? 'emailForgotPass' : 'phoneForgotPass';
-    // const toDisable = contactMode !== 'email' ? 'emailForgotPass' : 'phoneForgotPass';
-
-    this.forgotPasswordForm.get(toEnable).setValidators(validators);
-    this.forgotPasswordForm.get(toDisable).clearValidators();
-    this.forgotPasswordForm.get(toEnable).enable();
-    this.forgotPasswordForm.get(toDisable).disable();
-  }
+  // public onSelectContactMode(form: FormGroup, contactMode: ContactMode) {
+  //   const validators = [ Validators.required ];
+  //   let toEnable: string;
+  //   let toDisable: string;
+  //   if (contactMode === 'email') {
+  //     this.forgotPasswordModeIsPhone = false;
+  //     this.forgotPasswordModeIsEmail= true;
+  //     toEnable = 'emailForgotPass';
+  //     toDisable = 'phoneForgotPass';
+  //     validators.push(Validators.email);
+  //   } else {
+  //     this.forgotPasswordModeIsPhone = true;
+  //     this.forgotPasswordModeIsEmail= false;
+  //     toEnable = 'phoneForgotPass';
+  //     toDisable = 'emailForgotPass';
+  //   }
+  //   form.addControl(toEnable, new FormControl('', validators));
+  //   form.removeControl(toDisable);
+  // }
 
   public onSubmitForgotPasswordForm(stepper: MatStepper) {
     this.forgotPasswordFormIsSubmited = true;
@@ -109,7 +103,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
         this.forgotPasswordButtonLabel = 'New password sent!'
         setTimeout(() => this.stepBack(this.stepper), 3000);
       },
-      err => this.userInterfaceService.error(err)
+      err => this.userInterfaceService.error(err.err.message)
     )
   }
 

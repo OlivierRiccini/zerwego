@@ -30,13 +30,13 @@ export class AuthService {
       .pipe(
         tap(response => {
           const jwt = response.headers.get('jwt');
-          const refreshToken = response.headers.get('refreshToken');
+          const refreshToken = response.headers.get('refresh-token');
           this.doLoginUser({jwt, refreshToken});
+          this.userInterfaceService.success('Successfully logged in!');
         }),
         mapTo(true),
         catchError(error => {
-          console.log(error);
-          alert(error.error);
+          this.userInterfaceService.error(error.error.message);
           return of(false);
         }));
   }
@@ -46,13 +46,13 @@ export class AuthService {
       .pipe(
         tap(response => {
           const jwt = response.headers.get('jwt');
-          const refreshToken = response.headers.get('refreshToken');
+          const refreshToken = response.headers.get('refresh-token');
           this.doLoginUser({jwt, refreshToken});
         }),
         mapTo(true),
         catchError(error => {
-          console.log(error);
-          alert(error.error);
+          console.log(error.error.message);
+          this.userInterfaceService.error(error.error.message);
           return of(false);
         }));
   }
@@ -85,7 +85,7 @@ export class AuthService {
     return this.http.post<any>(`${config.apiUrl}/refresh`, user, options,).pipe(
       tap((response: any) => {
         const jwt = response.headers.get('jwt');
-        const refreshToken = response.headers.get('refreshToken'); 
+        const refreshToken = response.headers.get('refresh-token'); 
         this.storeTokens({refreshToken, jwt});
     }));
   }
