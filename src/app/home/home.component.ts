@@ -67,17 +67,4 @@ export class HomeComponent implements OnInit, OnDestroy {
       console.log('The dialog was closed');
     });
   }
-
-  // private handleRedirectAfterAuth() {
-  //   let routeToNavigate: string[];
-  //   if (this.targetUrl) {
-  //     routeToNavigate = this.targetUrl.split('/');
-  //     routeToNavigate.unshift('/');
-  //   } else {
-  //     routeToNavigate = ['/'];
-  //   }
-  //   this.router.navigate(routeToNavigate);
-  //   console.log(routeToNavigate);
-  // }
-
 }

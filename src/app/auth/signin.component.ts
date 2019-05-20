@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
-import { IForgotPassword } from '../models/auth';
+import { IForgotPassword, ICredentials } from '../models/auth';
 import { ContactMode } from '../models/shared';
 
 @Component({
@@ -47,44 +47,29 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.authForm.value);
     if (this.authForm.invalid) {
       return;
     }
     const user = this.authForm.value;
-    this.authService.login({type: 'password', email: user.email, password: user.password}).subscribe(
+    const credentials: ICredentials = {type: 'password', password: user.password};
+    if (this.authForm.value.contactMode && this.authForm.value.contactMode === 'sms' && this.authForm.value.phone) {
+      credentials.phone = this.authForm.value.phone;
+    } else if (this.authForm.value.email) {
+      credentials.email = this.authForm.value.email;
+    }
+    this.authService.login(credentials).subscribe(
       () => {
         this.dialogRef.close();
       }
     )
   }
 
-  creatForgotPasswordForm() {
+  public creatForgotPasswordForm(): void {
     this.forgotPasswordForm = this.fb.group({
       contactMode: ['', [Validators.required]],
       emailForgotPass: ['']
     });
   }
-
-  // public onSelectContactMode(form: FormGroup, contactMode: ContactMode) {
-  //   const validators = [ Validators.required ];
-  //   let toEnable: string;
-  //   let toDisable: string;
-  //   if (contactMode === 'email') {
-  //     this.forgotPasswordModeIsPhone = false;
-  //     this.forgotPasswordModeIsEmail= true;
-  //     toEnable = 'emailForgotPass';
-  //     toDisable = 'phoneForgotPass';
-  //     validators.push(Validators.email);
-  //   } else {
-  //     this.forgotPasswordModeIsPhone = true;
-  //     this.forgotPasswordModeIsEmail= false;
-  //     toEnable = 'phoneForgotPass';
-  //     toDisable = 'emailForgotPass';
-  //   }
-  //   form.addControl(toEnable, new FormControl('', validators));
-  //   form.removeControl(toDisable);
-  // }
 
   public onSubmitForgotPasswordForm(stepper: MatStepper) {
     this.forgotPasswordFormIsSubmited = true;

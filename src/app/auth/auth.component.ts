@@ -47,7 +47,7 @@ export class AuthComponent implements OnInit {
 
   private createForm() {
     this.authForm = this.fb.group({
-      contactMode: [''],
+      contactMode: ['email'],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });

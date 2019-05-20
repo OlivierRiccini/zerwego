@@ -1,41 +1,25 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material';
-import { UserInterfaceService } from 'src/app/services/user-interface.service';
-// import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-// import { UserInterfaceService } from 'src/app/services/user-interface.service';
-// import { IConfirmData } from 'src/app/interfaces/shared.interfaces';
+import { UserInterfaceService } from 'src/app/services/user-interface.service'
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent {
   public notificationData: string;
 
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
     private userInterfaceService: UserInterfaceService,
-    // public dialogRef: MatDialogRef<ConfirmComponent>
-    ) { 
-    // this.userInterfaceService.confirmEvent.subscribe(
-    //   confirmData => {
-    //     this.confirmData = confirmData;
-    //   } 
-    // )
+    ) {
     userInterfaceService.notificationEvent.subscribe(
-        notifData => {
+        (notifData: string) => {
             this.notificationData = notifData
         }
     )
   }
-
-  ngOnInit() {}
-
-//   onResponse(response: boolean): void {
-//     console.log(response);
-//     this.userInterfaceService.getConfirmUserResponse(response);
-//     this.dialogRef.close();
-//   }
 
 }

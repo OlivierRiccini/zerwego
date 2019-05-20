@@ -48,10 +48,10 @@ export class AuthService {
           const jwt = response.headers.get('jwt');
           const refreshToken = response.headers.get('refresh-token');
           this.doLoginUser({jwt, refreshToken});
+          this.userInterfaceService.success('Successfully logged in!');
         }),
         mapTo(true),
         catchError(error => {
-          console.log(error.error.message);
           this.userInterfaceService.error(error.error.message);
           return of(false);
         }));
@@ -64,9 +64,13 @@ export class AuthService {
     });
     const options = { headers: headers };
     return this.http.post<any>(`${config.apiUrl}/logout`, null, options).pipe(
-      tap(() => this.doLogoutUser()),
+      tap(() => {
+        this.doLogoutUser();
+        this.userInterfaceService.success('Successfully logged out, see you!');
+      }),
       mapTo(true),
       catchError(error => {
+        this.userInterfaceService.error(error.error.message);
         return of(false);
       }));
   }
@@ -75,10 +79,10 @@ export class AuthService {
     return !!this.getJwtToken();
   }
 
-  public refreshToken() {
+  public refreshToken(): Observable<any>  {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'refreshToken': this.getRefreshToken() 
+      'refresh-token': this.getRefreshToken() 
     });
     const options = { headers: headers, observe: 'response' as 'body' };
     const user: IUser = this.getCurrentUser();
@@ -135,7 +139,6 @@ export class AuthService {
     this.removeCurrentUser();
     this.removeTokens();
     this.userLoggedEvent.emit(null);
-    this.userInterfaceService.success('Successfully logedOut');
   }
 
   public getRefreshToken() {

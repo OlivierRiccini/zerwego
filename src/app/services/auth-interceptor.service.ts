@@ -3,15 +3,16 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 import { AuthService } from './auth.service';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
+import { UserInterfaceService } from './user-interface.service';
 
 @Injectable()
+
+// https://github.com/bartosz-io/jwt-auth-angular/blob/master/src/app/auth/token.interceptor.ts
 export class AuthInterceptor implements HttpInterceptor {
 
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(public authService: AuthService) { 
-  }
+  constructor(private authService: AuthService, private userInterfaceService: UserInterfaceService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -21,12 +22,13 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
-        if (!this.isRefreshing && error.error.message === 'Refresh token is no longer valid, user has to login') {
-          this.authService.autoLogout();
-          return next.handle(null);
+        if (error.error.name === 'TokenExpiredError') {
+          return this.handle401TokenExpiredError(request, next);
+        } else if (error.error.message === 'Refresh token is no longer valid, user has to login') {
+          return this.handle401RefreshTokenExpired(next);
         } else {
-          return this.handle401Error(request, next);
-        }
+          return this.handle401Errors(next);
+        } 
       } else {
         return throwError(error);
       }
@@ -41,33 +43,33 @@ export class AuthInterceptor implements HttpInterceptor {
     });
   }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    return this.authService.refreshToken().pipe(
-      switchMap((response: any) => {
-        const jwt = response.headers.get('jwt');
-        // this.isRefreshing = false;
-        this.refreshTokenSubject.next(jwt);
-        return next.handle(this.addToken(request, jwt));
-      }));
-  //   if (!this.isRefreshing) {
-  //     this.isRefreshing = true;
-  //     this.refreshTokenSubject.next(null);
+  private handle401TokenExpiredError(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      return this.authService.refreshToken().pipe(
+        switchMap((response: any) => {
+          const jwt = response.headers.get('jwt');
+          this.isRefreshing = false;
+          return next.handle(this.addToken(request, jwt));
+        }));
+    }
+  }
 
-  //     return this.authService.refreshToken().pipe(
-  //       switchMap((response: any) => {
-  //         const jwt = response.headers.get('jwt');
-  //         this.isRefreshing = false;
-  //         this.refreshTokenSubject.next(jwt);
-  //         return next.handle(this.addToken(request, jwt));
-  //       }));
+  private handle401RefreshTokenExpired(next: HttpHandler) {
+    this.authService.autoLogout();
+    this.isRefreshing = false;
+    return next.handle(null);
+  }
 
-  //   } else {
-  //     return this.refreshTokenSubject.pipe(
-  //       filter(token => token != null),
-  //       take(1),
-  //       switchMap(jwt => {
-  //         return next.handle(this.addToken(request, jwt));
-  //       }));
-  //   }
+  private handle401Errors(next: HttpHandler) {
+    this.userInterfaceService.error(`
+      Something went wrong during security process, for security purposes you'll be logged out in 8 seconds.
+      Then you'll be able to loggin again, thans for your understanding`
+    );
+    setTimeout(() => {
+      this.authService.autoLogout();
+      this.isRefreshing = false;
+    }, 8000);
+    return next.handle(null);
   }
 }
