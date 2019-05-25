@@ -40,7 +40,7 @@ export class AppComponent {
 
   openNotification(notifData: INotificationData) {
     this.snackBar.openFromComponent(NotificationComponent, {
-      duration: 5000,
+      duration: 8000,
       panelClass: [notifData.type],
       data: notifData
     });

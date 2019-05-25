@@ -16,7 +16,6 @@ export interface IConfirmData {
     falseLabel: string
 }
 
-
 export interface INotificationData {
     message: string,
     type: NotificationType

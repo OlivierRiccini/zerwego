@@ -13,20 +13,24 @@ export class AuthGuardLoad implements CanLoad {
         route: Route,
         segments: UrlSegment[]
       ): Observable<boolean> | Promise<boolean> | boolean {
-        return this.authService.isLoggedIn().pipe(
-          take(1),
-          switchMap(isLogged => {
-            if (!isLogged) {
-                return of(false);
-            }
-            return of(true);
-          }),
-          tap(isAuth => {
-            if (!isAuth) {
-              this.router.navigate(['/signin']);
-            }
-          })
-        );
+        if (!this.authService.isLoggedIn()) {
+          this.router.navigate(['/signin']);
+        }
+        return this.authService.isLoggedIn()
+        // return this.authService.isLoggedIn().pipe(
+        //   take(1),
+        //   switchMap(isLogged => {
+        //     if (!isLogged) {
+        //         return of(false);
+        //     }
+        //     return of(true);
+        //   }),
+        //   tap(isAuth => {
+        //     if (!isAuth) {
+        //       this.router.navigate(['/signin']);
+        //     }
+        //   })
+        // );
       }
  
 }
@@ -37,20 +41,24 @@ export class AuthGuardActivate implements CanActivate {
     constructor(private authService: AuthService, private router: Router) {}
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.authService.isLoggedIn().pipe(
-          take(1),
-          switchMap(isLogged => {
-            if (!isLogged) {
-                return of(false);
-            }
-            return of(true);
-          }),
-          tap(isAuth => {
-            if (!isAuth) {
-              this.router.navigate(['/signin']);
-            }
-          })
-        );
+      if (!this.authService.isLoggedIn()) {
+        this.router.navigate(['/signin']);
+      }
+      return this.authService.isLoggedIn()
+      // return this.authService.isLoggedIn().pipe(
+      //   take(1),
+      //   switchMap(isLogged => {
+      //     if (!isLogged) {
+      //         return of(false);
+      //     }
+      //     return of(true);
+      //   }),
+      //   tap(isAuth => {
+      //     if (!isAuth) {
+      //       this.router.navigate(['/signin']);
+      //     }
+      //   })
+      // );
     }
  
 }

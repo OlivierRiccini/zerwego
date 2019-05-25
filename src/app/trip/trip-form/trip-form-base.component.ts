@@ -91,7 +91,7 @@ export class TripFormBaseComponent implements OnInit {
         linkedCalendars: false
       };
       this.daterangepickerOptions.skipCSS = true; 
-      this.authService.loggedObs.subscribe(user => {
+      this.authService.userLoggedEvent.subscribe(user => {
         if (!user) { this.dialogRef.close() };
       })
     }
