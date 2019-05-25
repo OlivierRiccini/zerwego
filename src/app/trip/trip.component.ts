@@ -109,10 +109,10 @@ export class TripComponent implements OnInit {
   private async openDialog(mode: string) {
     let component: ComponentType<{}> | TemplateRef<{}>;
     if (mode === 'edit') { 
-      await this.router.navigate(['./', 'trips', this.id, this.activeSection, 'edit'])
+      await this.router.navigate(['./', 'myspace', 'trips', this.id, this.activeSection, 'edit'])
       component = TripEditFormComponent;
     } else if (mode === 'new') {
-      await this.router.navigate(['./', 'trips', 'new', 'overview']);
+      await this.router.navigate(['./', 'myspace', 'trips', 'new', 'overview']);
       component = TripAddFormComponent;
     }; 
     const dialogRef = this.dialog.open(component, {

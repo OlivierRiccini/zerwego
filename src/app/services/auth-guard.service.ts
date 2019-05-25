@@ -16,21 +16,7 @@ export class AuthGuardLoad implements CanLoad {
         if (!this.authService.isLoggedIn()) {
           this.router.navigate(['/signin']);
         }
-        return this.authService.isLoggedIn()
-        // return this.authService.isLoggedIn().pipe(
-        //   take(1),
-        //   switchMap(isLogged => {
-        //     if (!isLogged) {
-        //         return of(false);
-        //     }
-        //     return of(true);
-        //   }),
-        //   tap(isAuth => {
-        //     if (!isAuth) {
-        //       this.router.navigate(['/signin']);
-        //     }
-        //   })
-        // );
+        return this.authService.isLoggedIn();
       }
  
 }
@@ -44,21 +30,7 @@ export class AuthGuardActivate implements CanActivate {
       if (!this.authService.isLoggedIn()) {
         this.router.navigate(['/signin']);
       }
-      return this.authService.isLoggedIn()
-      // return this.authService.isLoggedIn().pipe(
-      //   take(1),
-      //   switchMap(isLogged => {
-      //     if (!isLogged) {
-      //         return of(false);
-      //     }
-      //     return of(true);
-      //   }),
-      //   tap(isAuth => {
-      //     if (!isAuth) {
-      //       this.router.navigate(['/signin']);
-      //     }
-      //   })
-      // );
+      return this.authService.isLoggedIn();
     }
  
 }

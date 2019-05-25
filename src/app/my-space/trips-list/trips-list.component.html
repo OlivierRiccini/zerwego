@@ -1,0 +1,4 @@
+<mat-card *ngFor="let trip of listOfTrips">
+  {{ trip.tripName }} - Destination: {{ trip.destination }}
+  <a mat-button [routerLink]="['./', 'trips' , trip.id, 'overview']">Go to trip page</a>
+</mat-card>

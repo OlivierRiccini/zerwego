@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Router, NavigationEnd, NavigationStart, NavigationCancel } from '@angular/router';
+import { Router, NavigationEnd, NavigationCancel } from '@angular/router';
 import { SigninComponent } from '../auth/signin.component';
 import { AuthService } from '../services/auth.service';
 import { SignupComponent } from '../auth/signup.component';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  tagline: string = 'Trips must be memorable, it starts with a good organization';
+  private tagline: string = 'Trips must be memorable, it starts with a good organization';
   private dialogSwitch: boolean;
   private subscriptions: Subscription[] = [];
   private targetUrl: string;
@@ -62,9 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.dialogSwitch = false;
         return;
       }
-      // this.handleRedirectAfterAuth();
-      this.router.navigate(['/']);
-      console.log('The dialog was closed');
+      // this.router.navigate(['/']);
     });
   }
 }

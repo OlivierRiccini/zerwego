@@ -26,33 +26,37 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router, private userInterfaceService: UserInterfaceService) { }
 
   public register(user: IUser): Observable<boolean> {
-    return this.http.post<any>(`${config.apiUrl}/register`, user, { observe: 'response' })
+    return this.http.post<any>(`${config.apiUrl}/register`, user, { observe: 'response' as 'body' })
       .pipe(
         tap(response => {
-          const jwt = response.headers.get('jwt');
-          const refreshToken = response.headers.get('refresh-token');
+          const jwt = response.body.jwt;
+          const refreshToken = response.body['refresh-token'];
           this.doLoginUser({jwt, refreshToken});
           this.userInterfaceService.success('Successfully logged in!');
+          this.router.navigate(['./', 'myspace']);
         }),
         mapTo(true),
         catchError(error => {
+          this.router.navigate(['/']);
           this.userInterfaceService.error(error.error.message);
           return of(false);
         }));
   }
 
   public login(credentials: ICredentials): Observable<boolean> {
-    return this.http.post<any>(`${config.apiUrl}/login`, credentials, { observe: 'response' })
+    return this.http.post<any>(`${config.apiUrl}/login`, credentials, { observe: 'response' as 'body' })
       .pipe(
         tap(response => {
-          const jwt = response.headers.get('jwt');
-          const refreshToken = response.headers.get('refresh-token');
+          const jwt = response.body.jwt;
+          const refreshToken = response.body['refresh-token'];
           this.doLoginUser({jwt, refreshToken});
           this.userInterfaceService.success('Successfully logged in!');
+          this.router.navigate(['./', 'myspace']);
         }),
         mapTo(true),
         catchError(error => {
-          this.userInterfaceService.error(error.error.message);
+          this.router.navigate(['/']);
+          this.userInterfaceService.error(error.message);
           return of(false);
         }));
   }
@@ -88,8 +92,8 @@ export class AuthService {
     const user: IUser = this.getCurrentUser();
     return this.http.post<any>(`${config.apiUrl}/refresh`, user, options,).pipe(
       tap((response: any) => {
-        const jwt = response.headers.get('jwt');
-        const refreshToken = response.headers.get('refresh-token'); 
+        const jwt = response.body.jwt;
+        const refreshToken = response.body['refresh-token']; 
         this.storeTokens({refreshToken, jwt});
     }));
   }

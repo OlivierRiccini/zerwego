@@ -4,26 +4,20 @@ import { HomeComponent } from './home/home.component';
 import { AuthGuardLoad, AuthGuardActivate } from './services/auth-guard.service';
 import { SignupComponent } from './auth/signup.component';
 import { SigninComponent } from './auth/signin.component';
+// import { MySpaceComponent } from './my-space/my-space.component';
 
-// const routes: Routes = [
-//   { path: '', component: HomeComponent },
-//     { path: 'trips', canLoad: [AuthGuard], loadChildren: './trips/trips.module#TripsModule' },
-//     { path: 'trip', canLoad: [AuthGuard], loadChildren: './trip/trip.module#TripModule' }
-// ];
 const routes: Routes = [
-  { path: '', component: HomeComponent, children: [
-    { path: 'signup',  component: SignupComponent },
-    { path: 'signin',  component: SigninComponent }
-  ] },
-  // {
-  //   path: 'auth', 
-  //   loadChildren: './auth/auth.module#AuthModule'
-  // },
+  { 
+    path: '', component: HomeComponent, children: [
+      { path: 'signup',  component: SignupComponent },
+      { path: 'signin',  component: SigninComponent }
+    ]
+  },
   {
-    path: 'trips', canLoad: [AuthGuardLoad],
+    path: 'myspace', canLoad: [AuthGuardLoad],
     canActivate: [AuthGuardActivate],
     runGuardsAndResolvers: 'always',
-    loadChildren: './trips/trips.module#TripsModule'
+    loadChildren: './my-space/my-space.module#MySpaceModule'
   }
 ];
 

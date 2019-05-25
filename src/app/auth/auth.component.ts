@@ -80,16 +80,13 @@ export class AuthComponent implements OnInit {
   }
 
 
-  public onFacebookLogin() {
+  public async onFacebookLogin() {
     this.onCloseDialog();
-    this.socialService.fbLogin().then(
-      () => {
-        this.userInterfaceService.success('Successfully logged in!');
-      }
-    );
+    await this.socialService.fbLogin();
   }
 
   public onCloseDialog() {
+    this.router.navigate(['/']);
     this.dialogRef.close();
   }
   

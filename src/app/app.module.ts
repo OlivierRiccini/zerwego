@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TripService } from './services/trip.service';
-import { UserService } from './services/user.service';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -21,6 +20,7 @@ import { NotificationComponent } from './shared/notification/notification.compon
 import { SocialService } from './services/social.service';
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider, LinkedInLoginProvider} from "angularx-social-login";
+// import { MySpaceComponent } from './my-space/my-space.component';
 
 let config = new AuthServiceConfig([
   // {
@@ -47,7 +47,7 @@ export function provideConfig() {
     NavbarComponent,
     HomeComponent,
     FooterComponent,
-    HomeSignupComponent
+    HomeSignupComponent  
   ],
   imports: [
     BrowserAnimationsModule,
@@ -59,7 +59,6 @@ export function provideConfig() {
   ],
   providers: [
     TripService,
-    UserService,
     DestinationService,
     AuthService,
     UserInterfaceService,

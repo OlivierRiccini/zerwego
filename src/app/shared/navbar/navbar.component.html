@@ -4,8 +4,8 @@
    </div>
    <div class="nav-right">
        <ul>
-          <li><a routerLink="./trips/new/overview">Create a trip</a></li>
-          <li *ngIf="isLoggedIn"><a routerLink="./trips">My Trips</a></li>
+          <li><a routerLink="./myspace/trips/new/overview">Create a trip</a></li>
+          <li *ngIf="isLoggedIn"><a routerLink="./myspace">My Space</a></li>
           <li *ngIf="!isLoggedIn"><a routerLink="./signin">Sign In</a></li>
           <li *ngIf="!isLoggedIn"><a routerLink="./signup">Sign up</a></li>
           <li *ngIf="isLoggedIn">{{currentUser.username}}</li>
