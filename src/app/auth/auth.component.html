@@ -52,8 +52,20 @@
         </mat-form-field>
       </div>
 
-      <div *ngIf="authFormIsPhone" class="form-group">
-        <mat-form-field>
+      <div *ngIf="authFormIsPhone" class="form-group flex-row">
+        <mat-form-field class="column-1">
+          <mat-label>Country</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let country of countries" [value]="country.countryCallingCodes[0]">
+                {{ country.emoji }} {{ country.countryCallingCodes[0] }}
+            </mat-option>
+          </mat-select>
+          <!-- <input matInput placeholder="Country" type="countryCallingCode" id="countryCallingCode" formControlName="countryCallingCode"> -->
+          <mat-error *ngIf="authForm.get('countryCallingCode').hasError('required')">
+              Country Code is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field  class="column-2">
           <input matInput placeholder="Phone" type="phone" id="phone1" formControlName="phone">
           <!-- <mat-error *ngIf="authForm.get('phone').hasError('phone') && !authForm.get('phone').hasError('required')">
             Please enter a valid email address

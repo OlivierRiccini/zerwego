@@ -5,8 +5,6 @@ import { UserInterfaceService } from './services/user-interface.service';
 import { IConfirmData, INotificationData } from './models/shared';
 import { NotificationComponent } from './shared/notification/notification.component';
 
-// import { geolocation } from 'geolocation';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

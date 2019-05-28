@@ -8,7 +8,7 @@ import { MyErrorStateMatcher } from '../shared/utils/error-matcher';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
 import { ContactMode } from '../models/shared';
-
+import * as countryData from 'country-data';
 
 @Component({
   selector: 'app-auth',
@@ -31,6 +31,7 @@ export class AuthComponent implements OnInit {
   public forgotPasswordFormIsEmail = true;
   public authFormIsEmail: boolean = true;
   public authFormIsPhone: boolean = false;
+  public countries: any = [];
 
   constructor(
     public fb:FormBuilder,
@@ -39,7 +40,16 @@ export class AuthComponent implements OnInit {
     public router: Router,
     public userInterfaceService: UserInterfaceService,
     public socialService: SocialService
-    ) { }
+    ) { 
+      // console.log(countryData.countries.all);
+      for (const c of countryData.countries.all) {
+        // console.log(c)
+        if (c.countryCallingCodes && c.countryCallingCodes.length > 0) {
+          this.countries.push(c);
+          console.log(c.emoji + ' ' + c.ioc + ' ' +  c.countryCallingCodes[0]);
+        }
+      }
+    }
 
   ngOnInit() {
     this.createForm();
@@ -63,11 +73,13 @@ export class AuthComponent implements OnInit {
       toAdd = formName === 'authForm' ? 'email' : 'emailForgotPass';
       toRemove = formName === 'authForm' ? 'phone' :  'phoneForgotPass';
       validators.push(Validators.email);
+      form.removeControl('countryCallingCode');
     } else {
       this[formName + 'IsEmail'] = false;
       this[formName + 'IsPhone'] = true;
       toAdd = formName === 'authForm' ? 'phone' : 'phoneForgotPass';
       toRemove = formName === 'authForm' ? 'email' : 'emailForgotPass';
+      form.addControl('countryCallingCode', new FormControl('', Validators.required));
     }
     form.addControl(toAdd, new FormControl('', validators));
     form.removeControl(toRemove);

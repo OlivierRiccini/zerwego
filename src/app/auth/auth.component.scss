@@ -46,3 +46,16 @@ mat-form-field {
     width: 100%;
     margin-top: 5px;
 }
+
+.flex-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.column-1 {
+    width: 25%;
+}
+
+.column-2 {
+    width: 70%;
+}
