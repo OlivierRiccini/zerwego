@@ -41,12 +41,9 @@ export class AuthComponent implements OnInit {
     public userInterfaceService: UserInterfaceService,
     public socialService: SocialService
     ) { 
-      // console.log(countryData.countries.all);
       for (const c of countryData.countries.all) {
-        // console.log(c)
         if (c.countryCallingCodes && c.countryCallingCodes.length > 0) {
           this.countries.push(c);
-          console.log(c.emoji + ' ' + c.ioc + ' ' +  c.countryCallingCodes[0]);
         }
       }
     }

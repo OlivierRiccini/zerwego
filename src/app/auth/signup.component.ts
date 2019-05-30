@@ -41,6 +41,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     this.authFormIsPhone = true;
     this.authForm.addControl('username', new FormControl('', Validators.required));
     this.authForm.addControl('phone', new FormControl('', Validators.required));
+    this.authForm.addControl('countryCallingCode', new FormControl('', Validators.required));
     this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]))
   }
 
@@ -48,7 +49,10 @@ export class SignupComponent extends AuthComponent implements OnInit {
     if (this.authForm.invalid) {
       return;
     }
-    const user = this.authForm.value;
+    let user = this.authForm.value;
+    if (user.phone) {
+      user.phone = `${this.authForm.value.countryCallingCode}${this.authForm.value.phone.replace(/\W/g, '')}`;
+    }
     this.authService.register(user).subscribe(
       user => {
         this.dialogRef.close();

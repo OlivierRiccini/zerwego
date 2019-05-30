@@ -55,9 +55,9 @@
       <div *ngIf="authFormIsPhone" class="form-group flex-row">
         <mat-form-field class="column-1">
           <mat-label>Country</mat-label>
-          <mat-select>
+          <mat-select formControlName="countryCallingCode">
             <mat-option *ngFor="let country of countries" [value]="country.countryCallingCodes[0]">
-                {{ country.emoji }} {{ country.countryCallingCodes[0] }}
+                {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCodes[0] }}
             </mat-option>
           </mat-select>
           <!-- <input matInput placeholder="Country" type="countryCallingCode" id="countryCallingCode" formControlName="countryCallingCode"> -->
@@ -143,12 +143,28 @@
             Email is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field *ngIf="forgotPasswordFormIsPhone">
-          <input matInput placeholder="Phone" type="phone" id="phoneForgotPass" formControlName="phoneForgotPass">
-          <mat-error *ngIf="forgotPasswordForm.get('phoneForgotPass').hasError('required')">
-            Phone number is <strong>required</strong>
-          </mat-error>
-        </mat-form-field>
+
+        <div *ngIf="forgotPasswordFormIsPhone" class="form-group flex-row">
+          <mat-form-field class="column-1">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="countryCallingCode">
+              <mat-option *ngFor="let country of countries" [value]="country.countryCallingCodes[0]">
+                  {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCodes[0] }}
+              </mat-option>
+            </mat-select>
+            <!-- <input matInput placeholder="Country" type="countryCallingCode" id="countryCallingCode" formControlName="countryCallingCode"> -->
+            <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
+                Country Code is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field  class="column-2">
+            <input matInput placeholder="Phone" type="phone" id="phoneForgotPass" formControlName="phoneForgotPass">
+            <mat-error *ngIf="forgotPasswordForm.get('phoneForgotPass').hasError('required')">
+              Phone number is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        
       </div>
       <button type="submit" class="zerwego-btn green-btn">
         {{ forgotPasswordButtonLabel }}

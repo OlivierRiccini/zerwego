@@ -53,7 +53,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
     const user = this.authForm.value;
     const credentials: ICredentials = {type: 'password', password: user.password};
     if (this.authForm.value.contactMode && this.authForm.value.contactMode === 'sms' && this.authForm.value.phone) {
-      credentials.phone = this.authForm.value.phone;
+      credentials.phone = `${this.authForm.value.countryCallingCode}${this.authForm.value.phone.replace(/\W/g, '')}`;
     } else if (this.authForm.value.email) {
       credentials.email = this.authForm.value.email;
     }
@@ -80,15 +80,21 @@ export class SigninComponent extends AuthComponent implements OnInit {
     let type = this.forgotPasswordForm.value.contactMode;
     const contact: IForgotPassword = {type};
     const to = type === 'email' ? 'email' : 'phone';
-    contact[to] = type === 'email' ?  this.forgotPasswordForm.value.emailForgotPass : this.forgotPasswordForm.value.phoneForgotPass;
+    if (type === 'email') {
+      contact[to] = this.forgotPasswordForm.value.emailForgotPass;
+    } else {
+      contact[to] = `${this.forgotPasswordForm.value.countryCallingCode}${this.forgotPasswordForm.value.phoneForgotPass.replace(/\W/g, '')}`;
+    }
     this.authService.forgotPassword(contact).subscribe(
       res => {
         this.userInterfaceService.success(res);
-        this.forgotPasswordForm.reset();
         this.forgotPasswordButtonLabel = 'New password sent!'
-        setTimeout(() => this.stepBack(this.stepper), 3000);
+        setTimeout(() => {
+          this.stepBack(this.stepper);
+          this.forgotPasswordForm.reset();
+        }, 5000);
       },
-      err => this.userInterfaceService.error(err.err.message)
+      err => this.userInterfaceService.error(err.error.message)
     )
   }
 
