@@ -29,6 +29,7 @@ export class AuthService {
     return this.http.post<any>(`${config.apiUrl}/register`, user, { observe: 'response' as 'body' })
       .pipe(
         tap(response => {
+          console.log(response.body);
           const jwt = response.body.jwt;
           const refreshToken = response.body['refresh-token'];
           this.doLoginUser({jwt, refreshToken});

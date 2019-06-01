@@ -49,11 +49,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authMode === 'signup') { 
       await this.router.navigate(['./', 'signup']);
       dialogRef = this.dialog.open(SignupComponent, {
+        disableClose: true,
         width: '500px',
       });
     } else if (this.authMode === 'signin') {
       await this.router.navigate(['./', 'signin']);
       dialogRef = this.dialog.open(SigninComponent, {
+        disableClose: true,
         width: '500px',
       });
     }; 

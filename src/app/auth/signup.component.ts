@@ -45,7 +45,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]))
   }
 
-  public onSubmit() {
+  public async onSubmit() {
     if (this.authForm.invalid) {
       return;
     }
@@ -53,6 +53,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     if (user.phone) {
       user.phone = `${this.authForm.value.countryCallingCode}${this.authForm.value.phone.replace(/\W/g, '')}`;
     }
+    await this.authService.register(user).toPromise()
     this.authService.register(user).subscribe(
       user => {
         this.dialogRef.close();
