@@ -1,21 +1,5 @@
 @import "../../style/config.scss";
 
-nav {
-    position: fixed;
-    top: 0;
-    z-index: 9;
-    width: 100vw;
-    padding: 0 165px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    background-color: $dark-gray;
-    opacity: 0.85;
-    color: #fff;
-    box-shadow: 0px 1px 1px 3px $light-gray;
-}
-
 .logo {
     font-size: 22px;
     cursor: pointer;
@@ -24,9 +8,10 @@ nav {
     }
 }
 
-// .nav-right {
-//     flex: 1 1 auto;
-// }
+mat-toolbar {
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.12), inset 0 -1px 0 0 #dadce0;
+}
+
 .nav-flex-right {
     display: flex;
     flex: 1 1 auto;
@@ -49,22 +34,3 @@ nav {
     color: $darker-blue;
     text-decoration: none;
 }
-// .nav-right ul {
-//     padding-left: 0;
-//     list-style: none;
-//     margin-bottom: 0;
-//     li {
-//         display: inline-block;
-//         margin: 0 20px;
-//     };
-//     a {
-//         color: #fff;
-//     }
-// }
-
-// ul li:last-child a {
-//     cursor: pointer;
-//     &:hover {
-//         text-decoration: underline;
-//     }
-// }
