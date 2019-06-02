@@ -5,4 +5,30 @@
     height: calc(100vh - 120px);
     display: flex;
     align-items: center;
+    flex-direction: column;
+}
+
+.wrapper-flex {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 100px;
+    hr {
+        width: 100%;
+        margin-bottom: 8px;
+        margin: 12px auto 35px auto;
+    };
+    .p-tagline {
+        font-size: 32px;
+        font-weight: 100;
+        margin-bottom: 0;
+    };
+    button {
+        margin-bottom: 36px;
+    };
+    p {
+        font-size: 22px;
+        font-weight: 100;
+    }
 }

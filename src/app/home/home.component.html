@@ -1,18 +1,17 @@
 <div class="container home-page">
-  <div class="row">
-    <div class="col-xs-12 col-sm-8">
-        <h1>Zerwego</h1>
-        <h2>{{ tagline }}</h2>
-        <hr>
-        <a href="http://itunes.apple.com/" target="_blank">
-          <img src="../../assets/app-store-badge.png" alt="app-store-badge" style="height: 70px">
-        </a>
-        <a href="https://play.google.com/store" target="_blank">
-          <img src="../../assets/google-play-badge.png" alt="google-play-badge" style="height: 70px">
-        </a>
-    </div>
-    <div class="col-xs-12 col-sm-4">
-        <app-home-signup></app-home-signup>
+  <div class="wrapper-flex">
+    <h1>Zerwego</h1>
+    <p class="p-tagline">{{ tagline }}</p>
+    <hr>
+    <button class="zerwego-btn blue-btn home-btn">CREATE A TRIP</button>
+    <p>Also available on</p>
+    <div class="mobile-badges-container">
+      <a href="http://itunes.apple.com/" target="_blank">
+        <img src="../../assets/app-store-badge.png" alt="app-store-badge" style="height: 50px">
+      </a>
+      <a href="https://play.google.com/store" target="_blank">
+        <img src="../../assets/google-play-badge.png" alt="google-play-badge" style="height: 50px">
+      </a>
     </div>
   </div>
 </div>

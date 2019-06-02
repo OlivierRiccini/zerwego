@@ -53,14 +53,11 @@ export class SignupComponent extends AuthComponent implements OnInit {
     if (user.phone) {
       user.phone = `${this.authForm.value.countryCallingCode}${this.authForm.value.phone.replace(/\W/g, '')}`;
     }
-    await this.authService.register(user).toPromise()
-    this.authService.register(user).subscribe(
-      user => {
+    this.authService.register(user).subscribe((res: boolean) => {
+      if (res) {
         this.dialogRef.close();
-        this.userInterfaceService.success('Successfully registered!');
-      },
-      err => this.userInterfaceService.error(err.message)
-    )
+      }
+    });
   }
   
 }

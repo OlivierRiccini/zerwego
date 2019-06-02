@@ -24,22 +24,47 @@ nav {
     }
 }
 
-.nav-right ul {
-    padding-left: 0;
-    list-style: none;
-    margin-bottom: 0;
-    li {
-        display: inline-block;
-        margin: 0 20px;
+// .nav-right {
+//     flex: 1 1 auto;
+// }
+.nav-flex-right {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    align-items: center;
+    button {
+        font-size: 16px;
+        padding: 6px 16px;
     };
     a {
-        color: #fff;
+        margin-left: 38px;
+        font-weight: 100;
+        font-size: 16px;
+        color: $blue;
+        cursor: pointer;
     }
 }
 
-ul li:last-child a {
-    cursor: pointer;
-    &:hover {
-        text-decoration: underline;
-    }
+.nav-flex-right a:hover {
+    color: $darker-blue;
+    text-decoration: none;
 }
+// .nav-right ul {
+//     padding-left: 0;
+//     list-style: none;
+//     margin-bottom: 0;
+//     li {
+//         display: inline-block;
+//         margin: 0 20px;
+//     };
+//     a {
+//         color: #fff;
+//     }
+// }
+
+// ul li:last-child a {
+//     cursor: pointer;
+//     &:hover {
+//         text-decoration: underline;
+//     }
+// }

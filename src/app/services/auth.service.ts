@@ -29,7 +29,6 @@ export class AuthService {
     return this.http.post<any>(`${config.apiUrl}/register`, user, { observe: 'response' as 'body' })
       .pipe(
         tap(response => {
-          console.log(response.body);
           const jwt = response.body.jwt;
           const refreshToken = response.body['refresh-token'];
           this.doLoginUser({jwt, refreshToken});
@@ -57,7 +56,7 @@ export class AuthService {
         mapTo(true),
         catchError(error => {
           this.router.navigate(['/']);
-          this.userInterfaceService.error(error.message);
+          this.userInterfaceService.error(error.error.message);
           return of(false);
         }));
   }

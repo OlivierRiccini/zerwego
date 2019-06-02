@@ -1,4 +1,4 @@
-<nav>
+<!-- <nav>
    <div>
        <span class="logo" routerLink="/">Zerwego</span>
    </div>
@@ -12,4 +12,23 @@
           <li *ngIf="isLoggedIn"><a (click)="onLogout()">Sign out</a></li>
        </ul>
    </div> 
-</nav>
+</nav> -->
+
+<mat-toolbar>
+    <span class="logo" routerLink="/">Zerwego</span>
+    <div class="nav-flex-right">
+        <button class="zerwego-btn blue-btn" routerLink="./myspace/trips/new/overview">Create a trip</button>
+        <a *ngIf="!isLoggedIn" routerLink="./signin">Sign In</a>
+        <a *ngIf="!isLoggedIn" routerLink="./signup">Sign up</a>
+        <a *ngIf="isLoggedIn" routerLink="./myspace">My Space</a>
+        <a *ngIf="isLoggedIn" (click)="onLogout()">Sign out</a>
+        <!-- <ul>
+            <li><a routerLink="./myspace/trips/new/overview">Create a trip</a></li>
+            <li *ngIf="isLoggedIn"><a routerLink="./myspace">My Space</a></li>
+            <li *ngIf="!isLoggedIn"><a routerLink="./signin">Sign In</a></li>
+            <li *ngIf="!isLoggedIn"><a routerLink="./signup">Sign up</a></li>
+            <li *ngIf="isLoggedIn">{{currentUser.username}}</li>
+            <li *ngIf="isLoggedIn"><a (click)="onLogout()">Sign out</a></li>
+        </ul> -->
+    </div> 
+</mat-toolbar>
