@@ -110,6 +110,10 @@ export class AuthService {
     return this.http.post<any>(`${config.apiUrl}/phone-already-taken`, {phone});
   }
 
+  public checkPasswordIsValid(credentials: ICredentials): Observable<any>  {
+    return this.http.post<any>(`${config.apiUrl}/password-is-valid`, credentials);
+  }
+
   public getJwtToken() {
     return localStorage.getItem(this.JWT_TOKEN);
   }

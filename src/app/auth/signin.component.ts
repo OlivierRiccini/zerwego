@@ -10,6 +10,7 @@ import { SocialService } from '../services/social.service';
 import { IForgotPassword, ICredentials } from '../models/auth';
 import { ContactMode } from '../models/shared';
 import { formatPhoneNumber } from '../shared/utils/helpers';
+import { ValidatePassword } from '../shared/utils/validators';
 
 @Component({
   selector: 'app-signin',
@@ -45,6 +46,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
       submit: 'Sign in',
       changeForm: 'I don\t have an account yet'
     };
+    this.authForm.controls['password'].setAsyncValidators(ValidatePassword.createValidator(this.authService));
   }
 
   public onSubmit() {
