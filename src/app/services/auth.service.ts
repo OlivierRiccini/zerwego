@@ -98,8 +98,16 @@ export class AuthService {
     }));
   }
 
-  public forgotPassword(contact: IForgotPassword) {
+  public forgotPassword(contact: IForgotPassword): Observable<any>  {
     return this.http.post<any>(`${config.apiUrl}/forgot-password`, contact);
+  }
+
+  public checkEmailIsTaken(email: string): Observable<any>  {
+    return this.http.post<any>(`${config.apiUrl}/email-already-taken`, {email});
+  }
+
+  public checkPhoneIsTaken(phone: string): Observable<any>  {
+    return this.http.post<any>(`${config.apiUrl}/phone-already-taken`, {phone});
   }
 
   public getJwtToken() {

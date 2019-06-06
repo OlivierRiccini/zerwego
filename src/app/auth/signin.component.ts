@@ -9,6 +9,7 @@ import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
 import { IForgotPassword, ICredentials } from '../models/auth';
 import { ContactMode } from '../models/shared';
+import { formatPhoneNumber } from '../shared/utils/helpers';
 
 @Component({
   selector: 'app-signin',
@@ -53,7 +54,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
     const user = this.authForm.value;
     const credentials: ICredentials = {type: 'password', password: user.password};
     if (this.authForm.value.contactMode && this.authForm.value.contactMode === 'sms' && this.authForm.value.phone) {
-      credentials.phone = `${this.authForm.value.countryCallingCode}${this.authForm.value.phone.replace(/\W/g, '')}`;
+      credentials.phone = formatPhoneNumber(this.authForm.value.countryCallingCode, this.authForm.value.phone);
     } else if (this.authForm.value.email) {
       credentials.email = this.authForm.value.email;
     }
@@ -83,7 +84,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
     if (type === 'email') {
       contact[to] = this.forgotPasswordForm.value.emailForgotPass;
     } else {
-      contact[to] = `${this.forgotPasswordForm.value.countryCallingCode}${this.forgotPasswordForm.value.phoneForgotPass.replace(/\W/g, '')}`;
+      contact[to]= formatPhoneNumber(this.forgotPasswordForm.value.countryCallingCode, this.forgotPasswordForm.value.phoneForgotPass);
     }
     this.authService.forgotPassword(contact).subscribe(
       res => {

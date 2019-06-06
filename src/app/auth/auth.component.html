@@ -39,7 +39,6 @@
         </mat-radio-group>        
       </div>
 
-
       <div *ngIf="authFormIsEmail" class="form-group">
         <mat-form-field>
           <input matInput placeholder="Email" type="email" id="email1" formControlName="email">
@@ -48,6 +47,9 @@
           </mat-error>
           <mat-error *ngIf="authForm.get('email').hasError('required')">
             Email is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="authForm.get('email').hasError('emailTaken')">
+            Email is <strong>already taken</strong>
           </mat-error>
         </mat-form-field>
       </div>
@@ -72,6 +74,9 @@
           </mat-error> -->
           <mat-error *ngIf="authForm.get('phone').hasError('required')">
             Phone number is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="authForm.get('phone').hasError('phoneTaken')">
+            Phone number is <strong>already taken</strong>
           </mat-error>
         </mat-form-field>
       </div>

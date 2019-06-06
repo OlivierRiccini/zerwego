@@ -6,8 +6,10 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
-import { checkPasswords } from '../shared/utils/validators';
+import { checkPasswords, ValidatePhoneNotTaken } from '../shared/utils/validators';
 import { SocialService } from '../services/social.service';
+import { ValidateEmailNotTaken } from '../shared/utils/validators';
+import { formatPhoneNumber } from '../shared/utils/helpers';
 
 @Component({
   selector: 'app-signup',
@@ -42,7 +44,9 @@ export class SignupComponent extends AuthComponent implements OnInit {
     this.authForm.addControl('username', new FormControl('', Validators.required));
     this.authForm.addControl('phone', new FormControl('', Validators.required));
     this.authForm.addControl('countryCallingCode', new FormControl('', Validators.required));
-    this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]))
+    this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]));
+    this.authForm.controls['email'].setAsyncValidators(ValidateEmailNotTaken.createValidator(this.authService));
+    this.authForm.controls['phone'].setAsyncValidators(ValidatePhoneNotTaken.createValidator(this.authService));
   }
 
   public async onSubmit() {
@@ -51,7 +55,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     }
     let user = this.authForm.value;
     if (user.phone) {
-      user.phone = `${this.authForm.value.countryCallingCode}${this.authForm.value.phone.replace(/\W/g, '')}`;
+      user.phone = formatPhoneNumber(this.authForm.value.countryCallingCode, this.authForm.value.phone);
     }
     this.authService.register(user).subscribe((res: boolean) => {
       if (res) {
