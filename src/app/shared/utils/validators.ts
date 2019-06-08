@@ -46,26 +46,66 @@ export class ValidatePhoneNotTaken {
 }
 
 export class ValidatePassword {
-    static createValidator(authService: AuthService) {
+    static createValidator(authService: AuthService, field: 'email' | 'phone' | 'password') {
       return (control: AbstractControl) => {
-        const email: string = control.root.get('email').value;
-
-        const countryCode: string = control.root.get('countryCallingCode') ? control.root.get('countryCallingCode').value : '';
-        const phoneNumber: string = control.root.get('phone') ? control.root.get('phone').value : '';
-        const phone: string = formatPhoneNumber(countryCode, phoneNumber);
-
-        let credentials: ICredentials = { type: null, password: control.value };
-
-        if (email) { credentials.type = 'email' };
-        if (phone) { credentials.type = 'phone' };
-        if (credentials.type === 'email') { credentials.email = email };
-        if (credentials.type === 'phone') { credentials.phone = phone };
+        const credentials: ICredentials = this.buildCredentials(control, field);
+        const loginMode: 'email' | 'phone' = this.defineLoginMode(control);
 
         return authService.checkPasswordIsValid(credentials).pipe(
           map((isValid: boolean) => {
-              console.log(isValid);
-          return !isValid ? null : {passwordNotValid: true};
+            if (isValid) {
+              control.root.get(loginMode).setErrors(null);
+              control.root.get('password').setErrors(null);
+            } else {
+              control.root.get(loginMode).setErrors({ passwordNotValid: true });
+              control.root.get('password').setErrors({ passwordNotValid: true });
+            }
+
+            return isValid ? null : { passwordNotValid: true };
         }));
       }
     }
+
+  static buildCredentials(control: AbstractControl, field: 'email' | 'phone' | 'password'): ICredentials {
+    let credentials: ICredentials = { type: 'password', password: null};
+
+    if (field === 'password') {
+      credentials.password = control.value;
+      if (control.root.get('email')) {
+        credentials.email = control.root.get('email').value;
+      }
+      if (control.root.get('phone') && control.root.get('countryCallingCode')) {
+        const countryCode: string = control.root.get('countryCallingCode').value;
+        const phoneNumber: string = control.root.get('phone').value;
+        const phone: string = formatPhoneNumber(countryCode, phoneNumber);
+        credentials.phone = phone;
+      }
+    }
+
+    if (field === 'phone') {
+      const countryCode: string = control.root.get('countryCallingCode').value;
+      const phoneNumber: string = control.value;
+      const phone: string = formatPhoneNumber(countryCode, phoneNumber);
+      credentials.phone = phone;
+      credentials.password = control.root.get('password').value;
+    }
+
+    if (field === 'email') {
+      credentials.email = control.value;
+      credentials.password = control.root.get('password').value;
+    }
+
+    return credentials;
+  }
+
+  static defineLoginMode(control): 'email' | 'phone' {
+    if (control.root.get('email')) {
+      return 'email';
+    }
+
+    if (control.root.get('phone') && control.root.get('countryCallingCode')) {
+      return 'phone';
+    }
+  }
+    
 }

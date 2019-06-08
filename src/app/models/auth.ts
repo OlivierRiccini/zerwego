@@ -5,7 +5,7 @@ export type LoginType =
 | 'facebook' 
 
 export interface ICredentials {
-    type: string,
+    type: LoginType,
     email?: string,
     phone?: string,
     username?: string,

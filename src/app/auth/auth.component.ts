@@ -9,11 +9,11 @@ import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
 import { ContactMode } from '../models/shared';
 import * as countryData from 'country-data';
+import { ValidatePassword } from '../shared/utils/validators';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  // styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
 
@@ -80,6 +80,7 @@ export class AuthComponent implements OnInit {
     }
     form.addControl(toAdd, new FormControl('', validators));
     form.removeControl(toRemove);
+    this.authForm.controls[toAdd].setAsyncValidators(ValidatePassword.createValidator(this.authService, toAdd as 'email' | 'phone'));
   }
 
   public onChangeDialogMode(mode: 'signup' | 'signin') {

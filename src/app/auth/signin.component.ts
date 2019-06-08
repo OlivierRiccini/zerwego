@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ControlContainer, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { AuthComponent } from './auth.component';
 import { MatDialog, MatDialogRef, MatStepper } from '@angular/material';
@@ -8,7 +8,6 @@ import { HomeComponent } from '../home/home.component';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
 import { IForgotPassword, ICredentials } from '../models/auth';
-import { ContactMode } from '../models/shared';
 import { formatPhoneNumber } from '../shared/utils/helpers';
 import { ValidatePassword } from '../shared/utils/validators';
 
@@ -37,7 +36,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
       super(fb, authService, dialogRef, router, userInterfaceService, socialService);
     }
     
-  ngOnInit() {
+  public ngOnInit() {
     super.ngOnInit();
     this.creatForgotPasswordForm();
     this.signInMode = true;
@@ -46,7 +45,8 @@ export class SigninComponent extends AuthComponent implements OnInit {
       submit: 'Sign in',
       changeForm: 'I don\t have an account yet'
     };
-    this.authForm.controls['password'].setAsyncValidators(ValidatePassword.createValidator(this.authService));
+    this.authForm.controls['password'].setAsyncValidators(ValidatePassword.createValidator(this.authService, 'password'));
+    this.authForm.controls['email'].setAsyncValidators(ValidatePassword.createValidator(this.authService, 'email'));
   }
 
   public onSubmit() {

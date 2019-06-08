@@ -51,7 +51,7 @@
           <mat-error *ngIf="authForm.get('email').hasError('emailTaken')">
             Email is <strong>already taken</strong>
           </mat-error>
-          <mat-error *ngIf="authForm.get('password').hasError('passwordNotValid')">
+          <mat-error *ngIf="authForm.get('email').hasError('passwordNotValid')">
             Password and {{ authFormIsPhone ? 'phone number' : 'email address' }} do not match 
           </mat-error>
         </mat-form-field>
@@ -81,7 +81,7 @@
           <mat-error *ngIf="authForm.get('phone').hasError('phoneTaken')">
             Phone number is <strong>already taken</strong>
           </mat-error>
-          <mat-error *ngIf="authForm.get('password').hasError('passwordNotValid')">
+          <mat-error *ngIf="authForm.get('phone').hasError('passwordNotValid')">
             Password and {{ authFormIsPhone ? 'phone number' : 'email address' }} do not match 
           </mat-error>
         </mat-form-field>
@@ -90,10 +90,11 @@
       <div class="form-group">
         <mat-form-field>
           <input matInput placeholder="Password" type="password" id="password1" formControlName="password">
-          <mat-error>
+          <mat-error *ngIf="authForm.get('password').hasError('required')">
             Password is <strong>required</strong>
           </mat-error>
-          <mat-error *ngIf="authForm.get('password').hasError('passwordNotValid')">
+          <mat-error
+            *ngIf="authForm.get('password').hasError('passwordNotValid')">
             Password and {{ authFormIsPhone ? 'phone number' : 'email address' }} do not match 
           </mat-error>
         </mat-form-field>
