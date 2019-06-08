@@ -1,20 +1,5 @@
 @import "../style/config.scss";
 
-.col-sm-10 {
-    padding: 0;
-}
-
-nav {
-    height: calc(100vh - 60px);
-    font-weight: 100;
-    padding: 15px;
-    background-color: $light-gray;
-    position: sticky;
-    top: 60px;
-    box-shadow: 1px 1px 1px $light-gray;
-    border: 1px solid $gray;
-}
-
 .top-box {
     position: relative;
     .edit-btn {
@@ -41,4 +26,20 @@ mat-list a {
     font-weight: 400;
     text-decoration: underline;
     text-transform: uppercase;
+}
+
+mat-drawer-container {
+    height: 100vh;
+}
+
+.sidenav {
+    padding: 15px;
+    width: 20vw;
+} 
+
+.toggle-drawer-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff;
 }
