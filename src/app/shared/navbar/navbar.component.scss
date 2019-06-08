@@ -10,6 +10,7 @@
 
 mat-toolbar {
     box-shadow: 0 2px 6px 0 rgba(0,0,0,.12), inset 0 -1px 0 0 #dadce0;
+    padding: 0 40px;
 }
 
 .nav-flex-right {
@@ -20,17 +21,11 @@ mat-toolbar {
     button {
         font-size: 16px;
         padding: 6px 16px;
+        margin-left: 25px;
     };
-    a {
-        margin-left: 38px;
-        font-weight: 100;
-        font-size: 16px;
-        color: $blue;
-        cursor: pointer;
-    }
 }
 
-.nav-flex-right a:hover {
+.nav-flex-right .transparent-btn:hover {
     color: $darker-blue;
     text-decoration: none;
 }
