@@ -110,9 +110,9 @@
       </div>
 
       <div class="submit-box">
-        <button type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
-        <button *ngIf="signInMode" type="button" matStepperNext class="zerwego-btn grey-btn">Forgot password?</button>
-        <button type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
+        <button matRipple type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
+        <button matRipple *ngIf="signInMode" type="button" matStepperNext class="zerwego-btn grey-btn">Forgot password?</button>
+        <button matRipple type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
           {{ label.changeForm }}
         </button>
       </div>
@@ -181,11 +181,11 @@
         </div>
         
       </div>
-      <button type="submit" class="zerwego-btn green-btn">
+      <button matRipple type="submit" class="zerwego-btn green-btn">
         {{ forgotPasswordButtonLabel }}
       </button>
     </form>
-    <button type="button" matStepperPrevious class="zerwego-btn grey-btn">
+    <button matRipple type="button" matStepperPrevious class="zerwego-btn grey-btn">
       <i class="material-icons left-arrow">keyboard_backspace</i>
     </button>
   </mat-step>
@@ -193,7 +193,7 @@
   <hr>
   <p class="text-center"> Or {{ label.title }} with</p>
   <div class="social-box">
-      <button type="button" class="facebook btn" (click)="onFacebookLogin()"><i class="fab fa-facebook-f"></i></button>
-      <button type="button"  class="google btn"><i class="fab fa-google-plus-g"></i></button>
-      <button type="button"  class="linkedin btn"><i class="fab fa-linkedin-in"></i></button>
+      <button matRipple type="button" class="facebook btn" (click)="onFacebookLogin()"><i class="fab fa-facebook-f"></i></button>
+      <button matRipple type="button"  class="google btn"><i class="fab fa-google-plus-g"></i></button>
+      <button matRipple type="button"  class="linkedin btn"><i class="fab fa-linkedin-in"></i></button>
   </div>
