@@ -34,7 +34,7 @@ export class AuthComponent implements OnInit {
   public countries: any = [];
 
   constructor(
-    public fb:FormBuilder,
+    public fb: FormBuilder,
     public authService: AuthService,
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
