@@ -1,0 +1,33 @@
+<div class="form-container">
+  <button matRipple class="zerwego-btn blue-btn" (click)="onToggleEditMode()">{{ isEditMode ? 'Cancel changes' : 'Edit infos'}}</button>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+    <mat-form-field floatLabel="always">
+        <mat-label>Username</mat-label>
+        <input
+          matInput 
+          type="username" id="username" 
+          formControlName="username"
+          >
+        <!-- <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
+            Country Code is <strong>required</strong>
+        </mat-error> -->
+      </mat-form-field>
+    
+      <mat-form-field floatLabel="always">
+          <mat-label>Email</mat-label>
+        <input matInput type="email" id="email" formControlName="email">
+        <!-- <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
+            Country Code is <strong>required</strong>
+        </mat-error> -->
+      </mat-form-field>
+    
+      <mat-form-field floatLabel="always">
+        <mat-label>Phone</mat-label>
+        <input matInput type="phone" id="phone" formControlName="phone">
+        <!-- <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
+            Country Code is <strong>required</strong>
+        </mat-error> -->
+      </mat-form-field>
+      <button matRipple *ngIf="isEditMode" type="submit" class="zerwego-btn green-btn">Save changes</button>
+  </form>
+</div>
