@@ -23,20 +23,37 @@ export class UserInfoComponent implements OnInit {
   
   public onToggleEditMode(): void {
     this.isEditMode = !this.isEditMode;
-    for (const ctl in this.form.controls) {
-      this.isEditMode ? this.form.get(ctl).enable() : this.form.get(ctl).disable();
-    }
     if (!this.isEditMode) {
       this.form.reset();
+      for (const ctl in this.form.controls) {
+        this.form.get(ctl).disable();
+        this.form.get(ctl).setValue(this.getDefaultValues()[ctl]);
+      }
+    } else {
+      for (const ctl in this.form.controls) {
+        this.form.get(ctl).enable();
+      }
     }
+  }
+
+  public onSubmit() {
+    console.log(this.form.value);
   }
 
   private createForm(): void {
     this.form = this.fb.group({
-      username: [{ value: this.currentUser.username ? this.currentUser.username : '', disabled: !this.isEditMode}],
-      email: [{ value: this.currentUser.email ? this.currentUser.email : '', disabled: !this.isEditMode}],
-      phone: [{ value: this.currentUser.phone ? this.currentUser.phone : '', disabled: !this.isEditMode}]
+      username: [{ value: this.getDefaultValues().username, disabled: !this.isEditMode}],
+      email: [{ value: this.getDefaultValues().email, disabled: !this.isEditMode}],
+      phone: [{ value: this.getDefaultValues().phone, disabled: !this.isEditMode}]
     });
+  }
+
+  private getDefaultValues(): { username: string, email: string, phone: string } {
+    return {
+      username: this.currentUser.username ? this.currentUser.username : '',
+      email: this.currentUser.email ? this.currentUser.email : '',
+      phone: this.currentUser.phone ? this.currentUser.phone : ''
+    }
   }
 
 }

@@ -1,4 +1,3 @@
-<h2>Your trips</h2>
 <mat-card *ngFor="let trip of listOfTrips">
   {{ trip.tripName }} - Destination: {{ trip.destination }}
   <button matRipple class="zerwego-btn blue-btn" [routerLink]="['./', 'trips' , trip.id, 'overview']">Manage trip</button>
