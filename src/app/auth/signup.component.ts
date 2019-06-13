@@ -18,7 +18,7 @@ import { formatPhoneNumber } from '../shared/utils/helpers';
 })
 export class SignupComponent extends AuthComponent implements OnInit {
 
-  authForm: FormGroup;
+  public authForm: FormGroup;
 
   constructor(
     public fb: FormBuilder,

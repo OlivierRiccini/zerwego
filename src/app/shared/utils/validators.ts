@@ -6,16 +6,25 @@ import { ICredentials } from 'src/app/models/auth';
 
 export function checkPasswords(control: AbstractControl) {
     if (control && (control.value !== null || control.value !== undefined)) {
-        const confirmPassword = control.value;
-  
-        const passControl = control.root.get('password');
-        if (passControl) {
-            const passValue = passControl.value;
-            if (passValue !== confirmPassword || passValue === '') {
-                return {
-                    notSame: true
-                };
-            }
+        let confirmPassword: AbstractControl;
+        let passControl: AbstractControl;
+
+        if (control === control.root.get('password') || control === control.root.get('newPassword')) {
+          confirmPassword = control.root.get('confirmPassword');
+          passControl = control;
+        }
+        
+        if (control === control.root.get('confirmPassword')) {
+          passControl = control.root.get('password') || control.root.get('newPassword');
+          confirmPassword = control;
+        }
+        if (passControl.value !== confirmPassword.value) {
+          confirmPassword.setErrors({notSame: true});
+          passControl.setErrors({notSame: true});
+          return {notSame: true}
+        } else {
+          confirmPassword.setErrors(null);
+          passControl.setErrors(null);
         }
     }
 }

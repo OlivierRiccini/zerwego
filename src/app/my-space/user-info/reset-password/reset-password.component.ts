@@ -38,13 +38,18 @@ export class ResetPasswordComponent extends UserInfoComponent implements OnInit 
   }
 
   public onSubmit() {
+    if (this.form.invalid) {
+      console.log(this.form);
+      console.log('FORM INVALID');
+      return;
+    }
     console.log(this.form.value);
   }
 
   private createForm(): void {
     this.form = this.fb.group({
       currentPassword: [{ value: '', disabled: !this.isEditMode}, [Validators.required]],
-      newPassword: [{ value: '', disabled: !this.isEditMode}, [Validators.required]],
+      newPassword: [{ value: '', disabled: !this.isEditMode}, [Validators.required, checkPasswords]],
       confirmPassword: [{ value: '', disabled: !this.isEditMode}, [Validators.required, checkPasswords]]
     });
   }
