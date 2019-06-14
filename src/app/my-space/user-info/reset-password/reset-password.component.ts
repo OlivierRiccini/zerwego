@@ -52,6 +52,19 @@ export class ResetPasswordComponent extends UserInfoComponent implements OnInit 
       newPassword: [{ value: '', disabled: !this.isEditMode}, [Validators.required, checkPasswords]],
       confirmPassword: [{ value: '', disabled: !this.isEditMode}, [Validators.required, checkPasswords]]
     });
+    this.hanldePassChangesAfterConfirm();
+  }
+
+  private hanldePassChangesAfterConfirm(): void {
+    this.form.get('newPassword').valueChanges.subscribe(
+      (value: string) => {
+        if (this.form.get('confirmPassword').value === value) {
+          this.form.get('confirmPassword').setErrors(null);
+        } else {
+          this.form.get('confirmPassword').setErrors({notSame: true});
+        }
+      }
+    )
   }
 
 }

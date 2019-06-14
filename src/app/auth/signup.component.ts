@@ -47,6 +47,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]));
     this.authForm.controls['email'].setAsyncValidators(ValidateEmailNotTaken.createValidator(this.authService));
     this.authForm.controls['phone'].setAsyncValidators(ValidatePhoneNotTaken.createValidator(this.authService));
+    this.hanldePassChangesAfterConfirm();
   }
 
   public async onSubmit() {
@@ -62,6 +63,18 @@ export class SignupComponent extends AuthComponent implements OnInit {
         this.dialogRef.close();
       }
     });
+  }
+
+  private hanldePassChangesAfterConfirm(): void {
+    this.authForm.get('password').valueChanges.subscribe(
+      (value: string) => {
+        if (this.authForm.get('confirmPassword').value === value) {
+          this.authForm.get('confirmPassword').setErrors(null);
+        } else {
+          this.authForm.get('confirmPassword').setErrors({notSame: true});
+        }
+      }
+    )
   }
   
 }
