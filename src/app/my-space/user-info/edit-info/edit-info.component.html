@@ -8,26 +8,34 @@
           type="username" id="username" 
           formControlName="username"
           >
-        <!-- <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
+        <!-- <mat-error *ngIf="form.get('countryCallingCode').hasError('required')">
             Country Code is <strong>required</strong>
         </mat-error> -->
       </mat-form-field>
     
       <mat-form-field floatLabel="always">
-          <mat-label>Email</mat-label>
+        <mat-label>Email</mat-label>
         <input matInput type="email" id="email" formControlName="email">
-        <!-- <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
-            Country Code is <strong>required</strong>
-        </mat-error> -->
+        <mat-error *ngIf="form.get('email').hasError('required')">
+          Email number is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="form.get('email').hasError('emailTaken')">
+          Email number is <strong>already taken</strong>
+        </mat-error>
       </mat-form-field>
-    
-      <mat-form-field floatLabel="always">
-        <mat-label>Phone</mat-label>
-        <input matInput type="phone" id="phone" formControlName="phone">
-        <!-- <mat-error *ngIf="forgotPasswordForm.get('countryCallingCode').hasError('required')">
-            Country Code is <strong>required</strong>
-        </mat-error> -->
-      </mat-form-field>
+
+      <div>
+        <mat-label id="phone-label">Phone</mat-label>
+        <ngx-intl-tel-input 
+          [preferredCountries]="['us', 'ca']" 
+          [enablePlaceholder]="true"
+          [enableAutoCountrySelect]="true"
+          name="phone" 
+          formControlName="phone">
+        </ngx-intl-tel-input>
+        <span [ngClass]="isEditMode ? 'underline-solid' : 'underline-dotted'"></span>
+      </div>
+
       <button matRipple *ngIf="isEditMode" type="submit" class="zerwego-btn green-btn">Save changes</button>
   </form>
 </div>

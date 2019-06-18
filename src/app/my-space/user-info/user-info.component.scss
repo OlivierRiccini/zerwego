@@ -3,14 +3,17 @@
     border-radius: 5px;
     padding: 25px;
     margin-bottom: 42px;
+    button:first-child {
+        margin-bottom: 32px;
+    }
 }
 
-button:first-child {
-    margin-bottom: 32px;
-}
 
 form {
     mat-form-field {
         width: 100%;
+    }
+    button {
+        margin-top: 20px;
     }
 }

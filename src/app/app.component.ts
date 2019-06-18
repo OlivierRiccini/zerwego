@@ -12,6 +12,7 @@ import { NotificationComponent } from './shared/notification/notification.compon
 })
 export class AppComponent {
   title = 'zerwego';
+  public userCountry: string;
 
   constructor(
     private userInterfaceService: UserInterfaceService,
@@ -43,6 +44,5 @@ export class AppComponent {
       data: notifData
     });
   }
-
 
 }

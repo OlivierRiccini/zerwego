@@ -61,8 +61,8 @@
         <mat-form-field class="column-1">
           <mat-label>Country</mat-label>
           <mat-select formControlName="countryCallingCode">
-            <mat-option *ngFor="let country of countries" [value]="country.countryCallingCodes[0]">
-                {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCodes[0] }}
+            <mat-option *ngFor="let country of countryCodes" [value]="country.countryCallingCode">
+                {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCodes }}
             </mat-option>
           </mat-select>
           <!-- <input matInput placeholder="Country" type="countryCallingCode" id="countryCallingCode" formControlName="countryCallingCode"> -->
@@ -104,7 +104,7 @@
         <mat-form-field>
             <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword">
             <mat-error *ngIf="authForm.get('confirmPassword').hasError('notSame')">
-                Passwords do not match
+              Passwords <strong>do not match</strong>
             </mat-error>  
         </mat-form-field>
       </div>
@@ -163,8 +163,8 @@
           <mat-form-field class="column-1">
             <mat-label>Country</mat-label>
             <mat-select formControlName="countryCallingCode">
-              <mat-option *ngFor="let country of countries" [value]="country.countryCallingCodes[0]">
-                  {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCodes[0] }}
+              <mat-option *ngFor="let country of countryCodes" [value]="country.countryCallingCode">
+                  {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCode }}
               </mat-option>
             </mat-select>
             <!-- <input matInput placeholder="Country" type="countryCallingCode" id="countryCallingCode" formControlName="countryCallingCode"> -->

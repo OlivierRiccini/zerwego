@@ -10,6 +10,7 @@ import { checkPasswords, ValidatePhoneNotTaken } from '../shared/utils/validator
 import { SocialService } from '../services/social.service';
 import { ValidateEmailNotTaken } from '../shared/utils/validators';
 import { formatPhoneNumber } from '../shared/utils/helpers';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-signup',
@@ -27,9 +28,10 @@ export class SignupComponent extends AuthComponent implements OnInit {
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
     public userInterfaceService: UserInterfaceService,
-    public socialService: SocialService
+    public socialService: SocialService,
+    public dataService: DataService
     ) { 
-      super(fb, authService, dialogRef, router, userInterfaceService, socialService)
+      super(fb, authService, dialogRef, router, userInterfaceService, socialService, dataService)
   }
   
   ngOnInit() {

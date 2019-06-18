@@ -21,25 +21,25 @@ export function checkPasswords(control: AbstractControl) {
 }
 
 export class ValidateEmailNotTaken {
-  static createValidator(authService: AuthService) {
+  static createValidator(authService: AuthService, currentEmail?: string) {
     return (control: AbstractControl) => {
       return authService.checkEmailIsTaken(control.value).pipe(
         map((isAlreadyTaken: boolean) => {
-        return !isAlreadyTaken ? null : {emailTaken: true};
+        return (currentEmail && currentEmail === control.value) || !isAlreadyTaken ? null : {emailTaken: true};
       }));
     }
   }
 }
 
 export class ValidatePhoneNotTaken {
-    static createValidator(authService: AuthService) {
+    static createValidator(authService: AuthService,  currentPhone?: string) {
       return (control: AbstractControl) => {
         const countryCode: string = control.root.get('countryCallingCode').value;
         const phoneNumber: string = control.value;
         const phone: string = formatPhoneNumber(countryCode, phoneNumber);
         return authService.checkPhoneIsTaken(phone).pipe(
           map((isAlreadyTaken: boolean) => {
-          return !isAlreadyTaken ? null : {phoneTaken: true};
+          return (currentPhone && currentPhone === control.value) || !isAlreadyTaken ? null : {phoneTaken: true};
         }));
       }
     }
@@ -48,6 +48,7 @@ export class ValidatePhoneNotTaken {
 export class ValidatePassword {
     static createValidator(authService: AuthService, field: 'email' | 'phone' | 'password') {
       return (control: AbstractControl) => {
+        const passControl: AbstractControl = control.root.get('password');
         const credentials: ICredentials = this.buildCredentials(control, field);
         const loginMode: 'email' | 'phone' = this.defineLoginMode(control);
 
@@ -55,13 +56,13 @@ export class ValidatePassword {
           map((isValid: boolean) => {
             if (isValid) {
               control.root.get(loginMode).setErrors(null);
-              control.root.get('password').setErrors(null);
+              passControl.setErrors(null);
             } else {
               control.root.get(loginMode).setErrors({ passwordNotValid: true });
-              control.root.get('password').setErrors({ passwordNotValid: true });
+              passControl.setErrors({ passwordNotValid: true });
             }
 
-            return isValid ? null : { passwordNotValid: true };
+            return isValid || passControl.value === '' ? null : { passwordNotValid: true };
         }));
       }
     }

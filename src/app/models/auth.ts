@@ -18,3 +18,9 @@ export interface IForgotPassword {
     email?: string,
     phone?: string
 }
+
+export interface ICountryCode {
+    emoji: any,
+    ioc: string,
+    countryCallingCode: string
+}

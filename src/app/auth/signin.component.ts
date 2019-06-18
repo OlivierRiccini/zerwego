@@ -10,6 +10,7 @@ import { SocialService } from '../services/social.service';
 import { IForgotPassword, ICredentials } from '../models/auth';
 import { formatPhoneNumber } from '../shared/utils/helpers';
 import { ValidatePassword } from '../shared/utils/validators';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-signin',
@@ -31,9 +32,10 @@ export class SigninComponent extends AuthComponent implements OnInit {
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
     public userInterfaceService: UserInterfaceService,
-    public socialService: SocialService
+    public socialService: SocialService,
+    public dataService: DataService
     ) { 
-      super(fb, authService, dialogRef, router, userInterfaceService, socialService);
+      super(fb, authService, dialogRef, router, userInterfaceService, socialService, dataService);
     }
     
   public ngOnInit() {

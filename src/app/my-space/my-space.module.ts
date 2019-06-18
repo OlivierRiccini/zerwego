@@ -7,6 +7,8 @@ import { MySpaceComponent } from './my-space.component';
 import { MySpaceRoutingModule } from './my-space-routing.module';
 import { EditInfoComponent } from './user-info/edit-info/edit-info.component';
 import { ResetPasswordComponent } from './user-info/reset-password/reset-password.component';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ResetPasswordComponent } from './user-info/reset-password/reset-passwor
   imports: [
     CommonModule,
     SharedModule,
-    MySpaceRoutingModule
+    MySpaceRoutingModule,
+    BsDropdownModule.forRoot(),
+    NgxIntlTelInputModule
   ]
 })
 export class MySpaceModule {}

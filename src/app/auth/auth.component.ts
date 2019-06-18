@@ -8,8 +8,9 @@ import { MyErrorStateMatcher } from '../shared/utils/error-matcher';
 import { UserInterfaceService } from '../services/user-interface.service';
 import { SocialService } from '../services/social.service';
 import { ContactMode } from '../models/shared';
-import * as countryData from 'country-data';
 import { ValidatePassword } from '../shared/utils/validators';
+import { ICountryCode } from '../models/auth';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-auth',
@@ -31,7 +32,7 @@ export class AuthComponent implements OnInit {
   public forgotPasswordFormIsEmail = true;
   public authFormIsEmail: boolean = true;
   public authFormIsPhone: boolean = false;
-  public countries: any = [];
+  public countryCodes: ICountryCode[];
 
   constructor(
     public fb: FormBuilder,
@@ -39,25 +40,13 @@ export class AuthComponent implements OnInit {
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
     public userInterfaceService: UserInterfaceService,
-    public socialService: SocialService
-    ) { 
-      for (const c of countryData.countries.all) {
-        if (c.countryCallingCodes && c.countryCallingCodes.length > 0) {
-          this.countries.push(c);
-        }
-      }
+    public socialService: SocialService,
+    public dataService: DataService
+    ) {
     }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.createForm();
-  }
-
-  private createForm() {
-    this.authForm = this.fb.group({
-      contactMode: ['email'],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
   }
 
   public onSelectContactMode(formName: string, form: FormGroup, contactMode: ContactMode): void {
@@ -98,6 +87,19 @@ export class AuthComponent implements OnInit {
   public onCloseDialog() {
     this.router.navigate(['/']);
     this.dialogRef.close();
+  }
+
+  private createForm() {
+    this.authForm = this.fb.group({
+      contactMode: ['email'],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+    this.initCountryCodes();
+  }
+
+  private initCountryCodes(): void {
+    this.countryCodes = this.dataService.countryCodes;
   }
   
 }
