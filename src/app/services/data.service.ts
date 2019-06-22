@@ -4,7 +4,7 @@ import { ICountryCode } from '../models/auth';
 import * as countryData from 'country-data';
 import * as _ from 'lodash';
 import ws from 'which-country';
-var wc = require('which-country');
+// var wc = require('which-country');
 
 @Injectable({
   providedIn: 'root'

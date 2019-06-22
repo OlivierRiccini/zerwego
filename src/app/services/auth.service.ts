@@ -6,7 +6,7 @@ import { catchError, mapTo, tap } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';
 import { ICredentials, IForgotPassword } from '../models/auth';
-import { IUser } from '../models/user';
+import { IUser, IPhone } from '../models/user';
 import { Router } from '@angular/router';
 
 const config = { apiUrl: 'http://localhost:3000/auth'};
@@ -79,6 +79,22 @@ export class AuthService {
       }));
   }
 
+  public updateProfile(user: IUser, userId: string): Observable<boolean> {
+    return this.http.put<any>(`http://localhost:3000/users/${userId}/update`, user).pipe(
+      tap(response => {
+        const updatedUser: IUser = response;
+        console.log(updatedUser);
+        this.storeCurrentUser(updatedUser);
+        this.userLoggedEvent.emit(updatedUser);
+        this.userInterfaceService.success('Profile updated successfully!');
+      }),
+      mapTo(true),
+      catchError(error => {
+        this.userInterfaceService.error(error.error.message);
+        return of(false);
+      }));
+  }
+
   public isLoggedIn() {
     return !!this.getJwtToken();
   }
@@ -102,12 +118,12 @@ export class AuthService {
     return this.http.post<any>(`${config.apiUrl}/forgot-password`, contact);
   }
 
-  public checkEmailIsTaken(email: string): Observable<any>  {
-    return this.http.post<any>(`${config.apiUrl}/email-already-taken`, {email});
+  public checkEmailIsTaken(email: string, userId?: string): Observable<any>  {
+    return this.http.post<any>(`${config.apiUrl}/email-already-taken`, {email, userId});
   }
 
-  public checkPhoneIsTaken(phone: string): Observable<any>  {
-    return this.http.post<any>(`${config.apiUrl}/phone-already-taken`, {phone});
+  public checkPhoneIsTaken(phone: IPhone, userId?: string): Observable<any>  {
+    return this.http.post<any>(`${config.apiUrl}/phone-already-taken`, {phone, userId});
   }
 
   public checkPasswordIsValid(credentials: ICredentials): Observable<any>  {

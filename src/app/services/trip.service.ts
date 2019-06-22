@@ -47,7 +47,6 @@ export class TripService {
   
   createTrip(trip: ITrip) {
     this.trips.push(trip);
-    console.log(trip)
     return this.http.post(baseUrl, trip)
 
   }

@@ -64,8 +64,9 @@ export class TripAddFormComponent extends TripFormBaseComponent implements OnIni
         (response) => {
           console.log('Trip successfully created!');
           const trip: any = response;
+          console.log(response);
           this.tripService.updateLocalStorage(trip);
-          this.router.navigate(['./trips', trip.id, 'overview']);
+          this.router.navigate(['./myspace', 'trips', trip.id, 'overview']);
           // this.onCloseDialog();
           this.dialogRef.close();
         },

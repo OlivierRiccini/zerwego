@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { map } from 'rxjs/operators';
 import { formatPhoneNumber } from './helpers';
 import { ICredentials } from 'src/app/models/auth';
+import { IPhone } from 'src/app/models/user';
 
 export function checkPasswords(control: AbstractControl) {
   if (control && (control.value !== null || control.value !== undefined)) {
@@ -21,25 +22,27 @@ export function checkPasswords(control: AbstractControl) {
 }
 
 export class ValidateEmailNotTaken {
-  static createValidator(authService: AuthService, currentEmail?: string) {
+  static createValidator(authService: AuthService, userId?: string) {
     return (control: AbstractControl) => {
-      return authService.checkEmailIsTaken(control.value).pipe(
+      return authService.checkEmailIsTaken(control.value, userId).pipe(
         map((isAlreadyTaken: boolean) => {
-        return (currentEmail && currentEmail === control.value) || !isAlreadyTaken ? null : {emailTaken: true};
+          return !isAlreadyTaken ? null : { emailTaken: true };
       }));
     }
   }
 }
 
 export class ValidatePhoneNotTaken {
-    static createValidator(authService: AuthService,  currentPhone?: string) {
+    static createValidator(authService: AuthService, userId?: string) {
       return (control: AbstractControl) => {
-        const countryCode: string = control.root.get('countryCallingCode').value;
-        const phoneNumber: string = control.value;
-        const phone: string = formatPhoneNumber(countryCode, phoneNumber);
-        return authService.checkPhoneIsTaken(phone).pipe(
+        // const countryCode: string = control.root.get('countryCallingCode').value;
+        const phoneNumber: IPhone = control.value;
+        console.log(phoneNumber);
+        // const phone: string = formatPhoneNumber(countryCode, phoneNumber);
+        return authService.checkPhoneIsTaken(phoneNumber, userId).pipe(
           map((isAlreadyTaken: boolean) => {
-          return (currentPhone && currentPhone === control.value) || !isAlreadyTaken ? null : {phoneTaken: true};
+            console.log(isAlreadyTaken);
+            return !isAlreadyTaken ? null : { phoneTaken: true };
         }));
       }
     }
