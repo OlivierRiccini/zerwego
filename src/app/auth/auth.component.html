@@ -57,6 +57,20 @@
         </mat-form-field>
       </div>
 
+      <!-- instead -->
+      <div *ngIf="authFormIsPhone" class="phone-field-container">
+        <mat-label id="phone-label">Phone</mat-label>
+        <ngx-intl-tel-input 
+          [preferredCountries]="['us', 'ca']" 
+          [enablePlaceholder]="true"
+          [enableAutoCountrySelect]="true"
+          name="phone" 
+          formControlName="phone">
+        </ngx-intl-tel-input>
+        <span [ngClass]="isEditMode ? 'underline-solid' : 'underline-dotted'"></span>
+      </div>
+      <!-- instead -->
+<!-- 
       <div *ngIf="authFormIsPhone" class="form-group flex-row">
         <mat-form-field class="column-1">
           <mat-label>Country</mat-label>
@@ -65,16 +79,12 @@
                 {{ country.emoji }} {{ country.ioc }} {{ country.countryCallingCodes }}
             </mat-option>
           </mat-select>
-          <!-- <input matInput placeholder="Country" type="countryCallingCode" id="countryCallingCode" formControlName="countryCallingCode"> -->
           <mat-error *ngIf="authForm.get('countryCallingCode').hasError('required')">
               Country Code is <strong>required</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field  class="column-2">
           <input matInput placeholder="Phone" type="phone" id="phone1" formControlName="phone">
-          <!-- <mat-error *ngIf="authForm.get('phone').hasError('phone') && !authForm.get('phone').hasError('required')">
-            Please enter a valid email address
-          </mat-error> -->
           <mat-error *ngIf="authForm.get('phone').hasError('required')">
             Phone number is <strong>required</strong>
           </mat-error>
@@ -85,7 +95,7 @@
             Password and {{ authFormIsPhone ? 'phone number' : 'email address' }} do not match 
           </mat-error>
         </mat-form-field>
-      </div>
+      </div> -->
 
       <div class="form-group">
         <mat-form-field>

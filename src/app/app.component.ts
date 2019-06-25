@@ -4,6 +4,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { UserInterfaceService } from './services/user-interface.service';
 import { IConfirmData, INotificationData } from './models/shared';
 import { NotificationComponent } from './shared/notification/notification.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +19,13 @@ export class AppComponent {
     private userInterfaceService: UserInterfaceService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar) {
-    userInterfaceService.confirmEvent.subscribe(
+    this.userInterfaceService.confirmEvent.subscribe(
       confirmData => {
         if (confirmData) { this.openCofirm(confirmData) }
       }
     )
-    userInterfaceService.notificationEvent.subscribe(
+
+    this.userInterfaceService.notificationEvent.subscribe(
       notifData => {
         if (notifData) { this.openNotification(notifData) }
       }

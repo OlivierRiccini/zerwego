@@ -4,12 +4,14 @@ import { SharedModule } from '../shared/shared.module';
 import { SignupComponent } from './signup.component';
 import { SigninComponent } from './signin.component';
 import { AuthComponent } from './auth.component';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 @NgModule({
   declarations: [AuthComponent, SignupComponent, SigninComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    NgxIntlTelInputModule
   ],
   exports: [AuthComponent]
 })

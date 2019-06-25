@@ -7,6 +7,7 @@ import { MyErrorStateMatcher } from 'src/app/shared/utils/error-matcher';
 import { UserInterfaceService } from 'src/app/services/user-interface.service';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -41,28 +42,25 @@ export class ResetPasswordComponent extends UserInfoComponent implements OnInit 
   }
 
   public onSubmit() {
-    console.log(this.form.value);
     if (this.form.invalid) {
       console.log('FORM INVALID');
       return;
     }
-    this.processRequest();
-    // this.userInterfaceService.confirm({
-    //   message: `You're about to reset your password,
-    //            if you continue you'll be logged out
-    //            and redirected to the authentification
-    //            page. Do you want to process?`,
-    //   trueLabel: 'Yes I do',
-    //   falseLabel: 'No thanks'
-    // }).subscribe((userResponse: boolean) => {
-    //     if (userResponse) {
-    //       this.processRequest();
-    //     } else {
-    //       this.isEditMode = false;
-    //       this.form.reset();
-    //       this.disableForm(this.form);
-    //     }
-    //   });
+    const confirmEventSubscription: Subscription = this.userInterfaceService.confirm({
+      message: `You're about to reset your password, if you continue you'll be logged out
+               and redirected to the authentification page. Do you want to process?`,
+      trueLabel: 'Yes I do',
+      falseLabel: 'No thanks'
+    }).subscribe((userResponse: boolean) => {
+        if (userResponse) {
+          this.processRequest();
+        } else {
+          this.isEditMode = false;
+          this.form.reset();
+          this.disableForm(this.form);
+        }
+        confirmEventSubscription.unsubscribe();
+      });
   }
 
   private processRequest(): void {
