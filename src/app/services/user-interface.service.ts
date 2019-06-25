@@ -1,10 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { IConfirmData, INotificationData } from '../models/shared';
  
 @Injectable()
 export class UserInterfaceService  {
-    public confirmEvent = new EventEmitter<IConfirmData>();
+    public confirmEvent = new Subject<IConfirmData>();
     public confirResponseEvent = new EventEmitter<boolean>();
     public notificationEvent = new EventEmitter<INotificationData>();
 

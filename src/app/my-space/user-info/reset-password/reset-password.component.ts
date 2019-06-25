@@ -4,6 +4,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { checkPasswords } from '../../../shared/utils/validators';
 import { MyErrorStateMatcher } from 'src/app/shared/utils/error-matcher';
+import { UserInterfaceService } from 'src/app/services/user-interface.service';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password',
@@ -15,7 +18,11 @@ export class ResetPasswordComponent extends UserInfoComponent implements OnInit 
   public isEditMode: boolean = false;
   public matcher = new MyErrorStateMatcher();
 
-  constructor(public authService: AuthService, public fb: FormBuilder) { 
+  constructor(
+    public authService: AuthService, 
+    public fb: FormBuilder,
+    private router: Router,
+    private userInterfaceService: UserInterfaceService) { 
     super(authService, fb)
   }
 
@@ -27,23 +34,52 @@ export class ResetPasswordComponent extends UserInfoComponent implements OnInit 
     this.isEditMode = !this.isEditMode;
     if (!this.isEditMode) {
       this.form.reset();
-      for (const ctl in this.form.controls) {
-        this.form.get(ctl).disable();
-      }
+      this.disableForm(this.form);
     } else {
-      for (const ctl in this.form.controls) {
-        this.form.get(ctl).enable();
-      }
+      this.enableForm(this.form);
     }
   }
 
   public onSubmit() {
+    console.log(this.form.value);
     if (this.form.invalid) {
-      console.log(this.form);
       console.log('FORM INVALID');
       return;
     }
-    console.log(this.form.value);
+    this.processRequest();
+    // this.userInterfaceService.confirm({
+    //   message: `You're about to reset your password,
+    //            if you continue you'll be logged out
+    //            and redirected to the authentification
+    //            page. Do you want to process?`,
+    //   trueLabel: 'Yes I do',
+    //   falseLabel: 'No thanks'
+    // }).subscribe((userResponse: boolean) => {
+    //     if (userResponse) {
+    //       this.processRequest();
+    //     } else {
+    //       this.isEditMode = false;
+    //       this.form.reset();
+    //       this.disableForm(this.form);
+    //     }
+    //   });
+  }
+
+  private processRequest(): void {
+    const oldPassword: string = this.form.value.currentPassword;
+    const newPassword: string = this.form.value.newPassword;
+    this.authService.updatePassword(this.currentUser.id, oldPassword, newPassword).subscribe(
+      async () => {
+        this.form.reset();
+        this.userInterfaceService.success('Profile updated successfully!');
+        await this.authService.logout().toPromise();
+        this.router.navigate(['/', 'signin']);
+        this.isEditMode = false;
+      },
+      () => {
+        this.form.get('currentPassword').setErrors({ passwordNotValid: true })
+      }
+    );
   }
 
   private createForm(): void {

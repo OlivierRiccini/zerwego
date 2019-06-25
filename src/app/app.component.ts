@@ -30,14 +30,14 @@ export class AppComponent {
     )
   }
 
-  openCofirm(confirmData: IConfirmData) {
+  public openCofirm(confirmData: IConfirmData): void {
     this.dialog.open(ConfirmComponent, {
       width: '350px',
       data: confirmData
     });
   }
 
-  openNotification(notifData: INotificationData) {
+  public openNotification(notifData: INotificationData): void {
     this.snackBar.openFromComponent(NotificationComponent, {
       duration: 6000,
       panelClass: [notifData.type],

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
-import { catchError, mapTo, tap } from 'rxjs/operators';
+import { catchError, mapTo, tap, share } from 'rxjs/operators';
 // import { config } from './../../config';
 import * as jwt_decode from "jwt-decode";
 import { UserInterfaceService } from './user-interface.service';
@@ -19,6 +19,7 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly CURRENT_USER = 'CURRENT_USER';
+  private count: number = 0;
 
   public switchDialogEvent = new EventEmitter<boolean>();
   public userLoggedEvent = new EventEmitter<IUser>();
@@ -64,7 +65,7 @@ export class AuthService {
   public logout(): Observable<boolean> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'refreshToken': this.getRefreshToken() 
+      'refreshToken': this.getRefreshToken()
     });
     const options = { headers: headers };
     return this.http.post<any>(`${config.apiUrl}/logout`, null, options).pipe(
@@ -83,7 +84,6 @@ export class AuthService {
     return this.http.put<any>(`http://localhost:3000/users/${userId}/update`, user).pipe(
       tap(response => {
         const updatedUser: IUser = response;
-        console.log(updatedUser);
         this.storeCurrentUser(updatedUser);
         this.userLoggedEvent.emit(updatedUser);
         this.userInterfaceService.success('Profile updated successfully!');
@@ -93,6 +93,11 @@ export class AuthService {
         this.userInterfaceService.error(error.error.message);
         return of(false);
       }));
+  }
+
+  public updatePassword(userId: string, oldPassword: string, newPassword: string): Observable<any> {
+    console.log(oldPassword, newPassword);
+    return this.http.patch<any>(`http://localhost:3000/users/${userId}/update-password`, {oldPassword, newPassword});
   }
 
   public isLoggedIn() {

@@ -30,9 +30,9 @@ export class EditInfoComponent extends UserInfoComponent implements OnInit {
     this.isEditMode = !this.isEditMode;
     if (!this.isEditMode) {
       this.form.reset();
-      this.disableForm();
+      this.disableForm(this.form);
     } else {
-      this.enableForm();
+      this.enableForm(this.form);
     }
   }
 
@@ -41,7 +41,7 @@ export class EditInfoComponent extends UserInfoComponent implements OnInit {
       const user : IUser= this.form.value;
       this.authService.updateProfile(user, this.currentUser.id).subscribe(() => { 
         this.initUser();
-        this.disableForm();
+        this.disableForm(this.form);
         this.isEditMode = false;
       })
     }
@@ -56,26 +56,4 @@ export class EditInfoComponent extends UserInfoComponent implements OnInit {
     this.form.controls['email'].setAsyncValidators(ValidateEmailNotTaken.createValidator(this.authService, this.currentUser.id));
     this.form.controls['phone'].setAsyncValidators(ValidatePhoneNotTaken.createValidator(this.authService, this.currentUser.id));
   }
-
-  private getDefaultValues(): { username: string, email: string, phone: string } {
-    return {
-      username: this.currentUser.username ? this.currentUser.username : '',
-      email: this.currentUser.email ? this.currentUser.email : '',
-      phone: this.currentUser.phone ? this.currentUser.phone.internationalNumber: ''
-    }
-  }
-
-  private disableForm(): void {
-    for (const ctl in this.form.controls) {
-      this.form.get(ctl).disable();
-      this.form.get(ctl).setValue(this.getDefaultValues()[ctl]);
-    }
-  }
-
-  private enableForm(): void {
-    for (const ctl in this.form.controls) {
-      this.form.get(ctl).enable();
-    }
-  }
-
 }

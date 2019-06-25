@@ -35,3 +35,7 @@
     background-position: 0;
     background-color: transparent;
 }
+
+.flag-container.disabled {
+    z-index: 0;
+}
