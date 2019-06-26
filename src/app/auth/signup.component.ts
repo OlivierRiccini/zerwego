@@ -45,7 +45,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
     this.authFormIsPhone = true;
     this.authForm.addControl('username', new FormControl('', Validators.required));
     this.authForm.addControl('phone', new FormControl('', Validators.required));
-    this.authForm.addControl('countryCallingCode', new FormControl('', Validators.required));
+    // this.authForm.addControl('countryCallingCode', new FormControl('', Validators.required));
     this.authForm.addControl('confirmPassword', new FormControl('', [Validators.required, checkPasswords]));
     this.authForm.controls['email'].setAsyncValidators(ValidateEmailNotTaken.createValidator(this.authService));
     this.authForm.controls['phone'].setAsyncValidators(ValidatePhoneNotTaken.createValidator(this.authService));
@@ -53,6 +53,7 @@ export class SignupComponent extends AuthComponent implements OnInit {
   }
 
   public async onSubmit() {
+    console.log(this.authForm.value);
     if (this.authForm.invalid) {
       return;
     }

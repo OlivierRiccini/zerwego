@@ -32,7 +32,7 @@ export class AuthComponent implements OnInit {
   public forgotPasswordFormIsEmail = true;
   public authFormIsEmail: boolean = true;
   public authFormIsPhone: boolean = false;
-  public countryCodes: ICountryCode[];
+  // public countryCodes: ICountryCode[];
 
   constructor(
     public fb: FormBuilder,
@@ -59,13 +59,13 @@ export class AuthComponent implements OnInit {
       toAdd = formName === 'authForm' ? 'email' : 'emailForgotPass';
       toRemove = formName === 'authForm' ? 'phone' :  'phoneForgotPass';
       validators.push(Validators.email);
-      form.removeControl('countryCallingCode');
+      // form.removeControl('countryCallingCode');
     } else {
       this[formName + 'IsEmail'] = false;
       this[formName + 'IsPhone'] = true;
       toAdd = formName === 'authForm' ? 'phone' : 'phoneForgotPass';
       toRemove = formName === 'authForm' ? 'email' : 'emailForgotPass';
-      form.addControl('countryCallingCode', new FormControl('', Validators.required));
+      // form.addControl('countryCallingCode', new FormControl('', Validators.required));
     }
     form.addControl(toAdd, new FormControl('', validators));
     form.removeControl(toRemove);
@@ -95,11 +95,11 @@ export class AuthComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
-    this.initCountryCodes();
+    // this.initCountryCodes();
   }
 
-  private initCountryCodes(): void {
-    this.countryCodes = this.dataService.countryCodes;
-  }
+  // private initCountryCodes(): void {
+  //   this.countryCodes = this.dataService.countryCodes;
+  // }
   
 }

@@ -1,4 +1,5 @@
 import { ContactMode } from "./shared";
+import { IPhone } from "./user";
 
 export type LoginType =
 | 'password'
@@ -7,7 +8,7 @@ export type LoginType =
 export interface ICredentials {
     type: LoginType,
     email?: string,
-    phone?: string,
+    phone?: IPhone,
     username?: string,
     password?: string,
     facebookId?: string
@@ -16,7 +17,7 @@ export interface ICredentials {
 export interface IForgotPassword {
     type: ContactMode,
     email?: string,
-    phone?: string
+    phone?: IPhone
 }
 
 export interface ICountryCode {

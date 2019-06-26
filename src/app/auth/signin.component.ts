@@ -52,13 +52,15 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmit() {
+    console.log(this.authForm.value);
     if (this.authForm.invalid) {
       return;
     }
     const user = this.authForm.value;
     const credentials: ICredentials = {type: 'password', password: user.password};
     if (this.authForm.value.contactMode && this.authForm.value.contactMode === 'sms' && this.authForm.value.phone) {
-      credentials.phone = formatPhoneNumber(this.authForm.value.countryCallingCode, this.authForm.value.phone);
+      credentials.phone = this.authForm.value.phone;
+      // credentials.phone = formatPhoneNumber(this.authForm.value.countryCallingCode, this.authForm.value.phone);
     } else if (this.authForm.value.email) {
       credentials.email = this.authForm.value.email;
     }
@@ -77,6 +79,7 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmitForgotPasswordForm(stepper: MatStepper) {
+    console.log(this.forgotPasswordForm.value);
     this.forgotPasswordFormIsSubmited = true;
     if (!this.forgotPasswordForm.valid) {
       return;
@@ -88,7 +91,8 @@ export class SigninComponent extends AuthComponent implements OnInit {
     if (type === 'email') {
       contact[to] = this.forgotPasswordForm.value.emailForgotPass;
     } else {
-      contact[to]= formatPhoneNumber(this.forgotPasswordForm.value.countryCallingCode, this.forgotPasswordForm.value.phoneForgotPass);
+      contact[to] = this.forgotPasswordForm.value.phoneForgotPass;
+      // contact[to]= formatPhoneNumber(this.forgotPasswordForm.value.countryCallingCode, this.forgotPasswordForm.value.phoneForgotPass);
     }
     this.authService.forgotPassword(contact).subscribe(
       res => {

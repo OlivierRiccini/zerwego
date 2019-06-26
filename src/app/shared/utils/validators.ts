@@ -78,18 +78,16 @@ export class ValidatePassword {
       if (control.root.get('email')) {
         credentials.email = control.root.get('email').value;
       }
-      if (control.root.get('phone') && control.root.get('countryCallingCode')) {
-        const countryCode: string = control.root.get('countryCallingCode').value;
-        const phoneNumber: string = control.root.get('phone').value;
-        const phone: string = formatPhoneNumber(countryCode, phoneNumber);
+      if (control.root.get('phone')) {
+        const phoneNumber: IPhone = control.root.get('phone').value;
+        const phone: IPhone = phoneNumber;
         credentials.phone = phone;
       }
     }
 
     if (field === 'phone') {
-      const countryCode: string = control.root.get('countryCallingCode').value;
-      const phoneNumber: string = control.value;
-      const phone: string = formatPhoneNumber(countryCode, phoneNumber);
+      const phoneNumber: IPhone = control.value;
+      const phone: IPhone = phoneNumber;
       credentials.phone = phone;
       credentials.password = control.root.get('password').value;
     }
@@ -107,7 +105,7 @@ export class ValidatePassword {
       return 'email';
     }
 
-    if (control.root.get('phone') && control.root.get('countryCallingCode')) {
+    if (control.root.get('phone')) {
       return 'phone';
     }
   }
