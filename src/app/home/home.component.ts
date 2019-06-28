@@ -5,6 +5,7 @@ import { SigninComponent } from '../auth/signin.component';
 import { AuthService } from '../services/auth.service';
 import { SignupComponent } from '../auth/signup.component';
 import { Subscription } from 'rxjs';
+import { AuthComponent } from '../auth/auth.component';
 
 @Component({
   selector: 'app-home',
@@ -48,13 +49,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     let dialogRef;
     if (this.authMode === 'signup') { 
       await this.router.navigate(['./', 'signup']);
-      dialogRef = this.dialog.open(SignupComponent, {
+      dialogRef = this.dialog.open(AuthComponent, {
         disableClose: true,
         width: '500px',
       });
     } else if (this.authMode === 'signin') {
       await this.router.navigate(['./', 'signin']);
-      dialogRef = this.dialog.open(SigninComponent, {
+      dialogRef = this.dialog.open(AuthComponent, {
         disableClose: true,
         width: '500px',
       });
@@ -67,4 +68,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       // this.router.navigate(['/']);
     });
   }
+  // async openDialog() {
+  //   this.dialog.open(AuthComponent, {
+  //     disableClose: true,
+  //     width: '500px',
+  //   });
+  // }
 }

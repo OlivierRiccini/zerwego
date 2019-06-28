@@ -52,7 +52,6 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log(this.authForm.value);
     if (this.authForm.invalid) {
       return;
     }
@@ -79,7 +78,6 @@ export class SigninComponent extends AuthComponent implements OnInit {
   }
 
   public onSubmitForgotPasswordForm(stepper: MatStepper) {
-    console.log(this.forgotPasswordForm.value);
     this.forgotPasswordFormIsSubmited = true;
     if (!this.forgotPasswordForm.valid) {
       return;
@@ -92,7 +90,6 @@ export class SigninComponent extends AuthComponent implements OnInit {
       contact[to] = this.forgotPasswordForm.value.emailForgotPass;
     } else {
       contact[to] = this.forgotPasswordForm.value.phoneForgotPass;
-      // contact[to]= formatPhoneNumber(this.forgotPasswordForm.value.countryCallingCode, this.forgotPasswordForm.value.phoneForgotPass);
     }
     this.authService.forgotPassword(contact).subscribe(
       res => {

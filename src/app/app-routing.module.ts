@@ -2,15 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AuthGuardLoad, AuthGuardActivate } from './services/auth-guard.service';
-import { SignupComponent } from './auth/signup.component';
-import { SigninComponent } from './auth/signin.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { SigninComponent } from './auth/signin/signin.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 // import { MySpaceComponent } from './my-space/my-space.component';
 
 const routes: Routes = [
   { 
     path: '', component: HomeComponent, children: [
       { path: 'signup',  component: SignupComponent },
-      { path: 'signin',  component: SigninComponent }
+      { path: 'signin',  component: SigninComponent },
+      { path: 'forgot',  component: ForgotPasswordComponent }
     ]
   },
   {

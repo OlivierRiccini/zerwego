@@ -1,0 +1,165 @@
+ <!-- <form [formGroup]="authForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
+  <i class="material-icons" (click)="onCloseDialog()"> close </i>
+  <p mat-dialog-title>{{ label.title }}</p>
+  <div *ngIf="signUpMode" class="form-group">
+      <mat-form-field>
+        <input matInput placeholder="Username" type="text" id="username" formControlName="username">
+        <mat-error>
+          Username is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+  </div>
+
+  <div *ngIf="!signUpMode" class="form-group select-with-mat-radio-group">
+    <mat-label [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+      Would you like to {{ signUpMode ? 'signup' : 'signin' }} with email or phone?
+    </mat-label>
+    <br>
+    <mat-radio-group aria-label="Select an option" formControlName="contactMode">
+      <mat-radio-button
+        color="primary"
+        value="email"
+        [checked]="authFormIsEmail"
+        (change)="onSelectContactMode('authForm', authForm, 'email')">
+        <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+          Email
+        </span>
+      </mat-radio-button>
+      <mat-radio-button
+        color="primary"
+        value="sms"
+        [checked]="authFormIsPhone"
+        (change)="onSelectContactMode('authForm', authForm, 'sms')">
+        <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+          Sms
+        </span>
+      </mat-radio-button>
+    </mat-radio-group>        
+  </div>
+
+  <div *ngIf="authFormIsEmail" class="form-group">
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" id="email1" formControlName="email">
+      <mat-error *ngIf="authForm.get('email').hasError('email') && !authForm.get('email').hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="authForm.get('email').hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+      <mat-error *ngIf="authForm.get('email').hasError('emailTaken')">
+        Email is <strong>already taken</strong>
+      </mat-error>
+      <mat-error *ngIf="authForm.get('email').hasError('passwordNotValid')">
+        Password and {{ authFormIsPhone ? 'phone number' : 'email address' }} do not match 
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="authFormIsPhone" class="phone-field-container">
+    <mat-label id="phone-label">Phone</mat-label>
+    <ngx-intl-tel-input 
+      [preferredCountries]="['us', 'ca']" 
+      [enablePlaceholder]="true"
+      [enableAutoCountrySelect]="true"
+      name="phone" 
+      formControlName="phone">
+    </ngx-intl-tel-input>
+    <span [ngClass]="isEditMode ? 'underline-solid' : 'underline-dotted'"></span>
+  </div>
+
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput placeholder="Password" type="password" id="password1" formControlName="password">
+      <mat-error *ngIf="authForm.get('password').hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+      <mat-error
+        *ngIf="authForm.get('password').hasError('passwordNotValid')">
+        Password and {{ authFormIsPhone ? 'phone number' : 'email address' }} do not match 
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="signUpMode" class="form-group">
+    <mat-form-field>
+        <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword">
+        <mat-error *ngIf="authForm.get('confirmPassword').hasError('notSame')">
+          Passwords <strong>do not match</strong>
+        </mat-error>  
+    </mat-form-field>
+  </div>
+
+  <div class="submit-box">
+    <button matRipple type="submit" class="zerwego-btn green-btn">{{ label.submit }}</button>
+    <button matRipple *ngIf="signInMode" type="button" matStepperNext class="zerwego-btn grey-btn">Forgot password?</button>
+    <button matRipple type="button" class="zerwego-btn grey-btn" (click)="onChangeDialogMode(signUpMode ? 'signin' : 'signup')">
+      {{ label.changeForm }}
+    </button>
+  </div>
+</form>
+</mat-step>
+<mat-step *ngIf="signInMode">
+<i class="material-icons" (click)="onCloseDialog()">close</i>
+<p mat-dialog-title>Forgot Password</p>
+<form [formGroup]="forgotPasswordForm" (ngSubmit)="onSubmitForgotPasswordForm(stepper)" (keydown.enter)="$event.preventDefault()">
+  <div class="form-group select-with-mat-radio-group">
+    <mat-label [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+      How would you like to receive your new password?
+    </mat-label>
+    <br>
+    <mat-radio-group aria-label="Select an option" formControlName="contactMode">
+      <mat-radio-button
+        color="primary"
+        value="email"
+        [checked]="forgotPasswordFormIsEmail"
+        (change)="onSelectContactMode('forgotPasswordForm', forgotPasswordForm, 'email')">
+        <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+          Email
+        </span>
+      </mat-radio-button>
+      <mat-radio-button
+        color="primary"
+        value="sms"
+        [checked]="forgotPasswordFormIsPhone"
+        (change)="onSelectContactMode('forgotPasswordForm', forgotPasswordForm, 'sms')">
+        <span [style.color]="forgotPasswordFormIsSubmited && forgotPasswordForm.get('contactMode').hasError('required') ? '#f44336' : '#000'">
+          Sms
+        </span>
+      </mat-radio-button>
+    </mat-radio-group>        
+  </div>
+  <div class="form-group">
+    <mat-form-field *ngIf="forgotPasswordFormIsEmail">
+      <input matInput placeholder="Email" type="email" id="emailForgotPass" formControlName="emailForgotPass">
+      <mat-error *ngIf="forgotPasswordForm.get('emailForgotPass').hasError('email')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="forgotPasswordForm.get('emailForgotPass').hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div *ngIf="forgotPasswordFormIsPhone" class="phone-field-container">
+      <mat-label id="phone-label">Phone</mat-label>
+      <ngx-intl-tel-input 
+        [preferredCountries]="['us', 'ca']" 
+        [enablePlaceholder]="true"
+        [enableAutoCountrySelect]="true"
+        name="phoneForgotPass" 
+        formControlName="phoneForgotPass">
+      </ngx-intl-tel-input>
+      <span [ngClass]="isEditMode ? 'underline-solid' : 'underline-dotted'"></span>
+    </div>
+    
+  </div>
+  <button matRipple type="submit" class="zerwego-btn green-btn">
+    {{ forgotPasswordButtonLabel }}
+  </button>
+</form>
+<button matRipple type="button" matStepperPrevious class="zerwego-btn grey-btn">
+  <i class="material-icons left-arrow">keyboard_backspace</i>
+</button> -->
+
+<h3>Sign Up</h3>
+
+<button matRipple type="button" class="zerwego-btn grey-btn" routerLink="./signin">Already have an account?</button>
