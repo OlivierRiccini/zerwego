@@ -63,6 +63,10 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  public stepChanged(): void {
+    this.stepper.selected.interacted = false;
+  }
+
   private initDefaultStep(): void {
     const currentStep: string = this.router.url.replace('/auth/', '');
     const currentStepIndex: number = this.stepIndexes[currentStep];
@@ -80,7 +84,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.subscription.add(sub);
   }
 
-  private move(index: number) {
+  private move(index: number): void {
     this.stepper.selectedIndex = index;
   }
 

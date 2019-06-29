@@ -1,12 +1,12 @@
 <span><i id="closing-cross" class="material-icons" (click)="onCloseDialog()"> close </i></span>
-<mat-horizontal-stepper #stepper>
-  <mat-step [stepControl]="formGroup1">
+<mat-horizontal-stepper #stepper (selectionChange)="stepChanged()">
+  <mat-step>
     <app-signup></app-signup>
   </mat-step>
-  <mat-step [stepControl]="formGroup2">
+  <mat-step>
     <app-signin></app-signin>
   </mat-step>
-  <mat-step [stepControl]="formGroup3">
+  <mat-step>
     <app-forgot-password></app-forgot-password>
   </mat-step>
 </mat-horizontal-stepper>
