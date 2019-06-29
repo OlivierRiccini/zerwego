@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { HomeComponent } from '../home.component';
@@ -11,14 +11,17 @@ import { ContactMode } from '../../models/shared';
 import { ValidatePassword } from '../../shared/utils/validators';
 import { ICountryCode } from '../../models/auth';
 import { DataService } from '../../services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
+  styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   @ViewChild('stepper') public stepper: MatStepper;
   private stepIndexes: {} = { 'signup': 0, 'signin': 1, 'forgot-password': 2 };
+  private subscription: Subscription = new Subscription();
   // public currentStep: string;
 
   public label = {
@@ -56,6 +59,10 @@ export class AuthComponent implements OnInit {
     }
   }
 
+  public ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
   private initDefaultStep(): void {
     const currentStep: string = this.router.url.replace('/auth/', '');
     const currentStepIndex: number = this.stepIndexes[currentStep];
@@ -63,18 +70,21 @@ export class AuthComponent implements OnInit {
   }
   
   private handleStepperNavigation(): void {
-    this.router.events.subscribe((event: NavigationStart) => {
-      if (event instanceof NavigationStart && event.url) {
+    const sub: Subscription = this.router.events.subscribe((event: NavigationStart) => {
+      if (event instanceof NavigationStart && event.url && event.url.includes('/auth/')) {
         const currentStep: string = event.url.replace('/auth/', '');
         const currentStepIndex: number = this.stepIndexes[currentStep];
         this.move(currentStepIndex);
       }
     });
+    this.subscription.add(sub);
   }
 
   private move(index: number) {
     this.stepper.selectedIndex = index;
   }
+
+
   // public onSelectContactMode(formName: string, form: FormGroup, contactMode: ContactMode): void {
   //   const validators = [ Validators.required ];
   //   let toAdd: string;
