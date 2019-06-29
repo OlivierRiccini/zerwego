@@ -14,12 +14,12 @@ declare const FB: any;
 export class SocialService {
 
     constructor(private authService: AuthService, private socialAuthService: SocialAuthService) {
-        FB.init({
-            appId            : '2290018351254667',
-            autoLogAppEvents : false,
-            xfbml            : false,
-            version          : 'v3.2'
-        });
+        // FB.init({
+        //     appId            : '2290018351254667',
+        //     autoLogAppEvents : false,
+        //     xfbml            : false,
+        //     version          : 'v3.2'
+        // });
 
     };
 

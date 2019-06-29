@@ -1,16 +1,16 @@
 import { Component, OnInit, AfterViewInit, ViewChild, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../home.component';
 import { MatDialogRef, MatStepper } from '@angular/material';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { MyErrorStateMatcher } from '../shared/utils/error-matcher';
-import { UserInterfaceService } from '../services/user-interface.service';
-import { SocialService } from '../services/social.service';
-import { ContactMode } from '../models/shared';
-import { ValidatePassword } from '../shared/utils/validators';
-import { ICountryCode } from '../models/auth';
-import { DataService } from '../services/data.service';
+import { MyErrorStateMatcher } from '../../shared/utils/error-matcher';
+import { UserInterfaceService } from '../../services/user-interface.service';
+import { SocialService } from '../../services/social.service';
+import { ContactMode } from '../../models/shared';
+import { ValidatePassword } from '../../shared/utils/validators';
+import { ICountryCode } from '../../models/auth';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-auth',
@@ -18,8 +18,8 @@ import { DataService } from '../services/data.service';
 })
 export class AuthComponent implements OnInit {
   @ViewChild('stepper') public stepper: MatStepper;
-  private stepIndexes: {} = { signup: 0, signin: 1, forgot: 2 };
-  public currentStep: string;
+  private stepIndexes: {} = { 'signup': 0, 'signin': 1, 'forgot-password': 2 };
+  // public currentStep: string;
 
   public label = {
     title: null,
@@ -46,7 +46,7 @@ export class AuthComponent implements OnInit {
     public dataService: DataService
     ) {
       // const currentStep = this.router.url.replace('/', '')}Mode`
-      console.log(this.currentStep);
+      // console.log(this.currentStep);
     }
     
   public ngOnInit() {
@@ -57,21 +57,20 @@ export class AuthComponent implements OnInit {
   }
 
   private initDefaultStep(): void {
-    const currentStep: string = this.router.url.replace('/', '');
+    const currentStep: string = this.router.url.replace('/auth/', '');
     const currentStepIndex: number = this.stepIndexes[currentStep];
     this.move(currentStepIndex);
   }
   
   private handleStepperNavigation(): void {
     this.router.events.subscribe((event: NavigationStart) => {
-      if (event instanceof NavigationStart) {
-        console.log(event.url)
-        const currentStep: string = event.url.replace('/', '');
+      if (event instanceof NavigationStart && event.url) {
+        const currentStep: string = event.url.replace('/auth/', '');
         const currentStepIndex: number = this.stepIndexes[currentStep];
         this.move(currentStepIndex);
       }
     });
-  }  
+  }
 
   private move(index: number) {
     this.stepper.selectedIndex = index;

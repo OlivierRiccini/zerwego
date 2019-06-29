@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TripService } from './services/trip.service';
-import { HomeComponent } from './home/home.component';
+// import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './auth/auth.module';
+import { HomeModule } from './home/home.module';
 import { AuthService } from './services/auth.service';
 import { AuthGuardLoad, AuthGuardActivate } from './services/auth-guard.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DestinationService } from './services/destination.service';
-import { SigninComponent } from './auth/signin/signin.component';
-import { SignupComponent } from './auth/signup/signup.component';
+// import { SigninComponent } from './auth/signin/signin.component';
+// import { SignupComponent } from './auth/signup/signup.component';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { UserInterfaceService } from './services/user-interface.service';
 import { NotificationComponent } from './shared/notification/notification.component';
@@ -20,7 +20,7 @@ import { SocialService } from './services/social.service';
 import { SocialLoginModule, AuthServiceConfig } from "angularx-social-login";
 import { GoogleLoginProvider, FacebookLoginProvider, LinkedInLoginProvider} from "angularx-social-login";
 // import { MySpaceComponent } from './my-space/my-space.component';
-import { AuthComponent } from './auth/auth.component';
+// import { AuthComponent } from './home/auth/auth.component';
 
 let config = new AuthServiceConfig([
   // {
@@ -45,13 +45,12 @@ export function provideConfig() {
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomeComponent,
     FooterComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     SharedModule,
-    AuthModule,
+    HomeModule,
     SharedModule,
     AppRoutingModule,
     SocialLoginModule
@@ -69,7 +68,7 @@ export function provideConfig() {
       useFactory: provideConfig
     }
   ],
-  entryComponents: [AuthComponent, ConfirmComponent, NotificationComponent],
+  entryComponents: [ConfirmComponent, NotificationComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

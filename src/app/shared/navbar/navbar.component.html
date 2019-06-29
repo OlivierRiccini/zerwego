@@ -2,8 +2,8 @@
     <span class="logo" routerLink="/">Zerwego</span>
     <div class="nav-flex-right">
         <button matRipple class="zerwego-btn blue-btn" routerLink="./myspace/trips/new/overview">Create a trip</button>
-        <button matRipple class="zerwego-btn transparent-btn" *ngIf="!isLoggedIn" routerLink="./signin">Sign In</button>
-        <button matRipple class="zerwego-btn transparent-btn"  *ngIf="!isLoggedIn" routerLink="./signup">Sign up</button>
+        <button matRipple class="zerwego-btn transparent-btn" *ngIf="!isLoggedIn" routerLink="./auth/signin">Sign In</button>
+        <button matRipple class="zerwego-btn transparent-btn"  *ngIf="!isLoggedIn" routerLink="./auth/signup">Sign up</button>
         <button matRipple class="zerwego-btn transparent-btn"  *ngIf="isLoggedIn" routerLink="./myspace">My Space</button>
         <button matRipple class="zerwego-btn transparent-btn"  *ngIf="isLoggedIn" (click)="onLogout()">Sign out</button>
     </div> 

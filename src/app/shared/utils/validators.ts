@@ -1,7 +1,6 @@
 import { AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { map } from 'rxjs/operators';
-import { formatPhoneNumber } from './helpers';
 import { ICredentials } from 'src/app/models/auth';
 import { IPhone } from 'src/app/models/user';
 
