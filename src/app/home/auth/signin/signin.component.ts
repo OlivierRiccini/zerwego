@@ -16,7 +16,11 @@ export class SigninComponent implements OnInit {
   public isEmailLogin: boolean = true;
   public isPhoneLogin: boolean = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private dialogRef: MatDialogRef<HomeComponent>) { }
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService, 
+    private dialogRef: MatDialogRef<HomeComponent>
+  ) { }
 
   ngOnInit() {
     this.createForm();

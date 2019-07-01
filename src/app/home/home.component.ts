@@ -15,7 +15,7 @@ export class HomeComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
   private isDialogOpened: boolean = false;
 
-  constructor(public dialog: MatDialog, private router: Router) {
+  constructor(public dialog: MatDialog, private router: Router, private authService: AuthService) {
     this.listenRouteChanges();
   }
 
@@ -36,12 +36,13 @@ export class HomeComponent implements OnDestroy {
 
   private openDialog() {
     const dialogRef = this.dialog.open(AuthComponent, {
-      disableClose: true,
+      disableClose: false,
       width: '500px',
     });
     this.isDialogOpened = true;
     dialogRef.afterClosed().subscribe(() => {
-      this.router.navigate(['/']);
+      const redirectionUrl: string[] = this.authService.isLoggedIn() ? ['./', 'myspace'] : ['/'];
+      this.router.navigate(redirectionUrl);
       this.isDialogOpened = false;
     });
   }

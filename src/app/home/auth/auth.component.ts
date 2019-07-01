@@ -125,7 +125,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   // }
 
   public onCloseDialog() {
-    this.router.navigate(['/']);
     this.dialogRef.close();
   }
 

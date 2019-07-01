@@ -34,7 +34,7 @@ export class AuthService {
           const refreshToken = response.body['refresh-token'];
           this.doLoginUser({jwt, refreshToken});
           this.userInterfaceService.success('Successfully logged in!');
-          this.router.navigate(['./', 'myspace']);
+          // this.router.navigate(['./', 'myspace']);
         }),
         mapTo(true),
         catchError(error => {
