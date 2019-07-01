@@ -38,7 +38,7 @@ export class AuthService {
         }),
         mapTo(true),
         catchError(error => {
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
           this.userInterfaceService.error(error.error.message);
           return of(false);
         }));
@@ -56,7 +56,7 @@ export class AuthService {
         }),
         mapTo(true),
         catchError(error => {
-          this.router.navigate(['/']);
+          // this.router.navigate(['/']);
           this.userInterfaceService.error(error.error.message);
           return of(false);
         }));

@@ -1,5 +1,4 @@
- <form [formGroup]="form" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
-  <p mat-dialog-title>Sign up</p>
+ <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
   <div class="form-group">
       <mat-form-field>
         <input matInput placeholder="Username" type="text" id="username" formControlName="username">
@@ -39,33 +38,34 @@
   <div class="form-group">
     <mat-form-field>
       <input matInput placeholder="Email" type="email" id="signup-email" formControlName="email">
-      <mat-error *ngIf="form.get('email').hasError('email') && !form.get('email').hasError('required')">
+      <mat-error *ngIf="signUpForm.get('email').hasError('email') && !signUpForm.get('email').hasError('required')">
         Please enter a valid email address
       </mat-error>
-      <mat-error *ngIf="form.get('email').hasError('required')">
+      <mat-error *ngIf="signUpForm.get('email').hasError('required')">
         Email is <strong>required</strong>
       </mat-error>
-      <mat-error *ngIf="form.get('email').hasError('emailTaken')">
+      <mat-error *ngIf="signUpForm.get('email').hasError('emailTaken')">
         Email is <strong>already taken</strong>
       </mat-error>
     </mat-form-field>
   </div>
 
   <div class="phone-field-container">
-    <mat-label id="phone-label">Phone</mat-label>
+    <mat-label id="auth-phone-label">Phone</mat-label>
     <ngx-intl-tel-input 
       [preferredCountries]="['us', 'ca']" 
       [enablePlaceholder]="true"
       [enableAutoCountrySelect]="true"
-      name="phone" 
+      name="phone"
       formControlName="phone">
     </ngx-intl-tel-input>
+    <span class="underline-solid"></span>
   </div>
 
   <div class="form-group">
     <mat-form-field>
       <input matInput placeholder="Password" type="password" id="signup-password" formControlName="password"  autocomplete="password">
-      <mat-error *ngIf="form.get('password').hasError('required')">
+      <mat-error *ngIf="signUpForm.get('password').hasError('required')">
         Password is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -73,8 +73,8 @@
 
   <div class="form-group">
     <mat-form-field>
-        <input matInput placeholder="Confirm password" type="confirmPassword" formControlName="confirmPassword"  autocomplete="confirmPassword">
-        <mat-error *ngIf="form.get('confirmPassword').hasError('notSame')">
+        <input matInput placeholder="Confirm password" type="password" formControlName="confirmPassword"  autocomplete="confirmPassword">
+        <mat-error *ngIf="signUpForm.get('confirmPassword').hasError('notSame')">
           Passwords <strong>do not match</strong>
         </mat-error>  
     </mat-form-field>

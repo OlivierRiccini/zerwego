@@ -5,6 +5,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { MatDialogRef } from '@angular/material';
 import { HomeComponent } from '../../home.component';
 import { ICredentials } from 'src/app/models/auth';
+import { StepperService } from 'src/app/services/stepper-service';
+import { Step } from 'src/app/models/shared';
 
 @Component({
   selector: 'app-signin',
@@ -12,22 +14,31 @@ import { ICredentials } from 'src/app/models/auth';
   styleUrls: ['./signin.component.scss', '../auth.component.scss'],
 })
 export class SigninComponent implements OnInit {
-  public form: FormGroup;
+  public signInForm: FormGroup;
   public isEmailLogin: boolean = true;
   public isPhoneLogin: boolean = false;
 
   constructor(
     private fb: FormBuilder, 
     private authService: AuthService, 
-    private dialogRef: MatDialogRef<HomeComponent>
-  ) { }
+    private dialogRef: MatDialogRef<HomeComponent>,
+    private stepperService: StepperService
+  ) { 
+    this.stepperService.stepHasChangedSubject.subscribe((step: Step) => this.stepHasChanged(step));
+  }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.createForm();
   }
 
+  private stepHasChanged(step: Step): void {
+    this.signInForm.reset();
+    this.createForm();
+    this.onSelectLoginMode('email');
+  } 
+
   private createForm() {
-    this.form = this.fb.group({
+    this.signInForm = this.fb.group({
       loginMode: ['email', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -39,12 +50,11 @@ export class SigninComponent implements OnInit {
   public onSelectLoginMode(mode: 'email' | 'phone'): void {
     this.updateLoginMode(mode);
     this.handleLoginModeControls(mode);
-    this.form.reset();
   }
 
   public onSubmit(): void {
-    if (this.form.valid) {
-      const credentials: ICredentials = this.form.value;
+    if (this.signInForm.valid) {
+      const credentials: ICredentials = this.signInForm.value;
       credentials.type = 'password';
       this.authService.login(credentials).subscribe(() => this.dialogRef.close());
     }
@@ -58,13 +68,13 @@ export class SigninComponent implements OnInit {
   private handleLoginModeControls(mode: 'email' | 'phone'): void {
     const validators: ValidatorFn[] = [Validators.required];
     if (mode === 'email') { validators.push(Validators.email) };
-    this.form.removeControl(mode === 'email' ? 'phone' : 'email');
-    this.form.addControl(mode, new FormControl('', validators));
+    this.signInForm.removeControl(mode === 'email' ? 'phone' : 'email');
+    this.signInForm.addControl(mode, new FormControl('', validators));
     this.addAsyncPasswordValidator(mode);
   }
 
   private addAsyncPasswordValidator(field: 'email' | 'password' | 'phone'): void {
-    this.form.controls[field].setAsyncValidators(ValidatePassword.createValidator(this.authService, field));
+    this.signInForm.controls[field].setAsyncValidators(ValidatePassword.createValidator(this.authService, field));
   }
 
 }

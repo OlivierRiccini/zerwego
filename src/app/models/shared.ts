@@ -20,3 +20,6 @@ export interface INotificationData {
     message: string,
     type: NotificationType
 }
+
+// AUTH/STEPPER
+export type Step = 'signup' | 'signin' | 'forgot-password';

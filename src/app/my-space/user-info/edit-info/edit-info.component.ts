@@ -10,7 +10,7 @@ import { IUser } from 'src/app/models/user';
   selector: 'app-edit-info',
   templateUrl: './edit-info.component.html',
   styleUrls: ['./edit-info.component.scss', '../user-info.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class EditInfoComponent extends UserInfoComponent implements OnInit {
   public form: FormGroup;

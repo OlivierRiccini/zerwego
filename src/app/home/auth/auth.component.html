@@ -1,10 +1,14 @@
-<span><i id="closing-cross" class="material-icons" (click)="onCloseDialog()"> close </i></span>
-<mat-horizontal-stepper #stepper (selectionChange)="stepChanged()">
+<div class="dialog-header">
+  <p mat-dialog-title>{{ labels.title }}</p>
+  <span><i id="closing-cross" class="material-icons" (click)="onCloseDialog()"> close </i></span>
+</div>
+<mat-horizontal-stepper 
+  #stepper (selectionChange)="stepChanged([signUpComponent.signUpForm, signInComponent.signInForm])">
   <mat-step>
-    <app-signup></app-signup>
+    <app-signup #signUpComponent></app-signup>
   </mat-step>
   <mat-step>
-    <app-signin></app-signin>
+    <app-signin #signInComponent></app-signin>
   </mat-step>
   <mat-step>
     <app-forgot-password></app-forgot-password>

@@ -1,27 +1,24 @@
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
-  <p mat-dialog-title>Signin</p>
-
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
   <div class="form-group select-with-mat-radio-group">
     <mat-label>
-      Would you like to login with email or phone?
+      Would you like to login with email or phone? {{ isPhoneLogin }}
     </mat-label>
-    <br>
     <mat-radio-group aria-label="Select an option" formControlName="loginMode">
       <mat-radio-button
         color="primary"
-        value="email"
+        [value]="'email'"
         [checked]="isEmailLogin"
-        (change)="onSelectLoginMode('email')">
+        (change)="onSelectLoginMode('email', $event)">
         <span>
           Email
         </span>
       </mat-radio-button>
       <mat-radio-button
         color="primary"
-        value="sms"
+        [value]="'phone'"
         [checked]="isPhoneLogin"
-        (change)="onSelectLoginMode('phone')">
+        (change)="onSelectLoginMode('phone', $event)">
         <span>
           Phone
         </span>
@@ -32,13 +29,13 @@
   <div *ngIf="isEmailLogin" class="form-group">
     <mat-form-field>
       <input matInput placeholder="Email" type="email" id="signin-email" formControlName="email">
-      <mat-error *ngIf="form.get('email').hasError('email') && !form.get('email').hasError('required')">
+      <mat-error *ngIf="signInForm.get('email').hasError('email') && !signInForm.get('email').hasError('required')">
         Please enter a valid email address
       </mat-error>
-      <mat-error *ngIf="form.get('email').hasError('required')">
+      <mat-error *ngIf="signInForm.get('email').hasError('required')">
         Email is <strong>required</strong>
       </mat-error>
-      <mat-error *ngIf="form.get('email').hasError('passwordNotValid')">
+      <mat-error *ngIf="signInForm.get('email').hasError('passwordNotValid')">
         Password and {{ isPhoneLogin ? 'phone number' : 'email address' }} do not match 
       </mat-error>
     </mat-form-field>
@@ -53,16 +50,17 @@
       name="phone" 
       formControlName="phone">
     </ngx-intl-tel-input>
+    <span class="underline-solid"></span>
   </div>
 
   <div class="form-group">
     <mat-form-field>
       <input matInput placeholder="Password" type="password" id="signin-password" formControlName="password" autocomplete="password">
-      <mat-error *ngIf="form.get('password').hasError('required')">
+      <mat-error *ngIf="signInForm.get('password').hasError('required')">
         Password is <strong>required</strong>
       </mat-error>
       <mat-error
-        *ngIf="form.get('password').hasError('passwordNotValid')">
+        *ngIf="signInForm.get('password').hasError('passwordNotValid')">
         Password and {{ isPhoneLogin ? 'phone number' : 'email address' }} do not match 
       </mat-error>
     </mat-form-field>

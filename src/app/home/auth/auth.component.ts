@@ -1,17 +1,21 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnChanges, OnDestroy, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { HomeComponent } from '../home.component';
 import { MatDialogRef, MatStepper } from '@angular/material';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
-import { MyErrorStateMatcher } from '../../shared/utils/error-matcher';
+import { Router, NavigationStart } from '@angular/router';
+// import { MyErrorStateMatcher } from '../../shared/utils/error-matcher';
 import { UserInterfaceService } from '../../services/user-interface.service';
-import { SocialService } from '../../services/social.service';
-import { ContactMode } from '../../models/shared';
-import { ValidatePassword } from '../../shared/utils/validators';
-import { ICountryCode } from '../../models/auth';
-import { DataService } from '../../services/data.service';
+// import { SocialService } from '../../services/social.service';
+// import { ContactMode } from '../../models/shared';
+// import { ValidatePassword } from '../../shared/utils/validators';
+// import { ICountryCode } from '../../models/auth';
+// import { DataService } from '../../services/data.service';
 import { Subscription } from 'rxjs';
+import { Step } from 'src/app/models/shared';
+import { StepperService } from 'src/app/services/stepper-service';
+
+// export type Step = 'signup' | 'signin' | 'forgot-password';
 
 @Component({
   selector: 'app-auth',
@@ -24,10 +28,10 @@ export class AuthComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   // public currentStep: string;
 
-  public label = {
+  public labels = {
     title: null,
-    submit: null,
-    changeForm: null
+    // submit: null,
+    // changeForm: null
   }; 
   // public signUpMode: boolean = true; 
   // public authForm: FormGroup;
@@ -45,8 +49,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<HomeComponent>,
     public router: Router,
     public userInterfaceService: UserInterfaceService,
-    public socialService: SocialService,
-    public dataService: DataService
+    private steppService: StepperService
     ) {
       // const currentStep = this.router.url.replace('/', '')}Mode`
       // console.log(this.currentStep);
@@ -68,16 +71,19 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private initDefaultStep(): void {
-    const currentStep: string = this.router.url.replace('/auth/', '');
+    const currentStep: Step = this.router.url.replace('/auth/', '') as Step;
     const currentStepIndex: number = this.stepIndexes[currentStep];
+    this.defineLabels(currentStep);
     this.move(currentStepIndex);
   }
   
   private handleStepperNavigation(): void {
     const sub: Subscription = this.router.events.subscribe((event: NavigationStart) => {
       if (event instanceof NavigationStart && event.url && event.url.includes('/auth/')) {
-        const currentStep: string = event.url.replace('/auth/', '');
+        const currentStep: Step = event.url.replace('/auth/', '') as Step;
         const currentStepIndex: number = this.stepIndexes[currentStep];
+        this.steppService.emitCurrentStep(currentStep);
+        this.defineLabels(currentStep);
         this.move(currentStepIndex);
       }
     });
@@ -88,6 +94,21 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.stepper.selectedIndex = index;
   }
 
+  private defineLabels(currentStep: Step): void {
+    switch(currentStep) {
+      case 'signin':
+        this.labels.title = 'Sign in';
+        break;
+      case 'signup':
+        this.labels.title = 'Sign up';
+        break;
+      case 'forgot-password':
+        this.labels.title = 'Forgot password';
+        break;
+      default:
+        console.log('Impossible to define labels');
+    }
+  }
 
   // public onSelectContactMode(formName: string, form: FormGroup, contactMode: ContactMode): void {
   //   const validators = [ Validators.required ];

@@ -36,11 +36,9 @@ export class ValidatePhoneNotTaken {
       return (control: AbstractControl) => {
         // const countryCode: string = control.root.get('countryCallingCode').value;
         const phoneNumber: IPhone = control.value;
-        console.log(phoneNumber);
         // const phone: string = formatPhoneNumber(countryCode, phoneNumber);
         return authService.checkPhoneIsTaken(phoneNumber, userId).pipe(
           map((isAlreadyTaken: boolean) => {
-            console.log(isAlreadyTaken);
             return !isAlreadyTaken ? null : { phoneTaken: true };
         }));
       }
@@ -50,8 +48,10 @@ export class ValidatePhoneNotTaken {
 export class ValidatePassword {
     static createValidator(authService: AuthService, field: 'email' | 'phone' | 'password') {
       return (control: AbstractControl) => {
+        console.log('test ValidatePassword');
         const passControl: AbstractControl = control.root.get('password');
         const credentials: ICredentials = this.buildCredentials(control, field);
+
         const loginMode: 'email' | 'phone' = this.defineLoginMode(control);
 
         return authService.checkPasswordIsValid(credentials).pipe(

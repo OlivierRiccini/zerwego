@@ -1,8 +1,13 @@
 @import "../../style/config.scss";
 
-#closing-cross {
-    float: right;
-    cursor: pointer;
+.dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    #closing-cross {
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
 }
 
 mat-form-field {
@@ -31,17 +36,6 @@ mat-form-field {
     padding: 0 !important;
 }
 
-.select-with-mat-radio-group {
-    margin-top: 25px;
-    font-weight: 200;
-}
-
-::ng-deep .mat-radio-group {
-    margin: 20px 0;
-    display: flex;
-    justify-content: space-evenly;
-}
- 
 .green-btn:last-child {
     width: 100%;
     margin-top: 5px;
@@ -60,45 +54,20 @@ mat-form-field {
     width: 64%;
 }
 
-//////
 .phone-field-container {
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 30px;
 }
 
-#phone-label {
-    color: rgba(0, 0, 0, 0.54);
-    font-size: 12px;
-    font-weight: 500;
-}
 
-.intl-tel-input, #phone {
-    max-width: 100%;
-}
-
-#phone {
-    border: none;
-    background: transparent;
-    border-radius: 0;
-}
-
-.underline-solid {
-    display: block;
-    background-color: rgba(0, 0, 0, 0.42);
-    height: 1px;
-}
-
-.underline-dotted {
-    display: block;
-    width: 100%;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.42) 33%, transparent 0%);
-    background-size: 4px 100%;
-    background-repeat: repeat-x;
-    background-position: 0;
-    background-color: transparent;
-}
-
-.flag-container.disabled {
-    z-index: 0;
+.select-with-mat-radio-group {
+    font-weight: 200;
+    mat-label {
+        margin-bottom: 20px;
+        display: block;
+        text-align: center;
+    };
+    mat-radio-group {
+        display: flex;
+        justify-content: space-evenly;
+    }
 }
